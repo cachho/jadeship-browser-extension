@@ -1,0 +1,6 @@
+dist
+node_modules
+
+# packed chrome extension
+dist.crx
+dist.pem

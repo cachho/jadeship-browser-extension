@@ -1,0 +1,50 @@
+{
+  "manifest_version": 2,
+  "name": "My Agent Extension by RepArchive",
+  "version": "0.1",
+  "description": "My Agent Extension for Weidian and Taobao links. Not affiliated with taobao.com or weidian.com; developed by RepArchive.com.",
+  "icons": {
+    "48": "assets/icon.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/icon.png",
+    "default_popup": "assets/popup.html"
+  },
+  "permissions": [
+    "storage",
+    "https://api.reparchive.com/livefeed/details/item/*",
+    "https://product2.rep.ninja/checkforqc*",
+    "https://api.ch-webdev.com/*"
+  ],
+  "web_accessible_resources": [
+    "assets/agent_logos/*",
+    "assets/platform_logos/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.reddit.com/*",
+        "https://old.reddit.com/*",
+        "file://*"
+      ],
+      "js": ["dist/content_script.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.wegobuy.com/**/login/**type=register*",
+        "https://www.pandabuy.com/login*",
+        "https://*.superbuy.com/**/login/**type=register*",
+        "https://sugargoo.com/index/user/register*",
+        "https://www.sugargoo.com/index/user/register*",
+        "https://cssbuy.com/?go=user&action=register*",
+        "https://www.cssbuy.com/?go=user&action=register*"
+      ],
+      "js": ["dist/redirect.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "background": {
+    "scripts": ["dist/background.js"]
+  }
+}

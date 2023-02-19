@@ -174,6 +174,7 @@ function getLinks(settings: Settings) {
       'wegobuy.com/en/page/buy',
       'superbuy.com/en/page/buy',
       'pandabuy.com/product',
+      'pandabuy.page.link',
       'sugargoo.com/index/item',
       'cssbuy.com/item',
     ]);
@@ -488,6 +489,18 @@ async function getQcAvailable(
   };
 }
 
+async function handleShortenedLink(link: HTMLAnchorElement) {
+  if (link.href.indexOf('pandabuy.page.link') === -1) {
+    return null;
+  }
+  const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
+  const response: ApiResponse<{ url: string }> = await fetchData(url);
+  if (response && response.data) {
+    return response.data.url;
+  }
+  return null;
+}
+
 function buildDetailsElement(text: string, nowrap?: boolean) {
   const elem = document.createElement('span');
   elem.style.backgroundColor = '#2bb675';
@@ -730,16 +743,23 @@ async function main(settings: Settings) {
   const links = getLinks(settings);
 
   links.forEach(async (link) => {
+    // This makes sure each link is only handled once.
+    // TODO: Verify that this is the best way to deal with this.
+    link.dataset.reparchiveExtension = 'true';
+
+    const extractedLink = await handleShortenedLink(link);
+    if (extractedLink) {
+      link.href = extractedLink;
+    }
+
     const platform = detectPlatform(link.href);
     if (!platform) {
       console.error('No platform detected in link: ', link.href);
-      link.dataset.reparchiveExtension = 'true';
       return false;
     }
     const id = extractId(platform, link.href);
     if (!id) {
       console.error('No id could be extracted from link: ', link.href);
-      link.dataset.reparchiveExtension = 'true';
       return false;
     }
     const innerLink = getInnerLink(platform, id);
@@ -759,7 +779,6 @@ async function main(settings: Settings) {
     if (newLink) {
       link.href = newLink;
       // Test: if the complete mark can be added here
-      link.dataset.reparchiveExtension = 'true';
 
       // Add details
       if (

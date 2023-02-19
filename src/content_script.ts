@@ -490,14 +490,17 @@ async function getQcAvailable(
   };
 }
 
-async function handleShortenedLink(link: HTMLAnchorElement) {
-  if (link.hostname === 'pandabuy.page.link') {
+async function handleShortenedLink(
+  link: HTMLAnchorElement,
+  settings: Settings
+) {
+  if (link.hostname === 'pandabuy.page.link' && settings.onlineFeatures) {
     const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
     const response: ApiResponse<{ url: string }> = await fetchData(url);
     if (response && response.data) {
       return response.data.url;
     }
-  } else if (link.hostname === 'qr.1688.com') {
+  } else if (link.hostname === 'qr.1688.com' && settings.onlineFeatures) {
     const url = `https://api.ch-webdev.com/convert-1688/${link.pathname.slice(
       3
     )}`;
@@ -755,7 +758,7 @@ async function main(settings: Settings) {
     // TODO: Verify that this is the best way to deal with this.
     link.dataset.reparchiveExtension = 'true';
 
-    const extractedLink = await handleShortenedLink(link);
+    const extractedLink = await handleShortenedLink(link, settings);
     if (extractedLink) {
       link.href = extractedLink;
     }

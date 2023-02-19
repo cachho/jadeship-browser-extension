@@ -10,7 +10,6 @@ type Settings = {
   logoAgent: boolean;
   logoPlatform: boolean;
   myAgent: Agent;
-  telemetryData: boolean;
   taobaoLink: boolean;
   weidianLink: boolean;
   s1688Link: boolean;
@@ -104,7 +103,6 @@ function loadSettings() {
     'logoAgent',
     'logoPlatform',
     'myAgent',
-    'telemetryData',
     'affiliateProgram',
     'affiliateAppend',
     'onlineFeatures',

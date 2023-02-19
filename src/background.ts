@@ -5,7 +5,6 @@ type Settings2 = {
   logoAgent: boolean;
   logoPlatform: boolean;
   myAgent: 'superbuy' | 'wegobuy' | 'pandabuy' | 'sugargoo' | 'cssbuy';
-  telemetryData: boolean;
   taobaoLink: boolean;
   weidianLink: boolean;
   s1688Link: boolean;
@@ -33,7 +32,6 @@ const defaultSettings: Settings2 = {
   logoAgent: false,
   logoPlatform: true,
   myAgent: 'wegobuy',
-  telemetryData: true,
   taobaoLink: true,
   weidianLink: true,
   s1688Link: true,

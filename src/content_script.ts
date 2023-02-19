@@ -204,6 +204,7 @@ function detectPlatform(link: string): Platform | null {
 }
 
 function extractId(platform: Platform, link: string) {
+  console.log('🚀 ~ file: content_script.ts:207 ~ extractId ~ link', link);
   const url = new URL(link);
   const urlParams = new URLSearchParams(url.search ?? link);
   // For regular Taobao and Weidian Links
@@ -220,7 +221,10 @@ function extractId(platform: Platform, link: string) {
   if (platform === '1688') {
     // 1688 doesn't use urlParams
     if (link.indexOf('offer')) {
-      const id = link.split('offer/')[1].split('.')[0];
+      const id =
+        link.indexOf('offer/') !== -1
+          ? link.split('offer/')[1].split('.')[0]
+          : link.split('offer%2F')[1].split('.')[0];
       // Validate number
       if (!Number.isNaN(Number(id))) {
         return id;

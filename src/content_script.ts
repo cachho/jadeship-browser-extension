@@ -162,6 +162,7 @@ function getLinks(settings: Settings) {
       // "qr.1688.com/s",
       'm.1688.com/offer',
       'detail.1688.com/offer',
+      'qr.1688.com/s/',
     ]);
   }
 
@@ -490,13 +491,24 @@ async function getQcAvailable(
 }
 
 async function handleShortenedLink(link: HTMLAnchorElement) {
-  if (link.href.indexOf('pandabuy.page.link') === -1) {
-    return null;
-  }
-  const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
-  const response: ApiResponse<{ url: string }> = await fetchData(url);
-  if (response && response.data) {
-    return response.data.url;
+  console.log(
+    '🚀 ~ file: content_script.ts:494 ~ handleShortenedLink ~ link.hostname',
+    link.hostname
+  );
+  if (link.href.indexOf('pandabuy.page.link') !== -1) {
+    const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return response.data.url;
+    }
+  } else if (link.href.indexOf('qr.1688.com') !== -1) {
+    const url = `https://api.ch-webdev.com/convert-1688/${link.pathname.slice(
+      3
+    )}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return response.data.url;
+    }
   }
   return null;
 }

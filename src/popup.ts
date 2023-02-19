@@ -41,9 +41,6 @@
       'logo_platform'
     ) as HTMLInputElement;
     const myAgent = document.getElementById('my_agent') as HTMLSelectElement;
-    const telemetryData = document.getElementById(
-      'telemetry_data'
-    ) as HTMLInputElement;
     const affiliateProgram = document.getElementById(
       'affiliate_program'
     ) as HTMLInputElement;
@@ -96,7 +93,6 @@
       logoAgent.checked = data.logoAgent;
       logoPlatform.checked = data.logoPlatform;
       myAgent.value = data.myAgent;
-      telemetryData.checked = data.telemetryData;
       affiliateProgram.checked = data.affiliateProgram;
       onlineFeatures.checked = data.onlineFeatures;
       onlineFeaturesQcPhotos.checked = data.onlineFeaturesQcPhotos;
@@ -125,7 +121,6 @@
       'logoAgent',
       'logoPlatform',
       'myAgent',
-      'telemetryData',
       'affiliateProgram',
       'onlineFeatures',
       'onlineFeaturesQcPhotos',
@@ -178,9 +173,6 @@
     });
     myAgent.addEventListener('change', () => {
       storage?.local.set({ myAgent: myAgent.value });
-    });
-    telemetryData.addEventListener('change', () => {
-      storage?.local.set({ telemetryData: telemetryData.checked });
     });
     affiliateProgram.addEventListener('change', () => {
       storage?.local.set({ affiliateProgram: affiliateProgram.checked });

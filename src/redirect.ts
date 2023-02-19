@@ -1,9 +1,37 @@
+// Get the storage API for the current browser
+function getStorageRedirect():
+  | typeof browser.storage
+  | typeof chrome.storage
+  | null {
+  if (typeof browser !== 'undefined') {
+    // Extension is running in Firefox
+    return browser.storage;
+  }
+  if (typeof chrome !== 'undefined' && chrome.storage) {
+    // Extension is running in Chrome or Chromium-based browser
+    return chrome.storage;
+  }
+  // Storage API is not available
+  console.error('Storage API is not available');
+  return null;
+}
+
+function isChromeStorageRedirect(
+  storage: any
+): storage is typeof chrome.storage {
+  return (
+    typeof chrome !== 'undefined' &&
+    chrome.storage &&
+    storage === chrome.storage
+  );
+}
+
 function getIsAllowed(
   storage: typeof browser.storage | typeof chrome.storage | null
 ): Promise<any> {
   return new Promise((resolve) => {
     if (storage) {
-      if (isChromeStorage(storage)) {
+      if (isChromeStorageRedirect(storage)) {
         storage.local.get('affiliateProgram', (aff) => {
           resolve(aff?.affiliateProgram);
         });
@@ -23,7 +51,7 @@ function getIsAllowed(
 //   storage: typeof browser.storage | typeof chrome.storage | null
 // ) {
 //   if (storage) {
-//     if (isChromeStorage(storage)) {
+//     if (isChromeStorageRedirect(storage)) {
 //       storage.local.get(null, (ls) => {
 //         console.log('🚀 ~ file: redirect.ts:57 ~ storage.local.get ~ ls', ls);
 //       });
@@ -50,7 +78,7 @@ function getAgent(url: string): Agent | null {
 }
 
 async function getAffiliates(): Promise<Affiliate[] | null> {
-  const storage = getStorage();
+  const storage = getStorageRedirect();
 
   // Check if affiliates feature is enabled
   const isAllowed = await getIsAllowed(storage);
@@ -61,7 +89,7 @@ async function getAffiliates(): Promise<Affiliate[] | null> {
 
   return new Promise((resolve) => {
     if (storage) {
-      if (isChromeStorage(storage)) {
+      if (isChromeStorageRedirect(storage)) {
         storage.local.get('affiliate', (aff) => {
           const { affiliate } = aff;
           resolve(affiliate);

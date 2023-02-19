@@ -491,17 +491,13 @@ async function getQcAvailable(
 }
 
 async function handleShortenedLink(link: HTMLAnchorElement) {
-  console.log(
-    '🚀 ~ file: content_script.ts:494 ~ handleShortenedLink ~ link.hostname',
-    link.hostname
-  );
-  if (link.href.indexOf('pandabuy.page.link') !== -1) {
+  if (link.hostname === 'pandabuy.page.link') {
     const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
     const response: ApiResponse<{ url: string }> = await fetchData(url);
     if (response && response.data) {
       return response.data.url;
     }
-  } else if (link.href.indexOf('qr.1688.com') !== -1) {
+  } else if (link.hostname === 'qr.1688.com') {
     const url = `https://api.ch-webdev.com/convert-1688/${link.pathname.slice(
       3
     )}`;

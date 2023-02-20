@@ -368,9 +368,13 @@ function buildLink(
     if (aff && aff.param && aff.ref) {
       urlParams.set(aff.param, aff.ref);
     }
-    return `https://www.cssbuy.com/item${
-      platform === 'weidian' ? '-micro' : ''
-    }-${id}?${urlParams.toString()}`;
+    if (platform === 'weidian') {
+      return `https://www.cssbuy.com/item-micro-${id}?${urlParams.toString()}`;
+    }
+    if (platform === '1688') {
+      return `https://www.cssbuy.com/item-1688-${id}?${urlParams.toString()}`;
+    }
+    return `https://www.cssbuy.com/item-${id}?${urlParams.toString()}`;
   }
   return 'temp';
 }

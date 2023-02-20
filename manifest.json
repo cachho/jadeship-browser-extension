@@ -65,7 +65,7 @@
   "permissions": ["storage"],
   "browser_specific_settings": {
     "gecko": {
-      "id": "reparchive-browser-extension@ch-webdev.com/"
+      "id": "reparchive-browser-extension@ch-webdev.com"
     }
   }
 }

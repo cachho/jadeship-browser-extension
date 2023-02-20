@@ -1,24 +1,39 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "My Agent Extension by RepArchive",
   "version": "1.0.0",
   "description": "My Agent Extension for Weidian and Taobao links. Not affiliated with taobao.com or weidian.com; developed by RepArchive.com.",
   "icons": {
     "48": "assets/icon.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": "assets/icon.png",
     "default_popup": "assets/popup.html"
   },
-  "permissions": [
-    "storage",
+  "host_permissions": [
+    "https://www.reddit.com/*",
+    "https://old.reddit.com/*",
+    "file:///*",
     "https://api.reparchive.com/livefeed/details/item/*",
     "https://product2.rep.ninja/checkforqc*",
-    "https://api.ch-webdev.com/*"
+    "https://api.ch-webdev.com/*",
+    "https://*.wegobuy.com/**/login/**type=register*",
+    "https://www.pandabuy.com/login*",
+    "https://*.superbuy.com/**/login/**type=register*",
+    "https://sugargoo.com/index/user/register*",
+    "https://www.sugargoo.com/index/user/register*",
+    "https://cssbuy.com/?go=user&action=register*",
+    "https://www.cssbuy.com/?go=user&action=register*"
   ],
   "web_accessible_resources": [
-    "assets/agent_logos/*",
-    "assets/platform_logos/*"
+    {
+      "resources": ["assets/agent_logos/*", "assets/platform_logos/*"],
+      "matches": [
+        "https://www.reddit.com/*",
+        "https://old.reddit.com/*",
+        "file:///*"
+      ]
+    }
   ],
   "content_scripts": [
     {
@@ -45,6 +60,7 @@
     }
   ],
   "background": {
-    "scripts": ["dist/background.js"]
-  }
+    "service_worker": "dist/background.js"
+  },
+  "permissions": ["storage"]
 }

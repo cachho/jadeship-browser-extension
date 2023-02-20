@@ -38,6 +38,9 @@ echo "> Built firefox package at 'build/chromium.zip'"
 ### Replace back
 # sed -i 's/scripts/service_workers/g' build/manifest.json
 
+# Run Mozilla's Firefox Addons-Linter
+./node_modules/.bin/addons-linter dist/firefox.zip --min-manifest-version 3 --max-manifest-version 3
+
 # Report back
 echo "\nBuild finished"
 echo "> build/"

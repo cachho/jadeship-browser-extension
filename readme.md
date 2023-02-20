@@ -1,6 +1,18 @@
 # RepArchive Browser Extension
 
-todo: add details for users
+This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits.
+
+1. It rewrites all links  to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
+
+2. It enriches the page with extra information about the product and it's sales ranking from reparchive.com.
+
+This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. It feels like you can just click and buy - like it should be.
+
+Some other features:
+- shows you if quality control (qc) pics are available on qc.photos 
+- handles shortened links
+- countless display options
+- freedom to opt out of all online features and the affiliates program.
 
 ## Development
 

@@ -23,9 +23,9 @@ For testing on chromium and firefox you need to compile the typescript files. Fo
 If you change anything, you have to reload the extension in the browser. Because chrome can load unpacked files, it's quicker and recommended for developing, however both browsers must remain compatible.
 
 #### Chromium
-Chromium allows you to use use an unpacked folder, so running `npm run dev` or `tsc` is enough. Then you can load the unpacked folder `dist` by going to `chrome://extensions/`.
+Chromium allows you to use use an unpacked folder, so running `npm run dev` or `tsc` is enough. The project is setup in a way, where you can go to `chrome://extensions/`, and load the root folder with `manifest.json` inside, it automatically points to the tsc-compiled files from inside `build/`. If you want to make sure everything works with the packaged zip, drag `dist/chromium.zip` into the `chrome://extensions/` window.
 
 #### Firefox
-The extension needs to be packed as a zip. To do so run `npm run build`. It can then be found at `dist/dist.zip`.
+The extension needs to be packed as a zip. To do so run `npm run build`. It can then be found at `dist/firefox.zip`. Again, if you change anything you have to run the build script again.
 
-In firefox you have to load the zipped extension as a temporary addon. This can be done at `about:debugging#/runtime/this-firefox`.
+In Firefox, to test it in the browser, you have to load the zipped extension (`dist/firefox.zip`) as a temporary addon. This can be done at `about:debugging#/runtime/this-firefox`.

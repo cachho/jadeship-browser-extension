@@ -62,5 +62,10 @@
   "background": {
     "service_worker": "build/background.js"
   },
-  "permissions": ["storage"]
+  "permissions": ["storage"],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "admin@ch-webdev.com/reparchive-browser-extension"
+    }
+  }
 }

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "My Agent Extension by RepArchive",
   "version": "1.0.1",
-  "description": "My Agent Extension for Weidian and Taobao links. Not affiliated with taobao.com or weidian.com; developed by RepArchive.com.",
+  "description": "My Agent Extension - automatically convert all links to your favorite agent and enrich the page with online information, sales statistics and qc pictures. Works with all agents and Weidian, Taobao and 1688 marketplaces. Not affiliated with taobao.com or weidian.com; developed by RepArchive.com.",
   "icons": {
     "48": "assets/icon.png"
   },

@@ -42,7 +42,7 @@
         "https://old.reddit.com/*",
         "file:///*"
       ],
-      "js": ["dist/content_script.js"],
+      "js": ["build/content_script.js"],
       "run_at": "document_end"
     },
     {
@@ -55,12 +55,12 @@
         "https://cssbuy.com/?go=user&action=register*",
         "https://www.cssbuy.com/?go=user&action=register*"
       ],
-      "js": ["dist/redirect.js"],
+      "js": ["build/redirect.js"],
       "run_at": "document_start"
     }
   ],
   "background": {
-    "service_worker": "dist/background.js"
+    "service_worker": "build/background.js"
   },
   "permissions": ["storage"]
 }

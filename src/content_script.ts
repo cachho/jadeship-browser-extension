@@ -298,6 +298,7 @@ function getInnerLink(platform: Platform, id: string): string {
 
 function getAffiliate(settings: Settings, agent: Agent) {
   if (!settings.affiliateProgram || !settings.affiliateAppend) {
+    // Returns null if the user set the setting to disable affiliates
     return null;
   }
   return settings.affiliate.find((a) => {
@@ -350,7 +351,7 @@ function buildLink(
     urlParams.set('url', innerLink);
     // return `https://www.sugargoo.com/index/item/index.html?${urlParams.toString()}`;
     if (aff && aff.param && aff.ref) {
-      urlParams.set(aff.param, aff.ref);
+      urlParams.set(aff.param, aff.altRef ?? aff.ref);
     }
     return `https://www.sugargoo.com/index/item/index.html?${urlParams.toString()}${
       settings.affiliateProgram &&
@@ -366,7 +367,7 @@ function buildLink(
     // https://www.cssbuy.com/item-675330231400&promotionCode=Y2h3ZWJkZXZlbG9wbWVudA
     // https://www.cssbuy.com/item-micro-4480454092&promotionCode=Y2h3ZWJkZXZlbG9wbWVudA
     if (aff && aff.param && aff.ref) {
-      urlParams.set(aff.param, aff.ref);
+      urlParams.set(aff.param, aff.altRef ?? aff.ref);
     }
     if (platform === 'weidian') {
       return `https://www.cssbuy.com/item-micro-${id}?${urlParams.toString()}`;

@@ -39,11 +39,12 @@ echo "> Built firefox package at 'dist/firefox.zip'"
 # sed -i 's/scripts/service_workers/g' build/manifest.json
 
 # Run Mozilla's Firefox Addons-Linter
+echo "\n> Running Firefox Addons-Linter..."
 ./node_modules/.bin/addons-linter dist/firefox.zip --min-manifest-version 3 --max-manifest-version 3
 
 # Report back
 echo "\nBuild finished"
 echo "> build/"
 echo "> dist/chromium.zip"
-echo "> ddist/firefox.zip"
+echo "> dist/firefox.zip"
 # TODO: Validate build

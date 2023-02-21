@@ -1,5 +1,7 @@
 # RepArchive Browser Extension
 
+Short summary: **Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.**
+
 Summary: **My Agent Extension - automatically convert all links on reddit to your favorite agent and enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
 
 ---
@@ -24,6 +26,20 @@ Safety & Privacy:
 - the extension is only active on required sites, the URLs are matched very carefully.
 - you can opt out of all online interactions and run the extension offline
 - no user data is collected (with each request you do technically expose your IP, among other information).
+
+## Installation for Users
+
+You can install the extension from the Chrome Web Store or Firefox Browser Add-Ons.
+
+- Chrome Web Store: https://chrome.google.com/webstore/detail/my-agent-extension-by-rep/gnpcmjhhhobmpeeekcfmficdfgnmncim?hl=en&authuser=0
+- Firefox Browser Add-Ons: https://addons.mozilla.org/en-US/firefox/addon/reparchive-extension/
+
+### Side Loading
+
+
+Alternatively, to use pre-release versions you can clone the repository and build from source (`npm install` and `npm run build` commands are all you need). Then install the zip files.
+
+If you don't want to build from source, you can check this repo's releases page to directly download the zip files, ready for installation.
 
 ## Development
 
@@ -56,7 +72,9 @@ In Firefox, to test it in the browser, you have to load the zipped extension (`d
 
 ## To do / future developments
 
-There's no reason this should only work on reddit. I tried google sheets, but it seems very hard to modify the html there. If you have any other site this could work with, please open an issue.
+There's no reason this should only work on reddit. We can expand beyond that. However, for reasons of security, trust and performance, wildcard permissions for every site have to be avoided. That means that every site this extension is supposed to work on has to be defined in the manifest. If you have any other site this could work with, please open an issue.
+
+I tried google sheets, but it seems very hard to modify the html there.
 
 ## Bugs / Issues / Support
 The following site can be used to quickly report bugs: https://reparchive.com/report?service=Browser+Extension

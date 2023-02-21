@@ -28,13 +28,13 @@ rm -f dist/chromium.zip dist/firefox.zip
 ## For Chromium
 cd build && zip -r ../dist.zip * && cd ..
 mv dist.zip dist/chromium.zip
-echo "> Built chromium package at 'build/chromium.zip'"
+echo "> Built chromium package at 'dist/chromium.zip'"
 ## For Firefox
 ### Needs to replace 'service_worker' with 'scripts'.
 sed -i 's/\"service_worker\": \".\/background.js\"/\"scripts\": [\".\/background.js\"]/g' build/manifest.json
 cd build && zip -r ../dist.zip * && cd ..
 mv dist.zip dist/firefox.zip
-echo "> Built firefox package at 'build/chromium.zip'"
+echo "> Built firefox package at 'dist/firefox.zip'"
 ### Replace back
 # sed -i 's/scripts/service_workers/g' build/manifest.json
 

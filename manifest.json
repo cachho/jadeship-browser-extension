@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "My Agent Extension by RepArchive",
-  "version": "1.1.1",
-  "description": "My Agent Extension - automatically convert all links on reddit to your favorite agent and enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.",
+  "version": "1.1.2",
+  "description": "Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.",
   "icons": {
     "48": "assets/icon.png"
   },

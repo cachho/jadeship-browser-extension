@@ -133,7 +133,7 @@ function initializeExtension() {
     // Only get links if online features are enabled.
     if (isChromeStorage(storage)) {
       storage.local.get('onlineFeatures', (onlineFeatures) => {
-        if (onlineFeatures) {
+        if (onlineFeatures.onlineFeatures) {
           fetchData('https://api.ch-webdev.com/affiliate-links')
             .then((response) => storage.local.set({ affiliate: response.data }))
             .catch((error) => console.error('Error fetching data:', error));
@@ -143,7 +143,7 @@ function initializeExtension() {
       storage.local
         .get()
         .then((onlineFeatures) => {
-          if (onlineFeatures) {
+          if (onlineFeatures.onlineFeatures) {
             fetchData('https://api.ch-webdev.com/affiliate-links')
               .then((response) =>
                 storage.local.set({ affiliate: response.data })

@@ -52,13 +52,11 @@ const defaultSettings: Settings2 = {
   displayOverwriteTitle: false,
 };
 
+/**
+ * This script initializes local storage with default values and from the api.
+ * @returns void
+ */
 function initializeExtension() {
-  /**
-   * This script initializes local storage with default values and from the api.
-   * @returns void
-   */
-  //
-
   function getStorage(): typeof browser.storage | typeof chrome.storage | null {
     if (typeof browser !== 'undefined') {
       // Extension is running in Firefox

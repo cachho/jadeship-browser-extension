@@ -204,7 +204,6 @@ function detectPlatform(link: string): Platform | null {
 }
 
 function extractId(platform: Platform, link: string) {
-  console.log('🚀 ~ file: content_script.ts:207 ~ extractId ~ link', link);
   const url = new URL(link);
   const urlParams = new URLSearchParams(url.search ?? link);
   // For regular Taobao and Weidian Links
@@ -219,6 +218,10 @@ function extractId(platform: Platform, link: string) {
     }
   }
   if (platform === '1688') {
+    // If it's still shortened at this point it can't be saved.
+    if (link.indexOf('qr.1688.com')) {
+      return null;
+    }
     // 1688 doesn't use urlParams
     if (link.indexOf('offer')) {
       const id =

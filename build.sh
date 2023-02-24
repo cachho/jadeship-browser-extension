@@ -35,8 +35,18 @@ sed -i 's/\"service_worker\": \".\/background.js\"/\"scripts\": [\".\/background
 cd build && zip -r ../dist.zip * && cd ..
 mv dist.zip dist/firefox.zip
 echo "> Built firefox package at 'dist/firefox.zip'"
-### Replace back
-# sed -i 's/scripts/service_workers/g' build/manifest.json
+
+# Since only Chrome can run live from the build directory, we revert the changes to the Chrome manifest.
+sed -i 's/"scripts"/"service_workers"/g' build/manifest.json
+# Remove browser_specific_settings
+if command -v jq &> /dev/null; then
+  jq 'del(.browser_specific_settings)' build/manifest.json > build/temp.json
+  # Use sed to remove any empty lines created by jq
+  sed '/^\s*$/d' build/temp.json > build/manifest.json
+  rm build/temp.json
+else
+    echo "jq is not installed. Skipping JSON processing."
+fi
 
 # Run Mozilla's Firefox Addons-Linter
 echo "\n> Running Firefox Addons-Linter..."

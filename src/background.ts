@@ -52,13 +52,11 @@ const defaultSettings: Settings2 = {
   displayOverwriteTitle: false,
 };
 
+/**
+ * This script initializes local storage with default values and from the api.
+ * @returns void
+ */
 function initializeExtension() {
-  /**
-   * This script initializes local storage with default values and from the api.
-   * @returns void
-   */
-  //
-
   function getStorage(): typeof browser.storage | typeof chrome.storage | null {
     if (typeof browser !== 'undefined') {
       // Extension is running in Firefox
@@ -135,7 +133,7 @@ function initializeExtension() {
     // Only get links if online features are enabled.
     if (isChromeStorage(storage)) {
       storage.local.get('onlineFeatures', (onlineFeatures) => {
-        if (onlineFeatures) {
+        if (onlineFeatures.onlineFeatures) {
           fetchData('https://api.ch-webdev.com/affiliate-links')
             .then((response) => storage.local.set({ affiliate: response.data }))
             .catch((error) => console.error('Error fetching data:', error));
@@ -145,7 +143,7 @@ function initializeExtension() {
       storage.local
         .get()
         .then((onlineFeatures) => {
-          if (onlineFeatures) {
+          if (onlineFeatures.onlineFeatures) {
             fetchData('https://api.ch-webdev.com/affiliate-links')
               .then((response) =>
                 storage.local.set({ affiliate: response.data })

@@ -40,8 +40,8 @@ cp temp-manifest.json temp-manifest-firefox.json
 json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
 # For Firefox exclusively
 ## Needs to replace 'service_worker' with 'scripts'.
-json -I -f temp-manifest-firefox.json -e 'this.scripts = ["./background.js"]; delete this.service_worker;'
-json -I -f temp-manifest-firefox.json -e 'delete this.background;'
+json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./background.js"]; delete this.service_worker;'
+json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
 
 
 # Build zip

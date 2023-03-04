@@ -67,14 +67,44 @@ function getIsAllowed(
 
 function getAgent(url: string): Agent | null {
   console.log('🚀 ~ file: redirect.ts:4 ~ getAgent ~ url', url);
-  if (url === 'www.wegobuy.com' || url === 'login.wegobuy.com')
+  if (
+    url === 'www.wegobuy.com' ||
+    url === 'wegobuy.com' ||
+    url === 'login.wegobuy.com'
+  )
     return 'wegobuy';
-  if (url === 'www.pandabuy.com') return 'pandabuy';
-  if (url === 'www.superbuy.com' || url === 'login.superbuy.com')
+  if (url === 'www.pandabuy.com' || url === 'pandabuy.com') return 'pandabuy';
+  if (
+    url === 'www.superbuy.com' ||
+    url === 'superbuy.com' ||
+    url === 'login.superbuy.com'
+  )
     return 'superbuy';
   if (url === 'www.sugargoo.com' || url === 'sugargoo.com') return 'sugargoo';
-  if (url === 'www.cssbuy.com') return 'cssbuy';
+  if (url === 'www.cssbuy.com' || url === 'cssbuy.com') return 'cssbuy';
   return null;
+}
+
+function validateRegisterPage(agent: Agent, location: Location): boolean {
+  if (agent === 'pandabuy') {
+    return location.pathname === '/login/';
+  }
+  if (agent === 'superbuy' || agent === 'wegobuy') {
+    const params = new URLSearchParams(location.search);
+    return (
+      (location.pathname === '/en/page/login/' ||
+        location.pathname === '/cn/page/login/') &&
+      params.get('type') === 'register'
+    );
+  }
+  if (agent === 'cssbuy') {
+    const params = new URLSearchParams(location.search);
+    return location.pathname === '/' && params.get('action') === 'register';
+  }
+  if (agent === 'sugargoo') {
+    return location.pathname.indexOf('/index/user/register') !== -1;
+  }
+  return false;
 }
 
 async function getAffiliates(): Promise<Affiliate[] | null> {
@@ -107,23 +137,32 @@ async function getAffiliates(): Promise<Affiliate[] | null> {
   });
 }
 
-getAffiliates().then((affiliates) => {
-  if (!affiliates) {
-    return null;
-  }
-  window.addEventListener('DOMContentLoaded', () => {
+function redirect() {
+  getAffiliates().then((affiliates) => {
+    if (!affiliates) {
+      return null;
+    }
+
+    //   window.addEventListener('DOMContentLoaded', () => {
     // Wait for the page to finish loading before redirecting.
+    // NOTE: The DomContentLoaded method quit working with the new
+    // manifest, so I removed it. However, I'm sure there's a reason
+    // I used it in the first place
 
     // Agent related
     const agent = getAgent(window.location.host);
     if (!agent) {
       return null;
     }
+
+    if (!validateRegisterPage(agent, window.location)) {
+      return null;
+    }
+
     const affiliate = affiliates.find((aff) => aff.name === agent);
     if (!affiliate) {
       return null;
     }
-    console.log('🚀 ~ file: redirect.ts:111 ~ affiliate', affiliate);
     // Get Url Parameters
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -142,5 +181,6 @@ getAffiliates().then((affiliates) => {
     }
     return true;
   });
-  return true;
-});
+}
+
+redirect();

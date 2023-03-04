@@ -32,8 +32,13 @@ sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/assets/popup.html
 
 #######################################
 # Copy the manifest file
+# TODO: Manifest V2 is a firefox
+# workaround 
+# https://github.com/cachho/reparchive-browser-extension/issues/32
 #######################################
 cp manifest.json temp-manifest.json
+cp manifest-v2.json temp-manifest-v2.json
+
 
 #######################################
 # Modify Manifest
@@ -50,15 +55,23 @@ json -I -f temp-manifest.json -e 'function replace(obj) {
     }
 }; replace(this);'
 
-## Replace local filesystem
-json -I -f temp-manifest.json -e 'this.host_permissions = this.host_permissions.filter(p => p !== "file://*")'
+# Manifest V2
+json -I -f temp-manifest-v2.json -e 'function replace(obj) { 
+    for (var prop in obj) {
+        if (typeof obj[prop] === "string") {
+            obj[prop] = obj[prop].replace(/build\//g, "./");
+        } else if (typeof obj[prop] === "object") {
+            replace(obj[prop]);
+        }
+    }
+}; replace(this);'
 
 #######################################
 # Create a modifyable manifest copy
 # for each browser
 #######################################
 cp temp-manifest.json temp-manifest-chromium.json
-cp temp-manifest.json temp-manifest-firefox.json
+cp temp-manifest-v2.json temp-manifest-firefox.json
 
 #######################################
 # For Chromium exclusively
@@ -109,13 +122,14 @@ cp temp-manifest-chromium.json build/manifest.json
 #######################################
 # Cleanup
 #######################################
-rm -f temp-manifest.json temp-manifest-chromium.json temp-manifest-firefox.json
+rm -f temp-manifest.json temp-manifest-v2.json 
+rm -f  temp-manifest-chromium.json temp-manifest-firefox.json
 
 #######################################
 # Run Mozilla's Firefox Addons-Linter
 #######################################
 echo "\n> Running Firefox Addons-Linter..."
-addons-linter dist/firefox.zip --min-manifest-version 3 --max-manifest-version 3
+addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
 
 #######################################
 # Report back

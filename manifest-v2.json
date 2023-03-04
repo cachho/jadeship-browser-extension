@@ -1,21 +1,19 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "My Agent Extension by RepArchive",
   "version": "1.1.7",
   "description": "Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.",
   "icons": {
     "48": "assets/icon.png"
   },
-  "action": {
+  "background": {
+    "scripts": ["build/background.js"],
+    "persistent": true
+  },
+  "browser_action": {
     "default_icon": "assets/icon.png",
     "default_popup": "assets/popup.html"
   },
-  "web_accessible_resources": [
-    {
-      "resources": ["assets/agent_logos/*", "assets/platform_logos/*"],
-      "matches": ["*://*.reddit.com/*"]
-    }
-  ],
   "content_scripts": [
     {
       "matches": ["*://*.reddit.com/*"],
@@ -34,11 +32,22 @@
       "run_at": "document_start"
     }
   ],
-  "background": {
-    "service_worker": "build/background.js"
-  },
-  "permissions": ["storage"],
-  "browser_specific_settings": {
+  "permissions": [
+    "storage",
+    "*://*.reddit.com/*",
+    "*://*.wegobuy.com/*",
+    "*://*.superbuy.com/*",
+    "*://*.sugargoo.com/*",
+    "*://*.cssbuy.com/*",
+    "*://*.pandabuy.com/*",
+    "https://api.reparchive.com/*",
+    "https://product2.rep.ninja/*"
+  ],
+  "web_accessible_resources": [
+    "assets/agent_logos/*",
+    "assets/platform_logos/*"
+  ],
+  "applications": {
     "gecko": {
       "id": "reparchive-browser-extension@ch-webdev.com"
     }

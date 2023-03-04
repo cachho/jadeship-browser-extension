@@ -77,6 +77,12 @@ function getAgent(url: string): Agent | null {
   return null;
 }
 
+// function validateRegisterPage(agent: Agent, url: string) {
+//   if (agent === 'wegobuy') {
+//     return url.indexOf('')
+//   }
+// }
+
 async function getAffiliates(): Promise<Affiliate[] | null> {
   const storage = getStorageRedirect();
 
@@ -111,36 +117,38 @@ getAffiliates().then((affiliates) => {
   if (!affiliates) {
     return null;
   }
-  window.addEventListener('DOMContentLoaded', () => {
-    // Wait for the page to finish loading before redirecting.
 
-    // Agent related
-    const agent = getAgent(window.location.host);
-    if (!agent) {
-      return null;
-    }
-    const affiliate = affiliates.find((aff) => aff.name === agent);
-    if (!affiliate) {
-      return null;
-    }
-    console.log('🚀 ~ file: redirect.ts:111 ~ affiliate', affiliate);
-    // Get Url Parameters
-    const urlParams = new URLSearchParams(window.location.search);
+  //   window.addEventListener('DOMContentLoaded', () => {
+  // Wait for the page to finish loading before redirecting.
+  // NOTE: The DomContentLoaded method quit working with the new
+  // manifest, so I removed it. However, I'm sure there's a reason
+  // I used it in the first place
 
-    // Switch between agents that use url parameters and those who use url paths
-    if (affiliate.param && affiliate.param !== '' && affiliate.ref) {
-      if (urlParams.get(affiliate.param) !== affiliate.ref) {
-        // Check if not already applied
-        urlParams.set(affiliate.param, affiliate.ref);
-        window.location.search = urlParams.toString();
-      }
-    } else if (affiliate.ref && affiliate.param === '') {
+  // Agent related
+  const agent = getAgent(window.location.host);
+  if (!agent) {
+    return null;
+  }
+
+  const affiliate = affiliates.find((aff) => aff.name === agent);
+  if (!affiliate) {
+    return null;
+  }
+  // Get Url Parameters
+  const urlParams = new URLSearchParams(window.location.search);
+
+  // Switch between agents that use url parameters and those who use url paths
+  if (affiliate.param && affiliate.param !== '' && affiliate.ref) {
+    if (urlParams.get(affiliate.param) !== affiliate.ref) {
       // Check if not already applied
-      if (window.location.href !== affiliate.url) {
-        window.location.href = affiliate.url;
-      }
+      urlParams.set(affiliate.param, affiliate.ref);
+      window.location.search = urlParams.toString();
     }
-    return true;
-  });
+  } else if (affiliate.ref && affiliate.param === '') {
+    // Check if not already applied
+    if (window.location.href !== affiliate.url) {
+      window.location.href = affiliate.url;
+    }
+  }
   return true;
 });

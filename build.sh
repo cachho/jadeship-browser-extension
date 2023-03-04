@@ -50,9 +50,6 @@ json -I -f temp-manifest.json -e 'function replace(obj) {
     }
 }; replace(this);'
 
-## Replace local filesystem
-json -I -f temp-manifest.json -e 'this.host_permissions = this.host_permissions.filter(p => p !== "file://*")'
-
 #######################################
 # Create a modifyable manifest copy
 # for each browser

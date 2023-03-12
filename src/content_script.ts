@@ -167,7 +167,10 @@ function getLinks(settings: Settings) {
   }
 
   if (settings.tmallLink) {
-    targetedHrefs = targetedHrefs.concat(['detail.tmall.com/item']);
+    targetedHrefs = targetedHrefs.concat([
+      'detail.tmall.com/item',
+      'item.tmall.com/item',
+    ]);
   }
 
   if (settings.agentLink) {
@@ -204,6 +207,10 @@ function detectPlatform(link: string): Platform | null {
 }
 
 function extractId(platform: Platform, link: string) {
+  console.log(
+    '🚀 ~ file: content_script.ts:207 ~ extractId ~ platform:',
+    platform
+  );
   const url = new URL(link);
   const urlParams = new URLSearchParams(url.search ?? link);
   // For regular Taobao and Weidian Links

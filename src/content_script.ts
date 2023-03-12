@@ -211,15 +211,13 @@ function extractId(platform: Platform, link: string) {
     if (urlParams.get('itemID')) {
       return urlParams.get('itemID');
     }
-  }
-  if (platform === 'taobao') {
+  } else if (platform === 'taobao') {
     if (urlParams.get('id')) {
       return urlParams.get('id');
     }
-  }
-  if (platform === '1688') {
+  } else if (platform === '1688') {
     // If it's still shortened at this point it can't be saved.
-    if (link.indexOf('qr.1688.com')) {
+    if (link.indexOf('qr.1688.com') !== -1) {
       return null;
     }
     // 1688 doesn't use urlParams
@@ -233,8 +231,7 @@ function extractId(platform: Platform, link: string) {
         return id;
       }
     }
-  }
-  if (platform === 'tmall') {
+  } else if (platform === 'tmall') {
     if (urlParams.get('id')) {
       return urlParams.get('id');
     }

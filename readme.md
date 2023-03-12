@@ -61,6 +61,8 @@ For testing on chromium and firefox you need to compile the typescript files. Fo
 
 If you change anything, you have to reload the extension in the browser. Because chrome can load unpacked files, it's quicker and recommended for developing, however both browsers must remain compatible.
 
+**Test Suite:** There is a subreddit that's specifically built to put all links that this extension has to work with in front of you: https://www.reddit.com/r/RADev/?f=flair_name%3A%22Test%22
+
 #### Chromium
 Chromium allows you to use use an unpacked folder, so running `npm run dev` or `tsc` is enough. The project is setup in a way, where you can go to `chrome://extensions/`, and load the root folder with `manifest.json` inside, it automatically points to the tsc-compiled files from inside `build/`. If you want to make sure everything works with the packaged zip, drag `dist/chromium.zip` into the `chrome://extensions/` window.
 

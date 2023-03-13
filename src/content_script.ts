@@ -235,6 +235,51 @@ async function fetchData(url: string): Promise<any> {
   }
 }
 
+function generateProperLink(platform: Platform, id: string): string {
+  if (platform === 'weidian') {
+    const urlParams = new URLSearchParams();
+    urlParams.set('itemID', id);
+    return `https://weidian.com/item.html?${urlParams.toString()}`;
+  }
+  if (platform === 'taobao') {
+    const urlParams = new URLSearchParams();
+    urlParams.set('id', id);
+    return `https://item.taobao.com/item.html?${urlParams.toString()}`;
+  }
+  if (platform === '1688') {
+    // https://detail.1688.com/offer/669220179358.html
+    return `https://detail.1688.com/offer/${id}.html`;
+  }
+  if (platform === 'tmall') {
+    const urlParams = new URLSearchParams();
+    urlParams.set('id', id);
+    return `https://detail.tmall.com/item_o.htm?${urlParams.toString()}`;
+  }
+  return '';
+}
+
+function decryptCssbuy(link: HTMLAnchorElement): URL | null {
+  if (link.pathname.startsWith('/item-micro')) {
+    const id = link.pathname.split('-')[2].split('.')[0];
+    if (id) {
+      return new URL(generateProperLink('weidian', id));
+    }
+  }
+  if (link.pathname.startsWith('/item-1688')) {
+    const id = link.pathname.split('-')[2].split('.')[0];
+    if (id) {
+      return new URL(generateProperLink('1688', id));
+    }
+  }
+  if (link.pathname.startsWith('/item')) {
+    const id = link.pathname.split('-')[1].split('.')[0];
+    if (id) {
+      return new URL(generateProperLink('taobao', id));
+    }
+  }
+  return null;
+}
+
 async function handleShortenedLink(
   link: HTMLAnchorElement,
   settings: Settings
@@ -253,6 +298,15 @@ async function handleShortenedLink(
     if (response && response.data) {
       return new URL(response.data.url);
     }
+  } else if (
+    link.hostname === 'cssbuy.com' ||
+    link.hostname === 'www.cssbuy.com'
+  ) {
+    const decryptedCssbuy = decryptCssbuy(link);
+    if (decryptedCssbuy) {
+      link.href = decryptedCssbuy.href;
+      return decryptedCssbuy;
+    }
   }
   return null;
 }
@@ -268,7 +322,6 @@ async function getLink(
   if (!link) {
     return null;
   }
-
   return link;
 }
 
@@ -331,29 +384,6 @@ function extractId(platform: Platform, link: string) {
     }
   }
   return null;
-}
-
-function generateProperLink(platform: Platform, id: string): string {
-  if (platform === 'weidian') {
-    const urlParams = new URLSearchParams();
-    urlParams.set('itemID', id);
-    return `https://weidian.com/item.html?${urlParams.toString()}`;
-  }
-  if (platform === 'taobao') {
-    const urlParams = new URLSearchParams();
-    urlParams.set('id', id);
-    return `https://item.taobao.com/item.html?${urlParams.toString()}`;
-  }
-  if (platform === '1688') {
-    // https://detail.1688.com/offer/669220179358.html
-    return `https://detail.1688.com/offer/${id}.html`;
-  }
-  if (platform === 'tmall') {
-    const urlParams = new URLSearchParams();
-    urlParams.set('id', id);
-    return `https://detail.tmall.com/item_o.htm?${urlParams.toString()}`;
-  }
-  return '';
 }
 
 function getAffiliate(settings: Settings, agent: Agent) {

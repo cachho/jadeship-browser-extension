@@ -262,15 +262,9 @@ async function getLink(
   settings: Settings
 ): Promise<URL | null> {
   const extractedLink = await handleShortenedLink(elem, settings);
-  console.log(
-    '🚀 ~ file: content_script.ts:267 ~ extractedLink:',
-    extractedLink
-  );
   const inputUrl = extractedLink ?? elem;
   const isAgent = isAgentLink(inputUrl.hostname);
-  console.log('🚀 ~ file: content_script.ts:273 ~ isAgent:', isAgent);
   const link = isAgent ? extractInnerLink(inputUrl) : new URL(elem.href);
-  console.log('🚀 ~ file: content_script.ts:272 ~ link:', link);
   if (!link) {
     return null;
   }
@@ -802,11 +796,6 @@ async function main(settings: Settings) {
     // Convert anchor tag to URL object.
     // Link is the URL object, elem is the html element (including the link)
     const link = await getLink(elem, settings);
-
-    console.log(
-      '🚀 ~ file: content_script.ts:780 ~ links.forEach ~ link:',
-      link
-    );
 
     if (!link) {
       console.error('No link object could be extracted from link: ', elem.href);

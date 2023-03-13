@@ -897,7 +897,7 @@ async function main(settings: Settings) {
     }
 
     if (newLink) {
-      link.href = newLink;
+      elem.href = newLink;
       // Test: if the complete mark can be added here
 
       // Add details

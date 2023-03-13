@@ -316,7 +316,6 @@ async function getLink(
   settings: Settings
 ): Promise<URL | null> {
   const extractedLink = await handleShortenedLink(elem, settings);
-
   const inputUrl = extractedLink ?? elem;
   const isAgent = isAgentLink(inputUrl.hostname);
   const link = isAgent ? extractInnerLink(inputUrl) : new URL(elem.href);

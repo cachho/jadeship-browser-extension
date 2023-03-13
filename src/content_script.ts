@@ -184,11 +184,14 @@ function getLinks(settings: Settings) {
       'cssbuy.com/item',
     ]);
   }
-  return Array.from(document.querySelectorAll('a'))
+
+  const links = Array.from(
+    document.querySelectorAll('a:not([contenteditable="true"])')
+  ) as HTMLAnchorElement[];
+
+  return links
     .filter((a) => targetedHrefs.some((href) => a.href.indexOf(href) !== -1))
-    .filter(
-      (a) => a.dataset.reparchiveExtension !== 'true'
-    ) as HTMLAnchorElement[];
+    .filter((a) => a.dataset.reparchiveExtension !== 'true');
 }
 
 function getDomainFromHostname(hostname: string): string {

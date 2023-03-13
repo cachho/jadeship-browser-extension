@@ -243,6 +243,7 @@ async function fetchData(url: string): Promise<any> {
     }
     return await response.json();
   } catch (error) {
+    // Debug: Enable the next line
     // console.error(error);
     return null;
   }
@@ -298,7 +299,7 @@ async function handleShortenedLink(
   settings: Settings
 ): Promise<URL | null> {
   if (link.hostname === 'pandabuy.page.link' && settings.onlineFeatures) {
-    const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
+    const url = `https://api.reparchive.com/convert-pandabuy${link.pathname}`;
     const response: ApiResponse<{ url: string }> = await fetchData(url);
     if (response && response.data) {
       return new URL(response.data.url);

@@ -824,6 +824,27 @@ function replaceTextContent(
   return link.textContent ?? '';
 }
 
+/**
+ * Parallel retrieval of online features from the details api and the qc api. Respects user settings.
+ * @param {Settings} settings - The settings object.
+ * @param {Platform} platform - The platform to retrieve data for.
+ * @param {string} id - The product ID to retrieve data for.
+ * @returns {Promise<[ApiResponse<Details> | null, QcAvailable | null]>} - A promise that resolves to a tuple containing the ApiResponse<Details> or null and QcAvailable or null.
+ */
+function getOnlineFeatures(
+  settings: Settings,
+  platform: Platform,
+  id: string
+): Promise<[ApiResponse<Details> | null, QcAvailable | null]> {
+  if (!settings.onlineFeatures) {
+    return Promise.all([null, null]);
+  }
+  if (!settings.onlineFeaturesQcPhotos) {
+    return Promise.all([getDetails(platform, id), null]);
+  }
+  return Promise.all([getDetails(platform, id), getQcAvailable(platform, id)]);
+}
+
 async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
   // Get the selected agent from local storage
@@ -880,12 +901,15 @@ async function main(settings: Settings) {
       // Test: if the complete mark can be added here
 
       // Add details
+      const [details, qcAvailable] = await getOnlineFeatures(
+        settings,
+        platform,
+        id
+      );
       if (
         settings.onlineFeatures &&
         !isBrokenRedditImageLink(elem.textContent ?? '', platform)
       ) {
-        const details = await getDetails(platform, id);
-
         if (details && details.data) {
           addHtmlOnlineElements(settings, details.data, elem, platform);
           elem.title = details.data.item.goodsTitle;
@@ -906,7 +930,6 @@ async function main(settings: Settings) {
 
       // Add Qc Availability
       if (settings.onlineFeaturesQcPhotos) {
-        const qcAvailable = await getQcAvailable(platform, id);
         if (qcAvailable && qcAvailable.state === 0 && qcAvailable.data) {
           AddQcElement(qcAvailable, elem);
         }

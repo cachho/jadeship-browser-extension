@@ -185,8 +185,18 @@ function getLinks(settings: Settings) {
     ]);
   }
 
-  const links = Array.from(
-    document.querySelectorAll('a:not([contenteditable="true"])')
+  function isInsideContentEditable(element: HTMLElement | null): boolean {
+    if (!element) {
+      return false;
+    }
+    if (element.isContentEditable) {
+      return true;
+    }
+    return isInsideContentEditable(element.parentElement);
+  }
+
+  const links = Array.from(document.querySelectorAll('a')).filter(
+    (a) => !isInsideContentEditable(a)
   ) as HTMLAnchorElement[];
 
   return links

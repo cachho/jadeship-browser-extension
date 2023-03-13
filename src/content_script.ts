@@ -177,6 +177,7 @@ function getLinks(settings: Settings) {
     targetedHrefs = targetedHrefs.concat([
       'wegobuy.com/en/page/buy',
       'superbuy.com/en/page/buy',
+      'm.superbuy.com',
       'pandabuy.com/product',
       'pandabuy.page.link',
       'sugargoo.com/index/item',

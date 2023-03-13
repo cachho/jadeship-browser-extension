@@ -190,27 +190,113 @@ function getLinks(settings: Settings) {
     ) as HTMLAnchorElement[];
 }
 
-function detectPlatform(link: string): Platform | null {
-  if (link.indexOf('weidian.com') > -1) {
-    return 'weidian';
+function getDomainFromHostname(hostname: string): string {
+  const parts = hostname.split('.');
+  const domain = parts.slice(-2).join('.');
+  return domain;
+}
+
+function isAgentLink(hostname: string): boolean {
+  const domain = getDomainFromHostname(hostname);
+  const agents: Agent[] = [
+    'cssbuy',
+    'pandabuy',
+    'sugargoo',
+    'superbuy',
+    'wegobuy',
+  ];
+  return agents.some((agent) => domain.indexOf(agent) !== -1);
+}
+
+function extractInnerLink(link: HTMLAnchorElement | URL): URL | null {
+  const urlParams = new URLSearchParams(link.search ?? link);
+  const innerParam = urlParams.get('url');
+  if (!innerParam) {
+    return null;
   }
-  if (link.indexOf('taobao.com') > -1) {
-    return 'taobao';
-  }
-  if (link.indexOf('1688.com') > -1) {
-    return '1688';
-  }
-  if (link.indexOf('tmall.com') > -1) {
-    return 'tmall';
+  const innerLink = new URL(innerParam);
+  if (innerLink) {
+    return innerLink;
   }
   return null;
 }
 
-function extractId(platform: Platform, link: string) {
+async function fetchData(url: string): Promise<any> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      return null;
+    }
+    return await response.json();
+  } catch (error) {
+    // console.error(error);
+    return null;
+  }
+}
+
+async function handleShortenedLink(
+  link: HTMLAnchorElement,
+  settings: Settings
+): Promise<URL | null> {
+  if (link.hostname === 'pandabuy.page.link' && settings.onlineFeatures) {
+    const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return new URL(response.data.url);
+    }
+  } else if (link.hostname === 'qr.1688.com' && settings.onlineFeatures) {
+    const url = `https://api.ch-webdev.com/convert-1688/${link.pathname.slice(
+      3
+    )}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return new URL(response.data.url);
+    }
+  }
+  return null;
+}
+
+async function getLink(
+  elem: HTMLAnchorElement,
+  settings: Settings
+): Promise<URL | null> {
+  const extractedLink = await handleShortenedLink(elem, settings);
   console.log(
-    '🚀 ~ file: content_script.ts:207 ~ extractId ~ platform:',
-    platform
+    '🚀 ~ file: content_script.ts:267 ~ extractedLink:',
+    extractedLink
   );
+  const inputUrl = extractedLink ?? elem;
+  const isAgent = isAgentLink(inputUrl.hostname);
+  console.log('🚀 ~ file: content_script.ts:273 ~ isAgent:', isAgent);
+  const link = isAgent ? extractInnerLink(inputUrl) : new URL(elem.href);
+  console.log('🚀 ~ file: content_script.ts:272 ~ link:', link);
+  if (!link) {
+    return null;
+  }
+
+  return link;
+}
+
+function detectPlatform(hostname: string): Platform | null {
+  const domain = getDomainFromHostname(hostname);
+
+  if (domain === 'weidian.com') {
+    return 'weidian';
+  }
+  if (domain === 'taobao.com') {
+    return 'taobao';
+  }
+  if (domain === '1688.com') {
+    return '1688';
+  }
+  if (domain === 'tmall.com') {
+    return 'tmall';
+  }
+
+  return null;
+}
+
+function extractId(platform: Platform, link: string) {
   const url = new URL(link);
   const urlParams = new URLSearchParams(url.search ?? link);
   // For regular Taobao and Weidian Links
@@ -249,44 +335,10 @@ function extractId(platform: Platform, link: string) {
       return urlParams.get('id');
     }
   }
-
-  // If it's an agent we need to decode the contained string first
-  let innerUrl = urlParams.get('url');
-
-  if (!innerUrl) {
-    return null;
-  }
-  innerUrl = decodeURIComponent(innerUrl);
-  const innerUrlParams = new URLSearchParams(
-    innerUrl.split('?', 2)[1] ?? innerUrl
-  );
-  if (platform === 'weidian') {
-    if (innerUrlParams.get('itemID')) {
-      return innerUrlParams.get('itemID');
-    }
-  }
-  if (platform === 'taobao') {
-    if (innerUrlParams.get('id')) {
-      return innerUrlParams.get('id');
-    }
-  }
-  if (platform === 'tmall') {
-    if (innerUrlParams.get('id')) {
-      return innerUrlParams.get('id');
-    }
-  }
-
-  // As a last ditch effort, try to load id
-  if (urlParams.get('itemID')) {
-    return urlParams.get('itemID');
-  }
-  if (urlParams.get('id')) {
-    return urlParams.get('id');
-  }
   return null;
 }
 
-function getInnerLink(platform: Platform, id: string): string {
+function generateProperLink(platform: Platform, id: string): string {
   if (platform === 'weidian') {
     const urlParams = new URLSearchParams();
     urlParams.set('itemID', id);
@@ -471,19 +523,6 @@ function getTextContent(agent: Agent) {
   return `${agent} link`;
 }
 
-async function fetchData(url: string): Promise<any> {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      return null;
-    }
-    return await response.json();
-  } catch (error) {
-    // console.error(error);
-    return null;
-  }
-}
-
 async function getDetails(
   platform: Platform,
   id: string
@@ -510,28 +549,6 @@ async function getQcAvailable(
     ...d,
     link: `https://qc.photos/?url=${encodeURIComponent(link)}`,
   };
-}
-
-async function handleShortenedLink(
-  link: HTMLAnchorElement,
-  settings: Settings
-) {
-  if (link.hostname === 'pandabuy.page.link' && settings.onlineFeatures) {
-    const url = `https://api.ch-webdev.com/convert-pandabuy${link.pathname}`;
-    const response: ApiResponse<{ url: string }> = await fetchData(url);
-    if (response && response.data) {
-      return response.data.url;
-    }
-  } else if (link.hostname === 'qr.1688.com' && settings.onlineFeatures) {
-    const url = `https://api.ch-webdev.com/convert-1688/${link.pathname.slice(
-      3
-    )}`;
-    const response: ApiResponse<{ url: string }> = await fetchData(url);
-    if (response && response.data) {
-      return response.data.url;
-    }
-  }
-  return null;
 }
 
 function buildDetailsElement(text: string, nowrap?: boolean) {
@@ -775,17 +792,32 @@ async function main(settings: Settings) {
   // Find all the links on the page with "taobao.com" in the href attribute
   const links = getLinks(settings);
 
-  links.forEach(async (link) => {
+  links.forEach(async (elem) => {
     // This makes sure each link is only handled once.
     // TODO: Verify that this is the best way to deal with this.
-    link.dataset.reparchiveExtension = 'true';
+    elem.dataset.reparchiveExtension = 'true';
 
-    const extractedLink = await handleShortenedLink(link, settings);
-    if (extractedLink) {
-      link.href = extractedLink;
+    // Test if it is an agent link. If so, extract the inner link
+    // Convert anchor tag to URL object.
+    // Link is the URL object, elem is the html element (including the link)
+    const link = await getLink(elem, settings);
+
+    console.log(
+      '🚀 ~ file: content_script.ts:780 ~ links.forEach ~ link:',
+      link
+    );
+
+    if (!link) {
+      console.error('No link object could be extracted from link: ', elem.href);
+      return false;
     }
 
-    const platform = detectPlatform(link.href);
+    // Update html element
+    elem.href = link.href;
+
+    // At this point we have an URL object that contains the marketplace link
+
+    const platform = detectPlatform(link.hostname);
     if (!platform) {
       console.error('No platform detected in link: ', link.href);
       return false;
@@ -795,7 +827,7 @@ async function main(settings: Settings) {
       console.error('No id could be extracted from link: ', link.href);
       return false;
     }
-    const innerLink = getInnerLink(platform, id);
+    const innerLink = generateProperLink(platform, id);
 
     const newLink = buildLink(selectedAgent, innerLink, platform, id, settings);
 
@@ -803,10 +835,10 @@ async function main(settings: Settings) {
 
     // Add Images
     if (settings.logoPlatform) {
-      link.insertAdjacentHTML('beforebegin', getPlatformImage(platform));
+      elem.insertAdjacentHTML('beforebegin', getPlatformImage(platform));
     }
     if (settings.logoAgent) {
-      link.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
+      elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
     }
 
     if (newLink) {
@@ -816,33 +848,33 @@ async function main(settings: Settings) {
       // Add details
       if (
         settings.onlineFeatures &&
-        !isBrokenRedditImageLink(link.textContent ?? '', platform)
+        !isBrokenRedditImageLink(elem.textContent ?? '', platform)
       ) {
         const details = await getDetails(platform, id);
 
         if (details && details.data) {
-          addHtmlOnlineElements(settings, details.data, link, platform);
-          link.title = details.data.item.goodsTitle;
+          addHtmlOnlineElements(settings, details.data, elem, platform);
+          elem.title = details.data.item.goodsTitle;
         }
-        link.textContent = replaceTextContent(
+        elem.textContent = replaceTextContent(
           settings,
-          link,
+          elem,
           details,
           selectedAgent,
           platform
         );
       } else if (
-        link.textContent &&
-        shouldAddTextContent(link.textContent, platform)
+        elem.textContent &&
+        shouldAddTextContent(elem.textContent, platform)
       ) {
-        link.textContent = getTextContent(selectedAgent);
+        elem.textContent = getTextContent(selectedAgent);
       }
 
       // Add Qc Availability
       if (settings.onlineFeaturesQcPhotos) {
         const qcAvailable = await getQcAvailable(platform, id);
         if (qcAvailable && qcAvailable.state === 0 && qcAvailable.data) {
-          AddQcElement(qcAvailable, link);
+          AddQcElement(qcAvailable, elem);
         }
       }
     }

@@ -66,7 +66,6 @@ function getIsAllowed(
 // }
 
 function getAgent(url: string): Agent | null {
-  console.log('🚀 ~ file: redirect.ts:4 ~ getAgent ~ url', url);
   if (
     url === 'www.wegobuy.com' ||
     url === 'wegobuy.com' ||
@@ -113,7 +112,6 @@ async function getAffiliates(): Promise<Affiliate[] | null> {
   // Check if affiliates feature is enabled
   const isAllowed = await getIsAllowed(storage);
   if (isAllowed !== true) {
-    console.log('affiliates disabled');
     return null;
   }
 

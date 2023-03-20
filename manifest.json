@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "My Agent Extension by RepArchive",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.",
   "icons": {
     "48": "assets/icon.png"

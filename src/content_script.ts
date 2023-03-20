@@ -366,6 +366,9 @@ function extractId(platform: Platform, link: string) {
     if (urlParams.get('itemID')) {
       return urlParams.get('itemID');
     }
+    if (urlParams.get('itemId')) {
+      return urlParams.get('itemId');
+    }
   } else if (platform === 'taobao') {
     if (link.indexOf('world.taobao.com') !== -1) {
       const id = link.split('item/')[1].split('.')[0];

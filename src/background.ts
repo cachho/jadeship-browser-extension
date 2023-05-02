@@ -23,6 +23,7 @@ type Settings2 = {
   showTitle: boolean;
   displayTitleLength: string;
   displayOverwriteTitle: boolean;
+  showBanner: boolean;
 };
 
 const defaultSettings: Settings2 = {
@@ -50,6 +51,7 @@ const defaultSettings: Settings2 = {
   showTitle: true,
   displayTitleLength: '64',
   displayOverwriteTitle: false,
+  showBanner: true,
 };
 
 /**

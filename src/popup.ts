@@ -83,6 +83,9 @@
     const displayOverwriteTitle = document.getElementById(
       'overwrite_title'
     ) as HTMLInputElement;
+    const showBanner = document.getElementById(
+      'show_banner'
+    ) as HTMLInputElement;
 
     function setValues(data: any) {
       taobaoLink.checked = data.taobaoLink;
@@ -109,6 +112,7 @@
       showTitle.checked = data.showTitle;
       displayTitleLength.value = data.displayTitleLength ?? '0';
       displayOverwriteTitle.checked = data.displayOverwriteTitle;
+      showBanner.checked = data.showBanner;
     }
 
     // Set default values for the checkboxes and select
@@ -137,6 +141,7 @@
       'showTitle',
       'displayTitleLength',
       'displayOverwriteTitle',
+      'showBanner',
     ];
 
     if (isChromeStorage(storage)) {
@@ -237,6 +242,11 @@
     displayOverwriteTitle.addEventListener('change', () => {
       storage?.local.set({
         displayOverwriteTitle: displayOverwriteTitle.checked,
+      });
+    });
+    showBanner.addEventListener('change', () => {
+      storage?.local.set({
+        showBanner: showBanner.checked,
       });
     });
   }

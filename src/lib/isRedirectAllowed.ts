@@ -2,7 +2,7 @@ import { isChromeStorage } from './storage';
 
 export function isRedirectAllowed(
   storage: typeof browser.storage | typeof chrome.storage | null
-): Promise<any> {
+): Promise<boolean> {
   return new Promise((resolve) => {
     if (storage) {
       if (isChromeStorage(storage)) {
@@ -16,7 +16,7 @@ export function isRedirectAllowed(
       }
     } else {
       console.error('No storage available');
-      resolve(null);
+      resolve(false);
     }
   });
 }

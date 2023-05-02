@@ -1,4 +1,4 @@
-import type { Platform } from '../models';
+import type { Platform } from '../../models';
 
 export function buildImageElement(
   link: HTMLAnchorElement,

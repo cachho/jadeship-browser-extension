@@ -1,4 +1,4 @@
-import type { Agent } from '../models';
+import type { Agent } from '../../models';
 
 export function getImageAgent(agent: Agent) {
   const src = `assets/agent_logos/${agent}_logo.png`;

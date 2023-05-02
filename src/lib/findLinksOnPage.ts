@@ -1,6 +1,6 @@
 import type { Settings } from '../models';
 
-export function getLinks(settings: Settings) {
+export function findLinksOnPage(settings: Settings) {
   let targetedHrefs: string[] = [];
 
   if (settings.weidianLink) {

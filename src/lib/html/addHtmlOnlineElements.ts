@@ -1,5 +1,5 @@
-import type { Platform, Settings } from '../models';
-import type { Details } from '../models/Details';
+import type { Platform, Settings } from '../../models';
+import type { Details } from '../../models/Details';
 import { buildDetailsElement } from './buildDetailsElement';
 import { buildImageElement } from './buildImageElement';
 

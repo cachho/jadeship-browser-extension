@@ -4,9 +4,9 @@ import type {
   Details,
   Platform,
   Settings,
-} from '../models';
-import { getTextContent } from './getTextContent';
-import { isBrokenRedditImageLink } from './isBrokenRedditImageLink';
+} from '../../models';
+import { getTextContent } from '../getTextContent';
+import { isBrokenRedditImageLink } from '../isBrokenRedditImageLink';
 
 export function replaceTextContent(
   settings: Settings,

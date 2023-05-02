@@ -1,4 +1,4 @@
-import type { Platform } from '../models';
+import type { Platform } from '../../models';
 
 export function getPlatformImage(platform: Platform) {
   const src = `assets/platform_logos/${platform.toLowerCase()}_logo.png`;

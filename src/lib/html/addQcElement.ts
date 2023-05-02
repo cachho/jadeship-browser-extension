@@ -1,4 +1,4 @@
-import type { QcAvailable } from '../models';
+import type { QcAvailable } from '../../models';
 
 export function addQcElement(
   qcAvailable: QcAvailable,

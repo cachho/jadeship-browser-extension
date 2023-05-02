@@ -1,56 +1,5 @@
-type Settings2 = {
-  agentLink: boolean;
-  affiliateProgram: boolean;
-  affiliateAppend: boolean;
-  logoAgent: boolean;
-  logoPlatform: boolean;
-  myAgent: 'superbuy' | 'wegobuy' | 'pandabuy' | 'sugargoo' | 'cssbuy';
-  taobaoLink: boolean;
-  weidianLink: boolean;
-  s1688Link: boolean;
-  tmallLink: boolean;
-  onlineFeatures: boolean;
-  onlineFeaturesQcPhotos: boolean;
-  showThumbnail: boolean;
-  showPrice: boolean;
-  showAmountSoldSummary: boolean;
-  showAmountSold1: boolean;
-  showAmountSold7: boolean;
-  showAmountSold30: boolean;
-  showAmountSoldAt: boolean;
-  showAmountSoldTimeframeLabel: boolean;
-  showPos: boolean;
-  showTitle: boolean;
-  displayTitleLength: string;
-  displayOverwriteTitle: boolean;
-};
-
-const defaultSettings: Settings2 = {
-  agentLink: true,
-  affiliateProgram: true,
-  affiliateAppend: false,
-  logoAgent: false,
-  logoPlatform: true,
-  myAgent: 'wegobuy',
-  taobaoLink: true,
-  weidianLink: true,
-  s1688Link: true,
-  tmallLink: true,
-  onlineFeatures: true,
-  onlineFeaturesQcPhotos: true,
-  showThumbnail: true,
-  showPrice: true,
-  showAmountSoldSummary: false,
-  showAmountSold1: false,
-  showAmountSold7: false,
-  showAmountSold30: true,
-  showAmountSoldAt: false,
-  showAmountSoldTimeframeLabel: false,
-  showPos: false,
-  showTitle: true,
-  displayTitleLength: '64',
-  displayOverwriteTitle: false,
-};
+import type { Settings } from './models/Settings';
+import { defaultSettings } from './models/Settings';
 
 /**
  * This script initializes local storage with default values and from the api.
@@ -91,7 +40,7 @@ function initializeExtension() {
             !Object.prototype.hasOwnProperty.call(result, key) ||
             !result[key]
           ) {
-            const defaultVal = defaultSettings[key as keyof Settings2];
+            const defaultVal = defaultSettings[key as keyof Settings];
             storage.local.set({ [key]: defaultVal });
           }
         });
@@ -109,7 +58,7 @@ function initializeExtension() {
           !Object.prototype.hasOwnProperty.call(result, key) ||
           !result[key]
         ) {
-          const defaultVal = defaultSettings[key as keyof Settings2];
+          const defaultVal = defaultSettings[key as keyof Settings];
           storage.local.set({ [key]: defaultVal });
         }
       });

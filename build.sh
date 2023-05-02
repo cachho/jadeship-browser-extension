@@ -12,7 +12,9 @@ alias addons-linter=./node_modules/.bin/addons-linter
 #######################################
 # Compile to TypeScript Code
 #######################################
+echo "> Running Webpack (production)..."
 webpack --config webpack.prod.js
+echo ""
 
 #######################################
 # Minify the JavaScript code

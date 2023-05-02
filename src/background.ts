@@ -1,3 +1,5 @@
+import { fetchData } from './lib/api/fetchData';
+import { getStorage, isChromeStorage } from './lib/storage';
 import type { Settings } from './models/Settings';
 import { defaultSettings } from './models/Settings';
 
@@ -6,28 +8,6 @@ import { defaultSettings } from './models/Settings';
  * @returns void
  */
 function initializeExtension() {
-  function getStorage(): typeof browser.storage | typeof chrome.storage | null {
-    if (typeof browser !== 'undefined') {
-      // Extension is running in Firefox
-      return browser.storage;
-    }
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      // Extension is running in Chrome or Chromium-based browser
-      return chrome.storage;
-    }
-    // Storage API is not available
-    console.error('Storage API is not available');
-    return null;
-  }
-
-  function isChromeStorage(storage: any): storage is typeof chrome.storage {
-    return (
-      typeof chrome !== 'undefined' &&
-      chrome.storage &&
-      storage === chrome.storage
-    );
-  }
-
   const storage = getStorage();
   // Check if we're running in Chrome
   if (storage && isChromeStorage(storage)) {
@@ -63,19 +43,6 @@ function initializeExtension() {
         }
       });
     });
-  }
-
-  async function fetchData(url: string): Promise<any> {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        return null;
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
   }
 
   if (storage) {

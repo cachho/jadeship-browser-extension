@@ -51,14 +51,19 @@ function getIsAllowedBanner(
 }
 
 function setInnerHtml(): string {
+  // QC Element
   const qc = document.createElement('div');
   qc.innerText = `📷`;
+
+  // Close Element
   const close = document.createElement('button');
   close.classList.add('close-btn');
   close.textContent = '✖';
   close.style.color = '#fff';
   close.style.background = 'none';
   close.style.border = 'none';
+
+  // Merge into div
   const div = document.createElement('div');
   div.style.height = '100%';
   div.style.width = '100%';
@@ -68,6 +73,7 @@ function setInnerHtml(): string {
   div.style.color = '#fff';
   div.appendChild(qc);
   div.appendChild(close);
+
   return div.outerHTML;
 }
 

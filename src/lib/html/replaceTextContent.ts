@@ -32,6 +32,6 @@ export function replaceTextContent(
   ) {
     return getTextContent(selectedAgent);
   }
-  // ELse: don't change
+  // Else: don't change
   return link.textContent ?? '';
 }

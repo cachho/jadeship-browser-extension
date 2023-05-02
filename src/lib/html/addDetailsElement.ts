@@ -1,4 +1,4 @@
-export function buildDetailsElement(text: string, nowrap?: boolean) {
+export function addDetailsElement(text: string, nowrap?: boolean) {
   const elem = document.createElement('span');
   elem.style.backgroundColor = '#2bb675';
   elem.style.color = 'white';

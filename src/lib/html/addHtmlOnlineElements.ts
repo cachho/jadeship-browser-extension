@@ -1,7 +1,7 @@
 import type { Platform, Settings } from '../../models';
 import type { Details } from '../../models/Details';
-import { buildDetailsElement } from './buildDetailsElement';
-import { buildImageElement } from './buildImageElement';
+import { addDetailsElement } from './addDetailsElement';
+import { addImageElement } from './addImageElement';
 
 export function addHtmlOnlineElements(
   settings: Settings,
@@ -14,7 +14,7 @@ export function addHtmlOnlineElements(
   if (settings.showTitle && !settings.displayOverwriteTitle) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         settings.displayTitleLength &&
           parseInt(settings.displayTitleLength, 10) > 0
           ? details.item.goodsTitle.slice(
@@ -29,14 +29,14 @@ export function addHtmlOnlineElements(
   if (settings.showPos && details.amountSold[30] > 0) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(`#${details.amountSold.pos}`, true)
+      addDetailsElement(`#${details.amountSold.pos}`, true)
     );
   }
 
   if (settings.showAmountSoldAt) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         `${settings.showAmountSoldTimeframeLabel ? 'all-time: ' : ''}${
           details.amountSold.at
         } sold`,
@@ -48,7 +48,7 @@ export function addHtmlOnlineElements(
   if (settings.showAmountSold30) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         `${settings.showAmountSoldTimeframeLabel ? '30d: ' : ''}${
           details.amountSold[30]
         } sold`,
@@ -60,7 +60,7 @@ export function addHtmlOnlineElements(
   if (settings.showAmountSold7) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         `${settings.showAmountSoldTimeframeLabel ? '7d: ' : ''}${
           details.amountSold[7]
         } sold`,
@@ -72,7 +72,7 @@ export function addHtmlOnlineElements(
   if (settings.showAmountSold1) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         `${settings.showAmountSoldTimeframeLabel ? '24h: ' : ''}${
           details.amountSold[1]
         } sold`,
@@ -84,7 +84,7 @@ export function addHtmlOnlineElements(
   if (settings.showAmountSoldSummary) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(
+      addDetailsElement(
         `sold: 24h: ${details.amountSold[1]} / 7d: ${details.amountSold[7]} / 30d: ${details.amountSold[30]} / all-time: ${details.amountSold.at}`
       )
     );
@@ -93,14 +93,14 @@ export function addHtmlOnlineElements(
   if (settings.showPrice) {
     link.insertAdjacentElement(
       'afterend',
-      buildDetailsElement(`¥${details.item.goodsPrice}`, true)
+      addDetailsElement(`¥${details.item.goodsPrice}`, true)
     );
   }
 
   if (settings.showThumbnail) {
     link.insertAdjacentElement(
       'afterend',
-      buildImageElement(link, details.item.goodsPicUrl, platform)
+      addImageElement(link, details.item.goodsPicUrl, platform)
     );
   }
 }

@@ -1,20 +1,19 @@
 /* eslint-disable no-param-reassign */
 
-import { addHtmlOnlineElements } from './lib/addHtmlOnlineElements';
-import { addQcElement } from './lib/addQcElement';
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { buildLink } from './lib/buildLink';
 import { detectPlatform } from './lib/detectPlatform';
 import { extractId } from './lib/extractId';
+import { findLinksOnPage } from './lib/findLinksOnPage';
 import { generateProperLink } from './lib/generateProperLink';
-import { getImageAgent } from './lib/getImageAgent';
 import { getLink } from './lib/getLink';
-import { getLinks } from './lib/getLinks';
-import { getPlatformImage } from './lib/getPlatformImage';
-import { getTextContent } from './lib/getTextContent';
+import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
+import { addQcElement } from './lib/html/addQcElement';
+import { getImageAgent } from './lib/html/getImageAgent';
+import { getPlatformImage } from './lib/html/getPlatformImage';
+import { replaceTextContent } from './lib/html/replaceTextContent';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
-import { replaceTextContent } from './lib/replaceTextContent';
 import type { Agent } from './models';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
@@ -24,7 +23,7 @@ async function main(settings: Settings) {
   // Get the selected agent from local storage
   const selectedAgent: Agent = settings.myAgent;
   // Find all the links on the page with "taobao.com" in the href attribute
-  const links = getLinks(settings);
+  const links = findLinksOnPage(settings);
 
   links.forEach(async (elem) => {
     // This makes sure each link is only handled once.
@@ -111,7 +110,7 @@ async function main(settings: Settings) {
         (elem.textContent && elem.textContent.startsWith('https://')) ||
         isBrokenRedditImageLink(elem.textContent ?? '', platform)
       ) {
-        elem.textContent = getTextContent(selectedAgent);
+        elem.textContent = `${selectedAgent} link`;
       }
 
       // Add Qc Availability

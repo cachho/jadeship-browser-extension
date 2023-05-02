@@ -37,10 +37,5 @@
   "background": {
     "service_worker": "build/background.js"
   },
-  "permissions": ["storage"],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "reparchive-browser-extension@ch-webdev.com"
-    }
-  }
+  "permissions": ["storage"]
 }

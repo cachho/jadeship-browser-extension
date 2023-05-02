@@ -832,20 +832,27 @@ function replaceTextContent(
  * @param {Settings} settings - The settings object.
  * @param {Platform} platform - The platform to retrieve data for.
  * @param {string} id - The product ID to retrieve data for.
- * @returns {Promise<[ApiResponse<Details> | null, QcAvailable | null]>} - A promise that resolves to a tuple containing the ApiResponse<Details> or null and QcAvailable or null.
+ * @returns {{ detailsPromise: Promise<ApiResponse<Details> | null>, qcAvailablePromise: Promise<QcAvailable | null> }} - An object containing two separate promises: detailsPromise that resolves to ApiResponse<Details> or null, and qcAvailablePromise that resolves to QcAvailable or null.
  */
 function getOnlineFeatures(
   settings: Settings,
   platform: Platform,
   id: string
-): Promise<[ApiResponse<Details> | null, QcAvailable | null]> {
-  if (!settings.onlineFeatures) {
-    return Promise.all([null, null]);
-  }
-  if (!settings.onlineFeaturesQcPhotos) {
-    return Promise.all([getDetails(platform, id), null]);
-  }
-  return Promise.all([getDetails(platform, id), getQcAvailable(platform, id)]);
+): {
+  promiseDetails: Promise<ApiResponse<Details> | null>;
+  promiseQcAvailable: Promise<QcAvailable | null>;
+} {
+  const promiseDetails =
+    settings.onlineFeatures && settings.onlineFeaturesQcPhotos
+      ? getDetails(platform, id)
+      : Promise.resolve(null);
+
+  const promiseQcAvailable =
+    settings.onlineFeatures && settings.onlineFeaturesQcPhotos
+      ? getQcAvailable(platform, id)
+      : Promise.resolve(null);
+
+  return { promiseDetails, promiseQcAvailable };
 }
 
 async function main(settings: Settings) {
@@ -904,7 +911,7 @@ async function main(settings: Settings) {
       // Test: if the complete mark can be added here
 
       // Add details
-      const [details, qcAvailable] = await getOnlineFeatures(
+      const { promiseDetails, promiseQcAvailable } = getOnlineFeatures(
         settings,
         platform,
         id
@@ -913,17 +920,29 @@ async function main(settings: Settings) {
         settings.onlineFeatures &&
         !isBrokenRedditImageLink(elem.textContent ?? '', platform)
       ) {
-        if (details && details.data) {
-          addHtmlOnlineElements(settings, details.data, elem, platform);
-          elem.title = details.data.item.goodsTitle;
+        try {
+          const details = await promiseDetails;
+          if (details && details.data) {
+            addHtmlOnlineElements(settings, details.data, elem, platform);
+            elem.title = details.data.item.goodsTitle;
+          }
+          elem.textContent = replaceTextContent(
+            settings,
+            elem,
+            details,
+            selectedAgent,
+            platform
+          );
+        } catch (detailsError) {
+          console.error(detailsError);
+          elem.textContent = replaceTextContent(
+            settings,
+            elem,
+            null,
+            selectedAgent,
+            platform
+          );
         }
-        elem.textContent = replaceTextContent(
-          settings,
-          elem,
-          details,
-          selectedAgent,
-          platform
-        );
       } else if (
         elem.textContent &&
         shouldAddTextContent(elem.textContent, platform)
@@ -932,10 +951,15 @@ async function main(settings: Settings) {
       }
 
       // Add Qc Availability
-      if (settings.onlineFeaturesQcPhotos) {
-        if (qcAvailable && qcAvailable.state === 0 && qcAvailable.data) {
-          AddQcElement(qcAvailable, elem);
+      try {
+        if (settings.onlineFeaturesQcPhotos) {
+          const qcAvailable = await promiseQcAvailable;
+          if (qcAvailable && qcAvailable.state === 0 && qcAvailable.data) {
+            AddQcElement(qcAvailable, elem);
+          }
         }
+      } catch (qcAvailableError) {
+        console.error(qcAvailableError);
       }
     }
     return true;

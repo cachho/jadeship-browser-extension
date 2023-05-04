@@ -44,6 +44,9 @@
     const affiliateProgram = document.getElementById(
       'affiliate_program'
     ) as HTMLInputElement;
+    const UseAgentLinks = document.getElementByID(
+      'agent_url_toggle'
+    ) as HTMLInputElement;
     const onlineFeatures = document.getElementById(
       'online_features'
     ) as HTMLInputElement;
@@ -94,6 +97,7 @@
       logoPlatform.checked = data.logoPlatform;
       myAgent.value = data.myAgent;
       affiliateProgram.checked = data.affiliateProgram;
+      UseAgentLinks.checked = data.UseAgentLinks;
       onlineFeatures.checked = data.onlineFeatures;
       onlineFeaturesQcPhotos.checked = data.onlineFeaturesQcPhotos;
       masterToggle.checked = data.masterToggle;
@@ -122,6 +126,7 @@
       'logoPlatform',
       'myAgent',
       'affiliateProgram',
+      'UseAgentLinks',
       'onlineFeatures',
       'onlineFeaturesQcPhotos',
       'masterToggle',
@@ -177,6 +182,10 @@
     affiliateProgram.addEventListener('change', () => {
       storage?.local.set({ affiliateProgram: affiliateProgram.checked });
     });
+    UseAgentLinks.addEventListener('change', () => {
+      storage?.local.set({ UseAgentLinks: UseAgentLinks.checked });
+    });
+
     onlineFeatures.addEventListener('change', () => {
       storage?.local.set({ onlineFeatures: onlineFeatures.checked });
     });

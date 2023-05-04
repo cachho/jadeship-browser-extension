@@ -29,6 +29,7 @@ type Settings = {
   displayTitleLength: string;
   displayOverwriteTitle: boolean;
   affiliate: Affiliate[];
+  UseAgentLinks: boolean;
 };
 
 type Affiliate = {
@@ -121,6 +122,7 @@ function loadSettings() {
     'displayTitleLength',
     'displayOverwriteTitle',
     'affiliate',
+    'UseAgentLinks'
   ];
 
   const storage = getStorage();
@@ -423,7 +425,7 @@ function buildLink(
   const urlParams = new URLSearchParams();
   // Get affiliates object from local storage
   const aff = getAffiliate(settings, agent);
-
+  if (settings.UseAgentLinks) {
   if (agent === 'pandabuy') {
     // https://www.pandabuy.com/product?ra=500&url=https%3A%2F%2Fweidian.com%2Fitem.html%3FitemID%3D2724693540&inviteCode=ZQWFRJZEB
     urlParams.set('ra', '500');
@@ -484,7 +486,10 @@ function buildLink(
     }
     return `https://www.cssbuy.com/item-${id}?${urlParams.toString()}`;
   }
-  return 'temp';
+  }
+  else {
+    // If not using agent links, return the original link
+    return innerLink;
 }
 
 function buildPlatformNativeLink(

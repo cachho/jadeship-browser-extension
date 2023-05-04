@@ -491,6 +491,7 @@ function buildLink(
     // If not using agent links, return the original link
     return innerLink;
 }
+  }
 
 function buildPlatformNativeLink(
   platform: Platform,

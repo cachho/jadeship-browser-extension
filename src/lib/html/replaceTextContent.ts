@@ -1,5 +1,5 @@
 import type {
-  Agent,
+  AgentWithRaw,
   ApiResponse,
   Details,
   Platform,
@@ -11,7 +11,7 @@ export function replaceTextContent(
   settings: Settings,
   link: HTMLAnchorElement,
   details: ApiResponse<Details> | null,
-  selectedAgent: Agent,
+  selectedAgent: AgentWithRaw,
   platform: Platform
 ): string {
   // If the overwrite title extra option is enabled, replace with the title from details
@@ -29,7 +29,8 @@ export function replaceTextContent(
     (link.textContent && link.textContent.startsWith('https://')) ||
     isBrokenRedditImageLink(link.textContent ?? '', platform)
   ) {
-    return `${selectedAgent} link`;
+    // For regular agents, use the agent name + link, if raw is selected use the target platform instead.
+    return `${selectedAgent !== 'raw' ? selectedAgent : platform} link`;
   }
   // Else: don't change
   return link.textContent ?? '';

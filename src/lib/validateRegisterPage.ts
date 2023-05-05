@@ -5,13 +5,13 @@ export function validateRegisterPage(
   location: Location
 ): boolean {
   if (agent === 'pandabuy') {
-    return location.pathname === '/login/';
+    return location.pathname === '/login';
   }
   if (agent === 'superbuy' || agent === 'wegobuy') {
     const params = new URLSearchParams(location.search);
     return (
-      (location.pathname === '/en/page/login/' ||
-        location.pathname === '/cn/page/login/') &&
+      (location.pathname === '/en/page/login' ||
+        location.pathname === '/cn/page/login') &&
       params.get('type') === 'register'
     );
   }

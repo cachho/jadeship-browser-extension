@@ -5,7 +5,6 @@ import type {
   Platform,
   Settings,
 } from '../../models';
-import { getTextContent } from '../getTextContent';
 import { isBrokenRedditImageLink } from '../isBrokenRedditImageLink';
 
 export function replaceTextContent(
@@ -30,7 +29,7 @@ export function replaceTextContent(
     (link.textContent && link.textContent.startsWith('https://')) ||
     isBrokenRedditImageLink(link.textContent ?? '', platform)
   ) {
-    return getTextContent(selectedAgent);
+    return `${selectedAgent} link`;
   }
   // Else: don't change
   return link.textContent ?? '';

@@ -14,14 +14,14 @@ import { getPlatformImage } from './lib/html/getPlatformImage';
 import { replaceTextContent } from './lib/html/replaceTextContent';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
-import type { Agent } from './models';
+import type { AgentWithRaw } from './models';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
 
 async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
   // Get the selected agent from local storage
-  const selectedAgent: Agent = settings.myAgent;
+  const selectedAgent: AgentWithRaw = settings.myAgent;
   // Find all the links on the page with "taobao.com" in the href attribute
   const links = findLinksOnPage(settings);
 
@@ -62,10 +62,11 @@ async function main(settings: Settings) {
     // ^^ Link build finished ^^
 
     // Add Images
+    // Note: If raw images is selected, it defaults to platform images
     if (settings.logoPlatform) {
       elem.insertAdjacentHTML('beforebegin', getPlatformImage(platform));
     }
-    if (settings.logoAgent) {
+    if (settings.logoAgent && selectedAgent !== 'raw') {
       elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
     }
 

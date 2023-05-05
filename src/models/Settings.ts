@@ -1,5 +1,5 @@
 import type { Affiliate } from './Affiliate';
-import type { Agent } from './Agent';
+import type { AgentWithRaw } from './Agent';
 
 export const settingNames = [
   'taobaoLink',
@@ -36,7 +36,7 @@ export type Settings = {
   affiliateAppend: boolean;
   logoAgent: boolean;
   logoPlatform: boolean;
-  myAgent: Agent;
+  myAgent: AgentWithRaw;
   taobaoLink: boolean;
   weidianLink: boolean;
   s1688Link: boolean;

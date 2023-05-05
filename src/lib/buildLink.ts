@@ -1,8 +1,9 @@
-import type { Agent, Platform, Settings } from '../models';
+import type { AgentWithRaw, Platform, Settings } from '../models';
+import { generateProperLink } from './generateProperLink';
 import { getAffiliate } from './getAffiliate';
 
 export function buildLink(
-  agent: Agent,
+  agent: AgentWithRaw,
   innerLink: string,
   platform: Platform,
   id: string,
@@ -10,7 +11,7 @@ export function buildLink(
 ) {
   const urlParams = new URLSearchParams();
   // Get affiliates object from local storage
-  const aff = getAffiliate(settings, agent);
+  const aff = agent !== 'raw' ? getAffiliate(settings, agent) : null;
 
   if (agent === 'pandabuy') {
     // https://www.pandabuy.com/product?ra=500&url=https%3A%2F%2Fweidian.com%2Fitem.html%3FitemID%3D2724693540&inviteCode=ZQWFRJZEB
@@ -71,6 +72,9 @@ export function buildLink(
       return `https://www.cssbuy.com/item-1688-${id}?${urlParams.toString()}`;
     }
     return `https://www.cssbuy.com/item-${id}?${urlParams.toString()}`;
+  }
+  if (agent === 'raw') {
+    return generateProperLink(platform, id);
   }
   return 'temp';
 }

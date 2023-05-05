@@ -12,7 +12,9 @@ alias addons-linter=./node_modules/.bin/addons-linter
 #######################################
 # Compile to TypeScript Code
 #######################################
-tsc
+echo "> Running Webpack (production)..."
+webpack --config webpack.prod.js
+echo ""
 
 #######################################
 # Minify the JavaScript code
@@ -138,5 +140,6 @@ echo "\nBuild finished"
 echo "> build/"
 echo "> dist/chromium.zip"
 echo "> dist/firefox.zip"
+find "dist" -type f -exec stat -c"%s %n" {} \; | awk '{size_in_kb = $1 / 1024; printf("%-10.2f KB %s\n", size_in_kb, $2)}'
 
 # TODO: Validate build

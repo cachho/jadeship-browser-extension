@@ -1,5 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import { getStorage, isChromeStorage } from './lib/storage';
+import { settingNames } from './models/Settings';
 
 // Get the storage API for the current browser
 const storage = getStorage();
@@ -90,40 +91,12 @@ if (storage) {
     showBanner.checked = data.showBanner;
   }
 
-  // Set default values for the checkboxes and select
-  const names = [
-    'taobaoLink',
-    'weidianLink',
-    's1688Link',
-    'tmallLink',
-    'agentLink',
-    'logoAgent',
-    'logoPlatform',
-    'myAgent',
-    'affiliateProgram',
-    'onlineFeatures',
-    'onlineFeaturesQcPhotos',
-    'masterToggle',
-    'showPrice',
-    'showAmountSoldSummary',
-    'showAmountSold1',
-    'showAmountSold7',
-    'showAmountSold30',
-    'showAmountSoldAt',
-    'showAmountSoldTimeframeLabel',
-    'showThumbnail',
-    'showPos',
-    'showTitle',
-    'displayTitleLength',
-    'displayOverwriteTitle',
-  ];
-
   if (isChromeStorage(storage)) {
-    storage.local.get(names, (data) => {
+    storage.local.get(settingNames, (data) => {
       setValues(data);
     });
   } else if (storage && !isChromeStorage(storage)) {
-    storage.local.get(names).then((data) => {
+    storage.local.get(settingNames).then((data) => {
       setValues(data);
     });
   }

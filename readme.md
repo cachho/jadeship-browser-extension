@@ -8,24 +8,30 @@ Summary: **My Agent Extension - automatically convert all links on reddit to you
 
 This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits.
 
-1. It rewrites all links  to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
+It rewrites all links to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
 
-2. It enriches the page with extra information about the product and it's sales ranking from reparchive.com.
+It enriches the page with extra information about the product and it's sales ranking from reparchive.com.
 
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
 Some other features:
-- shows you if quality control (QC) pics are available on qc.photos 
+- shows you if quality control (QC) pics are available on qc.photos
+- convert from any agent or marketplace to any agent or no agent (if you prefer)
 - handles shortened links
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
+Supported shopping agents: pandabuy.com, sugargoo.com, wegobuy.com, superbuy.com, cssbuy.com
+Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
+
 Safety & Privacy:
 - the source code is open source, so anyone can review it and contribute
-- minimalist approach, only 40kb.
+- minimalist approach, less than 40kb.
 - the extension is only active on required sites, the URLs are matched very carefully.
 - you can opt out of all online interactions and run the extension offline
 - no user data is collected (with each request you do technically expose your IP, among other information).
+
+This is a free and open source project, available at: https://github.com/cachho/reparchive-browser-extension
 
 ## Installation for Users
 

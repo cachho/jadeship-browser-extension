@@ -1,86 +1,13 @@
-type Settings2 = {
-  agentLink: boolean;
-  affiliateProgram: boolean;
-  affiliateAppend: boolean;
-  logoAgent: boolean;
-  logoPlatform: boolean;
-  myAgent: 'superbuy' | 'wegobuy' | 'pandabuy' | 'sugargoo' | 'cssbuy';
-  taobaoLink: boolean;
-  weidianLink: boolean;
-  s1688Link: boolean;
-  tmallLink: boolean;
-  onlineFeatures: boolean;
-  onlineFeaturesQcPhotos: boolean;
-  showThumbnail: boolean;
-  showPrice: boolean;
-  showAmountSoldSummary: boolean;
-  showAmountSold1: boolean;
-  showAmountSold7: boolean;
-  showAmountSold30: boolean;
-  showAmountSoldAt: boolean;
-  showAmountSoldTimeframeLabel: boolean;
-  showPos: boolean;
-  showTitle: boolean;
-  displayTitleLength: string;
-  displayOverwriteTitle: boolean;
-  showBanner: boolean;
-};
-
-const defaultSettings: Settings2 = {
-  agentLink: true,
-  affiliateProgram: true,
-  affiliateAppend: false,
-  logoAgent: false,
-  logoPlatform: true,
-  myAgent: 'wegobuy',
-  taobaoLink: true,
-  weidianLink: true,
-  s1688Link: true,
-  tmallLink: true,
-  onlineFeatures: true,
-  onlineFeaturesQcPhotos: true,
-  showThumbnail: true,
-  showPrice: true,
-  showAmountSoldSummary: false,
-  showAmountSold1: false,
-  showAmountSold7: false,
-  showAmountSold30: true,
-  showAmountSoldAt: false,
-  showAmountSoldTimeframeLabel: false,
-  showPos: false,
-  showTitle: true,
-  displayTitleLength: '64',
-  displayOverwriteTitle: false,
-  showBanner: true,
-};
+import { fetchData } from './lib/api/fetchData';
+import { getStorage, isChromeStorage } from './lib/storage';
+import type { Settings } from './models/Settings';
+import { defaultSettings } from './models/Settings';
 
 /**
  * This script initializes local storage with default values and from the api.
  * @returns void
  */
 function initializeExtension() {
-  function getStorage(): typeof browser.storage | typeof chrome.storage | null {
-    if (typeof browser !== 'undefined') {
-      // Extension is running in Firefox
-      return browser.storage;
-    }
-    if (typeof chrome !== 'undefined' && chrome.storage) {
-      // Extension is running in Chrome or Chromium-based browser
-      return chrome.storage;
-    }
-    // Storage API is not available
-    console.error('Storage API is not available');
-    return null;
-  }
-
-  function isChromeStorage(storage: any): storage is typeof chrome.storage {
-    return (
-      typeof chrome !== 'undefined' &&
-      chrome.storage &&
-      storage === chrome.storage
-    );
-  }
-
   const storage = getStorage();
   // Check if we're running in Chrome
   if (storage && isChromeStorage(storage)) {
@@ -93,7 +20,7 @@ function initializeExtension() {
             !Object.prototype.hasOwnProperty.call(result, key) ||
             !result[key]
           ) {
-            const defaultVal = defaultSettings[key as keyof Settings2];
+            const defaultVal = defaultSettings[key as keyof Settings];
             storage.local.set({ [key]: defaultVal });
           }
         });
@@ -111,24 +38,11 @@ function initializeExtension() {
           !Object.prototype.hasOwnProperty.call(result, key) ||
           !result[key]
         ) {
-          const defaultVal = defaultSettings[key as keyof Settings2];
+          const defaultVal = defaultSettings[key as keyof Settings];
           storage.local.set({ [key]: defaultVal });
         }
       });
     });
-  }
-
-  async function fetchData(url: string): Promise<any> {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        return null;
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
   }
 
   if (storage) {

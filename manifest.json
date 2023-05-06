@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "My Agent Extension by RepArchive",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.",
   "icons": {
     "48": "assets/icon.png"
@@ -50,10 +50,5 @@
   "background": {
     "service_worker": "build/background.js"
   },
-  "permissions": ["storage"],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "reparchive-browser-extension@ch-webdev.com"
-    }
-  }
+  "permissions": ["storage"]
 }

@@ -50,32 +50,35 @@ function getIsAllowedBanner(
   });
 }
 
-function setInnerHtml(): string {
-  // QC Element
+const QC = () => {
   const qc = document.createElement('div');
   qc.innerText = `📷`;
+  return qc;
+};
 
-  // Close Element
+const Close = () => {
   const close = document.createElement('button');
   close.classList.add('close-btn');
   close.textContent = '✖';
   close.style.color = '#fff';
   close.style.background = 'none';
   close.style.border = 'none';
+  close.style.cursor = 'pointer';
+  return close;
+};
 
-  // Merge into div
-  const div = document.createElement('div');
-  div.style.height = '100%';
-  div.style.width = '100%';
-  div.style.display = 'flex';
-  div.style.flexDirection = 'row';
-  div.style.alignItems = 'center';
-  div.style.color = '#fff';
-  div.appendChild(qc);
-  div.appendChild(close);
-
-  return div.outerHTML;
-}
+const Inner = () => {
+  const elem = document.createElement('div');
+  elem.style.height = '100%';
+  elem.style.paddingLeft = '1rem';
+  elem.style.paddingRight = '1rem';
+  elem.style.lineHeight = '1rem';
+  elem.style.display = 'flex';
+  elem.style.flexDirection = 'row';
+  elem.style.justifyContent = 'space-between';
+  elem.style.alignItems = 'center';
+  return elem;
+};
 
 async function banner() {
   // Check if user preferences allow banner
@@ -96,16 +99,12 @@ async function banner() {
 
   // Style Element
   elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
-  elem.style.width = '100vw';
+  elem.style.width = '100%';
   elem.style.height = '3rem';
-  elem.style.paddingLeft = '1rem';
-  elem.style.paddingRight = '1rem';
-  elem.style.lineHeight = '1rem';
 
-  // Add glowing outline
-  elem.style.boxShadow = '0 0 10px 1px rgba(255, 255, 255, 0.2)';
-
-  elem.innerHTML = setInnerHtml();
+  const inner = Inner();
+  inner.innerHTML = QC().outerHTML + Close().outerHTML;
+  elem.innerHTML = inner.outerHTML;
 
   body.insertAdjacentElement('afterbegin', elem);
 

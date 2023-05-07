@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
-import { buildLink } from './lib/buildLink';
 import { detectPlatform } from './lib/detectPlatform';
 import { extractId } from './lib/extractId';
 import { findLinksOnPage } from './lib/findLinksOnPage';
+import { generateAgentLink } from './lib/generateAgentLink';
 import { generateProperLink } from './lib/generateProperLink';
 import { getLink } from './lib/getLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
@@ -57,7 +57,13 @@ async function main(settings: Settings) {
     }
     const innerLink = generateProperLink(platform, id);
 
-    const newLink = buildLink(selectedAgent, innerLink, platform, id, settings);
+    const newLink = generateAgentLink(
+      selectedAgent,
+      innerLink,
+      platform,
+      id,
+      settings
+    );
 
     // ^^ Link build finished ^^
 

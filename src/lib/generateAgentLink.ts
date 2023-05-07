@@ -2,7 +2,7 @@ import type { AgentWithRaw, Platform, Settings } from '../models';
 import { generateProperLink } from './generateProperLink';
 import { getAffiliate } from './getAffiliate';
 
-export function buildLink(
+export function generateAgentLink(
   agent: AgentWithRaw,
   innerLink: string,
   platform: Platform,
@@ -76,5 +76,5 @@ export function buildLink(
   if (agent === 'raw') {
     return generateProperLink(platform, id);
   }
-  return 'temp';
+  return '';
 }

@@ -50,6 +50,17 @@ function getIsAllowedBanner(
   });
 }
 
+const BodyElement = () => {
+  const elem = document.createElement('div');
+  elem.classList.add('banner');
+
+  // Style Element
+  elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
+  elem.style.width = '100%';
+  elem.style.height = '3rem';
+  return elem;
+};
+
 const QC = () => {
   const qc = document.createElement('div');
   qc.innerText = `📷`;
@@ -94,14 +105,7 @@ async function banner() {
     return false;
   }
 
-  const elem = document.createElement('div');
-  elem.classList.add('banner');
-
-  // Style Element
-  elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
-  elem.style.width = '100%';
-  elem.style.height = '3rem';
-
+  const elem = BodyElement();
   const inner = Inner();
   inner.innerHTML = QC().outerHTML + Close().outerHTML;
   elem.innerHTML = inner.outerHTML;

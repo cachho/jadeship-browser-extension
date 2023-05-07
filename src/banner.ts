@@ -95,13 +95,15 @@ async function banner() {
   elem.classList.add('banner');
 
   // Style Element
-  elem.style.backgroundColor = '#9c28b0';
-  elem.style.width = 'fit-content';
+  elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
+  elem.style.width = '100vw';
   elem.style.height = '3rem';
-  elem.style.borderRadius = '1rem';
   elem.style.paddingLeft = '1rem';
   elem.style.paddingRight = '1rem';
   elem.style.lineHeight = '1rem';
+
+  // Add glowing outline
+  elem.style.boxShadow = '0 0 10px 1px rgba(255, 255, 255, 0.2)';
 
   elem.innerHTML = setInnerHtml();
 

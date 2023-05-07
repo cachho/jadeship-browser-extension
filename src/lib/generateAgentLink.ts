@@ -2,6 +2,16 @@ import type { AgentWithRaw, Platform, Settings } from '../models';
 import { generateProperLink } from './generateProperLink';
 import { getAffiliate } from './getAffiliate';
 
+/**
+ * Generates an agent item link, by  taking in an agent and the inner link (target) and putting them together.
+ * Can also add affiliate extensions if appending affiliates is turned on in the settings.
+ * @param agent { AgentWithRaw } the agent to generate a link for
+ * @param innerLink { String } Inner Link to use in the generated link
+ * @param platform { Platform } Some agents have different link structures for different platforms.
+ * @param id { String } item id
+ * @param settings { Settings }
+ * @returns { String } agent link. Empty string if no agent link could be generated.
+ */
 export function generateAgentLink(
   agent: AgentWithRaw,
   innerLink: string,

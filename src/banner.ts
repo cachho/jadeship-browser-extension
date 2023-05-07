@@ -1,5 +1,10 @@
 // Get the storage API for the current browser
 
+import { detectAgent } from './lib/detectAgent';
+import { detectPlatform } from './lib/detectPlatform';
+import { generateProperLink } from './lib/generateProperLink';
+import { getAllAgentLinks } from './lib/getAllAgentLinks';
+import { getIdPlatform } from './lib/getIdPlatform';
 import { getStorage, isChromeStorage } from './lib/storage';
 
 function getIsAllowedBanner(
@@ -78,6 +83,34 @@ async function banner() {
     return false;
   }
 
+  // Location is a categorization of the current url, either an agent or a platform
+  const agent = detectAgent(window.location.href);
+  const readPlatform = detectPlatform(window.location.hostname);
+
+  if (!agent && !readPlatform) {
+    return false;
+  }
+
+  // Get id and platform from wherever we are
+  const { id, platform } = getIdPlatform(
+    window.location.href,
+    agent ?? undefined,
+    readPlatform ?? undefined
+  );
+
+  if (!id || !platform) {
+    return false;
+  }
+
+  // Generate links to all platforms.
+  const links = getAllAgentLinks(
+    generateProperLink(platform, id),
+    platform,
+    id
+  );
+  console.log('🚀 ~ file: banner.ts:110 ~ banner ~ links:', links);
+
+  // Build html
   const body = document.querySelector('body');
   if (!body) {
     return false;
@@ -85,7 +118,7 @@ async function banner() {
 
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = QC().outerHTML + Close().outerHTML;
+  inner.innerHTML = `${QC().outerHTML + Close().outerHTML}<div>${agent}</div>`;
   elem.innerHTML = inner.outerHTML;
 
   body.insertAdjacentElement('afterbegin', elem);

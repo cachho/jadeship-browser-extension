@@ -17,11 +17,12 @@ export function generateAgentLink(
   innerLink: string,
   platform: Platform,
   id: string,
-  settings: Settings
+  settings?: Settings
 ) {
   const urlParams = new URLSearchParams();
   // Get affiliates object from local storage
-  const aff = agent !== 'raw' ? getAffiliate(settings, agent) : null;
+  const aff =
+    agent !== 'raw' && settings ? getAffiliate(settings, agent) : null;
 
   if (agent === 'pandabuy') {
     // https://www.pandabuy.com/product?ra=500&url=https%3A%2F%2Fweidian.com%2Fitem.html%3FitemID%3D2724693540&inviteCode=ZQWFRJZEB
@@ -60,6 +61,7 @@ export function generateAgentLink(
       urlParams.set(aff.param, aff.altRef ?? aff.ref);
     }
     return `https://www.sugargoo.com/index/item/index.html?${urlParams.toString()}${
+      settings &&
       settings.affiliateProgram &&
       settings.affiliateAppend &&
       aff &&

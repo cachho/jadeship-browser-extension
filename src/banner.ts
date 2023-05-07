@@ -1,35 +1,13 @@
 // Get the storage API for the current browser
-function getStorageBanner():
-  | typeof browser.storage
-  | typeof chrome.storage
-  | null {
-  if (typeof browser !== 'undefined') {
-    // Extension is running in Firefox
-    return browser.storage;
-  }
-  if (typeof chrome !== 'undefined' && chrome.storage) {
-    // Extension is running in Chrome or Chromium-based browser
-    return chrome.storage;
-  }
-  // Storage API is not available
-  console.error('Storage API is not available');
-  return null;
-}
 
-function isChromeStorageBanner(storage: any): storage is typeof chrome.storage {
-  return (
-    typeof chrome !== 'undefined' &&
-    chrome.storage &&
-    storage === chrome.storage
-  );
-}
+import { getStorage, isChromeStorage } from './lib/storage';
 
 function getIsAllowedBanner(
   storage: typeof browser.storage | typeof chrome.storage | null
 ): Promise<any> {
   return new Promise((resolve) => {
     if (storage) {
-      if (isChromeStorageBanner(storage)) {
+      if (isChromeStorage(storage)) {
         storage.local.get(
           ['showBanner', 'onlineFeaturesQcPhotos'],
           (showBanner) => {
@@ -93,7 +71,7 @@ const Inner = () => {
 
 async function banner() {
   // Check if user preferences allow banner
-  const storage = getStorageBanner();
+  const storage = getStorage();
   const allowed: { onlineFeaturesQcPhotos: boolean; showBanner: boolean } =
     await getIsAllowedBanner(storage);
   if (!allowed.showBanner) {

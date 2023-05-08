@@ -33,11 +33,13 @@
     },
     {
       "matches": [
-        "*://*.wegobuy.com/*",
-        "*://*.superbuy.com/*",
-        "*://*.sugargoo.com/*",
-        "*://*.cssbuy.com/*",
-        "*://*.pandabuy.com/*",
+        "*://*.wegobuy.com/en/page/buy*",
+        "*://*.wegobuy.com/cn/page/buy*",
+        "*://*.superbuy.com/en/page/buy*",
+        "*://*.superbuy.com/cn/page/buy*",
+        "*://*.sugargoo.com/index/item/*",
+        "*://*.cssbuy.com/item*",
+        "*://*.pandabuy.com/product*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",

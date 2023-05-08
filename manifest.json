@@ -13,7 +13,17 @@
   "web_accessible_resources": [
     {
       "resources": ["assets/agent_logos/*", "assets/platform_logos/*"],
-      "matches": ["*://*.reddit.com/*"]
+      "matches": [
+        "*://*.reddit.com/*",
+        "*://*.wegobuy.com/*",
+        "*://*.superbuy.com/*",
+        "*://*.sugargoo.com/*",
+        "*://*.cssbuy.com/*",
+        "*://*.pandabuy.com/*",
+        "*://*.taobao.com/*",
+        "*://*.weidian.com/*",
+        "*://*.1688.com/*"
+      ]
     }
   ],
   "content_scripts": [
@@ -41,7 +51,8 @@
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
         "*://*.taobao.com/*",
-        "*://*.weidian.com/*"
+        "*://*.weidian.com/*",
+        "*://*.1688.com/*"
       ],
       "js": ["build/banner.js"],
       "run_at": "document_end"

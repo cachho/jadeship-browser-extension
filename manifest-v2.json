@@ -39,7 +39,8 @@
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
         "*://*.taobao.com/*",
-        "*://*.weidian.com/*"
+        "*://*.weidian.com/*",
+        "*://*.1688.com/*"
       ],
       "js": ["build/banner.js"],
       "run_at": "document_end"

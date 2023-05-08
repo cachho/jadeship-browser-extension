@@ -19,13 +19,8 @@ export function undoExceptionElements(
   agent?: Agent | null
   // platform?: Platform | null
 ) {
-  console.log('here');
   if (agent === 'cssbuy') {
     const otherElements = document.getElementsByClassName('nav_11');
-    console.log(
-      '🚀 ~ file: handleExceptionElements.ts:33 ~ otherElements:',
-      otherElements
-    );
     Array.from(otherElements).forEach((otherElement: Element) => {
       // eslint-disable-next-line no-param-reassign
       (otherElement as HTMLElement).style.top = '0px';
@@ -39,10 +34,6 @@ export function addObserver(platform?: Platform | null) {
   }
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
-      console.log(
-        '🚀 ~ file: handleExceptionElements.ts:52 ~ mutations.forEach ~ mutation:',
-        mutation
-      );
       if (mutation.type === 'childList') {
         if (platform === 'weidian') {
           // Hide Top Bar

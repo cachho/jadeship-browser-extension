@@ -82,7 +82,6 @@ const Links = (
       .filter((key) => links[key as Agent] && key !== 'raw')
       .sort(sortKeys)
       .map((key) => {
-        console.log('🚀 ~ file: banner.ts:86 ~ .map ~ key:', key);
         const link = links[key as Agent];
         const button = Button(link, true);
         if (key === myAgent) {
@@ -113,9 +112,9 @@ const Close = () => {
 const Inner = () => {
   const elem = document.createElement('div');
   elem.style.height = '100%';
-  elem.style.paddingLeft = '1rem';
-  elem.style.paddingRight = '1rem';
-  elem.style.lineHeight = '1rem';
+  elem.style.paddingLeft = '16px';
+  elem.style.paddingRight = '16px';
+  elem.style.lineHeight = '16px';
   elem.style.display = 'flex';
   elem.style.flexDirection = 'row';
   elem.style.justifyContent = 'space-between';

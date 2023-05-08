@@ -72,7 +72,7 @@ const Links = (
         } else {
           button.innerHTML = getImageAgent(key as Agent);
         }
-
+        button.title = key;
         div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
         return button;
       });
@@ -89,7 +89,7 @@ const Links = (
         } else {
           button.innerHTML = getImageAgent(key as Agent);
         }
-
+        button.title = key;
         div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
         return button;
       });

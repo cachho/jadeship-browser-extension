@@ -1,6 +1,6 @@
 import { generateProperLink } from './generateProperLink';
 
-export function decryptCssbuy(link: HTMLAnchorElement): URL | null {
+export function decryptCssbuy(link: HTMLAnchorElement | URL): URL | null {
   if (link.pathname.startsWith('/item-micro')) {
     const id = link.pathname.split('-')[2].split('.')[0];
     if (id) {

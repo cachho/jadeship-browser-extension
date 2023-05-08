@@ -1,4 +1,5 @@
 import type { Agent, Platform } from '../models';
+import { decryptCssbuy } from './decryptCssbuy';
 import { detectPlatform } from './detectPlatform';
 import { extractId } from './extractId';
 import { extractInnerLink } from './extractInnerLink';
@@ -16,7 +17,10 @@ export function getIdPlatform(
   platform?: Platform
 ): { id: string | null; platform: Platform | null } {
   if (agent) {
-    const innerLink = extractInnerLink(new URL(currentHref));
+    const innerLink =
+      agent !== 'cssbuy'
+        ? extractInnerLink(new URL(currentHref))
+        : decryptCssbuy(new URL(currentHref));
     if (!innerLink) {
       return { id: null, platform: null };
     }

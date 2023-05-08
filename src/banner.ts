@@ -7,6 +7,7 @@ import { detectPlatform } from './lib/detectPlatform';
 import { generateProperLink } from './lib/generateProperLink';
 import { getAllAgentLinks } from './lib/getAllAgentLinks';
 import { getIdPlatform } from './lib/getIdPlatform';
+import { handleExceptionElements } from './lib/handleExceptionElements';
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
@@ -19,7 +20,7 @@ const BodyElement = () => {
   // Style Element
   elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
   elem.style.width = '100%';
-  elem.style.height = '3rem';
+  elem.style.height = '48px';
   elem.style.zIndex = '10000';
   return elem;
 };
@@ -163,6 +164,9 @@ async function banner() {
   }
 
   console.log('🚀 ~ file: banner.ts:132 ~ banner ~ qcString:', qcString);
+
+  // Exceptions
+  handleExceptionElements(agent);
 
   const elem = BodyElement();
   const inner = Inner();

@@ -119,6 +119,9 @@ const Inner = () => {
   elem.style.flexDirection = 'row';
   elem.style.justifyContent = 'space-between';
   elem.style.alignItems = 'center';
+  elem.style.maxWidth = '1200px';
+  elem.style.marginLeft = 'auto';
+  elem.style.marginRight = 'auto';
   return elem;
 };
 

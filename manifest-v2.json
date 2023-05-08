@@ -40,7 +40,8 @@
         "*://*.pandabuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
-        "*://*.1688.com/*"
+        "*://*.1688.com/*",
+        "*://*.tmall.com/*"
       ],
       "js": ["build/banner.js"],
       "run_at": "document_end"

@@ -5,13 +5,13 @@ export function validateRegisterPage(
   location: Location
 ): boolean {
   if (agent === 'pandabuy') {
-    return location.pathname === '/login';
+    return location.pathname.startsWith('/login');
   }
   if (agent === 'superbuy' || agent === 'wegobuy') {
     const params = new URLSearchParams(location.search);
     return (
-      (location.pathname === '/en/page/login' ||
-        location.pathname === '/cn/page/login') &&
+      (location.pathname.startsWith('/en/page/login') ||
+        location.pathname.startsWith('/cn/page/login')) &&
       params.get('type') === 'register'
     );
   }
@@ -20,7 +20,7 @@ export function validateRegisterPage(
     return location.pathname === '/' && params.get('action') === 'register';
   }
   if (agent === 'sugargoo') {
-    return location.pathname.indexOf('/index/user/register') !== -1;
+    return location.pathname.startsWith('/index/user/register');
   }
   return false;
 }

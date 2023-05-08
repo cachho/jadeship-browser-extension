@@ -15,6 +15,10 @@ export function handleExceptionElements(agent?: Agent | null) {
   }
 }
 
+/**
+ * Undo changes done by `handleExceptionElements`, after close button is clicked.
+ * @param agent { Agent }
+ */
 export function undoExceptionElements(
   agent?: Agent | null
   // platform?: Platform | null
@@ -28,6 +32,11 @@ export function undoExceptionElements(
   }
 }
 
+/**
+ * An observer is needed to handle elements, that appear after initial page load.
+ * @param platform { Platform } platform of the main page
+ * @returns observer { MutationObserver }
+ */
 export function addObserver(platform?: Platform | null) {
   if (!platform || platform !== 'weidian') {
     return null;

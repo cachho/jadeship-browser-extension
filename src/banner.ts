@@ -7,7 +7,11 @@ import { detectPlatform } from './lib/detectPlatform';
 import { generateProperLink } from './lib/generateProperLink';
 import { getAllAgentLinks } from './lib/getAllAgentLinks';
 import { getIdPlatform } from './lib/getIdPlatform';
-import { handleExceptionElements } from './lib/handleExceptionElements';
+import {
+  addObserver,
+  handleExceptionElements,
+  undoExceptionElements,
+} from './lib/handleExceptionElements';
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
@@ -32,51 +36,65 @@ const QC = (response: QcAvailable) => {
 };
 
 const Links = (
-  links: {
-    superbuy: string;
-    wegobuy: string;
-    pandabuy: string;
-    sugargoo: string;
-    cssbuy: string;
-    raw: string;
-  },
-  active: Platform | Agent,
+  links: { [agent in AgentWithRaw]: string },
+  activeAgent: Agent | null,
+  activePlatform: Platform | null,
   myAgent: AgentWithRaw
 ) => {
   const div = document.createElement('div');
 
   const sortKeys = (a: string, b: string) => {
     if (a === myAgent) {
-      return -1;
-    }
-    if (b === myAgent) {
       return 1;
+    }
+    if (b === myAgent || a === 'raw') {
+      return -1;
     }
     return 0;
   };
 
-  Object.keys(links)
-    .filter((key) => key !== active && links[key as Agent])
-    .sort(sortKeys)
-    .map((key) => {
-      const link = links[key as Agent];
-      const button = Button(link, true);
-      if (key === 'raw') {
-        const platform = detectPlatform(new URL(link).hostname);
-        if (platform) {
-          button.innerHTML = `${getPlatformImage(platform)} ${platform}`;
+  if (activeAgent) {
+    Object.keys(links)
+      .filter((key) => key !== activeAgent && links[key as Agent])
+      .sort(sortKeys)
+      .map((key) => {
+        const link = links[key as Agent];
+        const button = Button(link, true);
+        if (key === 'raw') {
+          const platform = detectPlatform(new URL(link).hostname);
+          if (platform) {
+            button.innerHTML = `${getPlatformImage(platform)} ${platform}`;
+          } else {
+            button.innerText = platform ?? key;
+          }
+        } else if (key === myAgent) {
+          button.innerHTML = `${getImageAgent(key as Agent)} ${key}`;
         } else {
-          button.innerText = platform ?? key;
+          button.innerHTML = getImageAgent(key as Agent);
         }
-      } else if (key === myAgent) {
-        button.innerHTML = `${getImageAgent(key as Agent)} ${key}`;
-      } else {
-        button.innerHTML = getImageAgent(key as Agent);
-      }
 
-      div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
-      return button;
-    });
+        div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
+        return button;
+      });
+  }
+  if (activePlatform) {
+    Object.keys(links)
+      .filter((key) => links[key as Agent] && key !== 'raw')
+      .sort(sortKeys)
+      .map((key) => {
+        console.log('🚀 ~ file: banner.ts:86 ~ .map ~ key:', key);
+        const link = links[key as Agent];
+        const button = Button(link, true);
+        if (key === myAgent) {
+          button.innerHTML = `${getImageAgent(key as Agent)} ${key}`;
+        } else {
+          button.innerHTML = getImageAgent(key as Agent);
+        }
+
+        div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
+        return button;
+      });
+  }
 
   return div;
 };
@@ -170,8 +188,8 @@ async function banner() {
 
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = `${qcString ?? ''} ${
-    Links(links, agent || readPlatform!, settings.myAgent).outerHTML
+  inner.innerHTML = `${qcString ?? '<div></div>'} ${
+    Links(links, agent, readPlatform, settings.myAgent).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
@@ -188,8 +206,17 @@ async function banner() {
       if (elem) {
         bannerElem.style.display = 'none';
       }
+      undoExceptionElements(agent);
     }
   });
+
+  const observer = addObserver(readPlatform);
+  if (observer) {
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
 
   return true;
 }

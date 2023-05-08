@@ -147,8 +147,6 @@ async function banner() {
     agent ?? undefined,
     readPlatform ?? undefined
   );
-  console.log('🚀 ~ file: banner.ts:124 ~ banner ~ platform:', platform);
-  console.log('🚀 ~ file: banner.ts:124 ~ banner ~ id:', id);
 
   if (!id || !platform) {
     return false;
@@ -160,7 +158,6 @@ async function banner() {
     platform,
     id
   );
-  console.log('🚀 ~ file: banner.ts:110 ~ banner ~ links:', links);
 
   // Build html
   const body = document.querySelector('body');
@@ -174,7 +171,6 @@ async function banner() {
   } else {
     try {
       const response = await getQcAvailable(platform, id);
-      console.log('🚀 ~ file: banner.ts:100 ~ banner ~ response:', response);
       if (response && response.state === 0 && response.data) {
         qcString = QC(response).outerHTML;
       }
@@ -182,8 +178,6 @@ async function banner() {
       console.error(err);
     }
   }
-
-  console.log('🚀 ~ file: banner.ts:132 ~ banner ~ qcString:', qcString);
 
   // Exceptions
   handleExceptionElements(agent);

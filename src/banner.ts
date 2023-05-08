@@ -8,7 +8,7 @@ import { generateProperLink } from './lib/generateProperLink';
 import { getAllAgentLinks } from './lib/getAllAgentLinks';
 import { getIdPlatform } from './lib/getIdPlatform';
 import { loadSettings } from './lib/loadSettings';
-import type { AgentWithRaw, QcAvailable } from './models';
+import type { Agent, Platform, QcAvailable } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
@@ -27,20 +27,25 @@ const QC = (response: QcAvailable) => {
   return qc;
 };
 
-const Links = (links: {
-  superbuy: string;
-  wegobuy: string;
-  pandabuy: string;
-  sugargoo: string;
-  cssbuy: string;
-  raw: string;
-}) => {
+const Links = (
+  links: {
+    superbuy: string;
+    wegobuy: string;
+    pandabuy: string;
+    sugargoo: string;
+    cssbuy: string;
+    raw: string;
+  },
+  active: Platform | Agent
+) => {
   const div = document.createElement('div');
   Object.keys(links)
-    .filter((key) => links[key as AgentWithRaw])
+    .filter((key) => key !== active && links[key as Agent])
     .map((key) => {
-      const button = Button(links[key as AgentWithRaw]);
-      button.innerText = key;
+      const link = links[key as Agent];
+      const button = Button(link, true);
+      button.innerText =
+        key !== 'raw' ? key : detectPlatform(new URL(link).hostname) ?? key;
       div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
       return button;
     });
@@ -132,9 +137,9 @@ async function banner() {
 
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = `${qcString ?? ''} ${Links(links).outerHTML} ${
-    Close().outerHTML
-  }`;
+  inner.innerHTML = `${qcString ?? ''} ${
+    Links(links, agent || readPlatform!).outerHTML
+  } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
 

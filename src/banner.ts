@@ -1,37 +1,14 @@
 // Get the storage API for the current browser
 
+import { Button } from './components';
+import { getQcAvailable } from './lib/api/getQcAvailable';
 import { detectAgent } from './lib/detectAgent';
 import { detectPlatform } from './lib/detectPlatform';
 import { generateProperLink } from './lib/generateProperLink';
 import { getAllAgentLinks } from './lib/getAllAgentLinks';
 import { getIdPlatform } from './lib/getIdPlatform';
-import { getStorage, isChromeStorage } from './lib/storage';
-
-function getIsAllowedBanner(
-  storage: typeof browser.storage | typeof chrome.storage | null
-): Promise<any> {
-  return new Promise((resolve) => {
-    if (storage) {
-      if (isChromeStorage(storage)) {
-        storage.local.get(
-          ['showBanner', 'onlineFeaturesQcPhotos'],
-          (showBanner) => {
-            resolve(showBanner);
-          }
-        );
-      } else {
-        storage.local
-          .get(['showBanner', 'onlineFeaturesQcPhotos'])
-          .then((showBanner) => {
-            resolve(showBanner);
-          });
-      }
-    } else {
-      console.error('No storage available');
-      resolve(null);
-    }
-  });
-}
+import { loadSettings } from './lib/loadSettings';
+import type { AgentWithRaw, QcAvailable } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
@@ -44,10 +21,31 @@ const BodyElement = () => {
   return elem;
 };
 
-const QC = () => {
-  const qc = document.createElement('div');
-  qc.innerText = `📷`;
+const QC = (response: QcAvailable) => {
+  const qc = Button(response.link);
+  qc.innerText = `📷 QC Pics available`;
   return qc;
+};
+
+const Links = (links: {
+  superbuy: string;
+  wegobuy: string;
+  pandabuy: string;
+  sugargoo: string;
+  cssbuy: string;
+  raw: string;
+}) => {
+  const div = document.createElement('div');
+  Object.keys(links)
+    .filter((key) => links[key as AgentWithRaw])
+    .map((key) => {
+      const button = Button(links[key as AgentWithRaw]);
+      button.innerText = key;
+      div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
+      return button;
+    });
+
+  return div;
 };
 
 const Close = () => {
@@ -75,11 +73,10 @@ const Inner = () => {
 };
 
 async function banner() {
+  const settings = await loadSettings();
+
   // Check if user preferences allow banner
-  const storage = getStorage();
-  const allowed: { onlineFeaturesQcPhotos: boolean; showBanner: boolean } =
-    await getIsAllowedBanner(storage);
-  if (!allowed.showBanner) {
+  if (!settings?.showBanner) {
     return false;
   }
 
@@ -116,13 +113,32 @@ async function banner() {
     return false;
   }
 
+  let qcString: string | null = null;
+  if (!settings.onlineFeaturesQcPhotos) {
+    qcString = null;
+  } else {
+    try {
+      const response = await getQcAvailable(platform, id);
+      console.log('🚀 ~ file: banner.ts:100 ~ banner ~ response:', response);
+      if (response && response.state === 0 && response.data) {
+        qcString = QC(response).outerHTML;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  console.log('🚀 ~ file: banner.ts:132 ~ banner ~ qcString:', qcString);
+
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = `${QC().outerHTML + Close().outerHTML}<div>${agent}</div>`;
+  inner.innerHTML = `${qcString ?? ''} ${Links(links).outerHTML} ${
+    Close().outerHTML
+  }`;
   elem.innerHTML = inner.outerHTML;
-
   body.insertAdjacentElement('afterbegin', elem);
 
+  // Close banner
   body.addEventListener('click', (event) => {
     if (
       event.target &&

@@ -2,16 +2,27 @@ import type { AgentWithRaw, Platform, Settings } from '../models';
 import { generateProperLink } from './generateProperLink';
 import { getAffiliate } from './getAffiliate';
 
-export function buildLink(
+/**
+ * Generates an agent item link, by  taking in an agent and the inner link (target) and putting them together.
+ * Can also add affiliate extensions if appending affiliates is turned on in the settings.
+ * @param agent { AgentWithRaw } the agent to generate a link for
+ * @param innerLink { String } Inner Link to use in the generated link
+ * @param platform { Platform } Some agents have different link structures for different platforms.
+ * @param id { String } item id
+ * @param settings { Settings }
+ * @returns { String } agent link. Empty string if no agent link could be generated.
+ */
+export function generateAgentLink(
   agent: AgentWithRaw,
   innerLink: string,
   platform: Platform,
   id: string,
-  settings: Settings
+  settings?: Settings
 ) {
   const urlParams = new URLSearchParams();
   // Get affiliates object from local storage
-  const aff = agent !== 'raw' ? getAffiliate(settings, agent) : null;
+  const aff =
+    agent !== 'raw' && settings ? getAffiliate(settings, agent) : null;
 
   if (agent === 'pandabuy') {
     // https://www.pandabuy.com/product?ra=500&url=https%3A%2F%2Fweidian.com%2Fitem.html%3FitemID%3D2724693540&inviteCode=ZQWFRJZEB
@@ -50,6 +61,7 @@ export function buildLink(
       urlParams.set(aff.param, aff.altRef ?? aff.ref);
     }
     return `https://www.sugargoo.com/index/item/index.html?${urlParams.toString()}${
+      settings &&
       settings.affiliateProgram &&
       settings.affiliateAppend &&
       aff &&
@@ -76,5 +88,5 @@ export function buildLink(
   if (agent === 'raw') {
     return generateProperLink(platform, id);
   }
-  return 'temp';
+  return '';
 }

@@ -13,7 +13,18 @@
   "web_accessible_resources": [
     {
       "resources": ["assets/agent_logos/*", "assets/platform_logos/*"],
-      "matches": ["*://*.reddit.com/*"]
+      "matches": [
+        "*://*.reddit.com/*",
+        "*://*.wegobuy.com/*",
+        "*://*.superbuy.com/*",
+        "*://*.sugargoo.com/*",
+        "*://*.cssbuy.com/*",
+        "*://*.pandabuy.com/*",
+        "*://*.taobao.com/*",
+        "*://*.weidian.com/*",
+        "*://*.1688.com/*",
+        "*://*.tmall.com/*"
+      ]
     }
   ],
   "content_scripts": [
@@ -32,6 +43,23 @@
       ],
       "js": ["build/redirect.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.wegobuy.com/en/page/buy*",
+        "*://*.wegobuy.com/cn/page/buy*",
+        "*://*.superbuy.com/en/page/buy*",
+        "*://*.superbuy.com/cn/page/buy*",
+        "*://*.sugargoo.com/index/item/*",
+        "*://*.cssbuy.com/item*",
+        "*://*.pandabuy.com/product*",
+        "*://*.taobao.com/*",
+        "*://*.weidian.com/*",
+        "*://*.1688.com/*",
+        "*://*.tmall.com/*"
+      ],
+      "js": ["build/banner.js"],
+      "run_at": "document_end"
     }
   ],
   "background": {

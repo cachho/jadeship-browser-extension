@@ -1,5 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import { getStorage, isChromeStorage } from './lib/storage';
+import { settingNames } from './models/Settings';
 
 // Get the storage API for the current browser
 const storage = getStorage();
@@ -60,6 +61,7 @@ if (storage) {
   const displayOverwriteTitle = document.getElementById(
     'overwrite_title'
   ) as HTMLInputElement;
+  const showBanner = document.getElementById('show_banner') as HTMLInputElement;
 
   function setValues(data: any) {
     taobaoLink.checked = data.taobaoLink;
@@ -86,42 +88,15 @@ if (storage) {
     showTitle.checked = data.showTitle;
     displayTitleLength.value = data.displayTitleLength ?? '0';
     displayOverwriteTitle.checked = data.displayOverwriteTitle;
+    showBanner.checked = data.showBanner;
   }
 
-  // Set default values for the checkboxes and select
-  const names = [
-    'taobaoLink',
-    'weidianLink',
-    's1688Link',
-    'tmallLink',
-    'agentLink',
-    'logoAgent',
-    'logoPlatform',
-    'myAgent',
-    'affiliateProgram',
-    'onlineFeatures',
-    'onlineFeaturesQcPhotos',
-    'masterToggle',
-    'showPrice',
-    'showAmountSoldSummary',
-    'showAmountSold1',
-    'showAmountSold7',
-    'showAmountSold30',
-    'showAmountSoldAt',
-    'showAmountSoldTimeframeLabel',
-    'showThumbnail',
-    'showPos',
-    'showTitle',
-    'displayTitleLength',
-    'displayOverwriteTitle',
-  ];
-
   if (isChromeStorage(storage)) {
-    storage.local.get(names, (data) => {
+    storage.local.get(settingNames, (data) => {
       setValues(data);
     });
   } else if (storage && !isChromeStorage(storage)) {
-    storage.local.get(names).then((data) => {
+    storage.local.get(settingNames).then((data) => {
       setValues(data);
     });
   }
@@ -214,6 +189,11 @@ if (storage) {
   displayOverwriteTitle.addEventListener('change', () => {
     storage?.local.set({
       displayOverwriteTitle: displayOverwriteTitle.checked,
+    });
+  });
+  showBanner.addEventListener('change', () => {
+    storage?.local.set({
+      showBanner: showBanner.checked,
     });
   });
 }

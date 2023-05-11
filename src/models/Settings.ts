@@ -28,7 +28,7 @@ export const settingNames = [
   'displayTitleLength',
   'displayOverwriteTitle',
   'affiliate',
-  'showBanner',
+  'showToolbar',
 ];
 
 export type Settings = {
@@ -57,7 +57,7 @@ export type Settings = {
   displayTitleLength: string;
   displayOverwriteTitle: boolean;
   affiliate?: Affiliate[];
-  showBanner: boolean;
+  showToolbar: boolean;
 };
 
 export const defaultSettings: Settings = {
@@ -85,5 +85,5 @@ export const defaultSettings: Settings = {
   showTitle: true,
   displayTitleLength: '64',
   displayOverwriteTitle: false,
-  showBanner: true,
+  showToolbar: true,
 };

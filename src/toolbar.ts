@@ -19,7 +19,7 @@ import type { Agent, AgentWithRaw, Platform, QcAvailable } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
-  elem.classList.add('ra-ext-banner');
+  elem.classList.add('ra-ext-toolbar');
 
   // Style Element
   elem.style.background = 'linear-gradient(90deg, #9c28b0 0%, #c659d9 100%)';
@@ -125,11 +125,11 @@ const Inner = () => {
   return elem;
 };
 
-async function banner() {
+async function toolbar() {
   const settings = await loadSettings();
 
-  // Check if user preferences allow banner
-  if (!settings?.showBanner) {
+  // Check if user preferences allow toolbar
+  if (!settings?.showToolbar) {
     return false;
   }
 
@@ -190,17 +190,17 @@ async function banner() {
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
 
-  // Close banner
+  // Close toolbar
   body.addEventListener('click', (event) => {
     if (
       event.target &&
       (event.target as Element).classList.contains('ra-ext-close-btn')
     ) {
-      const bannerElem = document.querySelector(
-        '.ra-ext-banner'
+      const toolbarElem = document.querySelector(
+        '.ra-ext-toolbar'
       ) as HTMLDivElement;
       if (elem) {
-        bannerElem.style.display = 'none';
+        toolbarElem.style.display = 'none';
       }
       undoExceptionElements(agent);
     }
@@ -217,4 +217,4 @@ async function banner() {
   return true;
 }
 
-banner();
+toolbar();

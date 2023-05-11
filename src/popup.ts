@@ -61,7 +61,9 @@ if (storage) {
   const displayOverwriteTitle = document.getElementById(
     'overwrite_title'
   ) as HTMLInputElement;
-  const showBanner = document.getElementById('show_banner') as HTMLInputElement;
+  const showToolbar = document.getElementById(
+    'show_toolbar'
+  ) as HTMLInputElement;
 
   function setValues(data: any) {
     taobaoLink.checked = data.taobaoLink;
@@ -88,7 +90,7 @@ if (storage) {
     showTitle.checked = data.showTitle;
     displayTitleLength.value = data.displayTitleLength ?? '0';
     displayOverwriteTitle.checked = data.displayOverwriteTitle;
-    showBanner.checked = data.showBanner;
+    showToolbar.checked = data.showToolbar;
   }
 
   if (isChromeStorage(storage)) {
@@ -191,9 +193,9 @@ if (storage) {
       displayOverwriteTitle: displayOverwriteTitle.checked,
     });
   });
-  showBanner.addEventListener('change', () => {
+  showToolbar.addEventListener('change', () => {
     storage?.local.set({
-      showBanner: showBanner.checked,
+      showToolbar: showToolbar.checked,
     });
   });
 }

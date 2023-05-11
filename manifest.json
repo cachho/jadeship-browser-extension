@@ -61,7 +61,7 @@
         "*://*.1688.com/*",
         "*://*.tmall.com/*"
       ],
-      "js": ["build/banner.js"],
+      "js": ["build/toolbar.js"],
       "run_at": "document_end"
     }
   ],

@@ -7,7 +7,7 @@ module.exports = {
     content_script: './src/content_script.ts',
     popup: './src/popup.ts',
     redirect: './src/redirect.ts',
-    banner: './src/banner.ts',
+    toolbar: './src/toolbar.ts',
   },
   output: {
     filename: '[name].js',

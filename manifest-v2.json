@@ -26,7 +26,8 @@
         "*://*.superbuy.com/*",
         "*://*.sugargoo.com/*",
         "*://*.cssbuy.com/*",
-        "*://*.pandabuy.com/*"
+        "*://*.pandabuy.com/*",
+        "*://*.hagobuy.com/*"
       ],
       "js": ["build/redirect.js"],
       "run_at": "document_start"
@@ -40,6 +41,7 @@
         "*://*.sugargoo.com/index/item/*",
         "*://*.cssbuy.com/item*",
         "*://*.pandabuy.com/product*",
+        "*://*.hagobuy.com/item/details*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -55,6 +57,7 @@
     "*://*.wegobuy.com/*",
     "*://*.superbuy.com/*",
     "*://*.sugargoo.com/*",
+    "*://*.hagobuy.com/*",
     "*://*.cssbuy.com/*",
     "*://*.pandabuy.com/*",
     "https://api.reparchive.com/*",

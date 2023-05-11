@@ -42,6 +42,7 @@ export function findLinksOnPage(settings: Settings) {
       'pandabuy.page.link',
       'sugargoo.com/index/item',
       'cssbuy.com/item',
+      'hagobuy.com/item',
     ]);
   }
 

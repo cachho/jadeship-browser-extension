@@ -21,7 +21,7 @@ Some other features:
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Supported shopping agents: pandabuy.com, sugargoo.com, wegobuy.com, superbuy.com, cssbuy.com
+Supported shopping agents: pandabuy.com, sugargoo.com, wegobuy.com, superbuy.com, cssbuy.com, hagobuy.com
 Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 
 Safety & Privacy:
@@ -90,4 +90,4 @@ The following site can be used to quickly report bugs: https://reparchive.com/re
 It's even better if you open an issue here on github, so we can methodically fix the issue.
 
 ## Disclaimer
-Not affiliated with reddit.com, weidian.com, taobao.com, tmall.com, 1688.com, pandabuy.com, wegobuy.com, superbuy.com, cssbuy.com or sugargoo.com. We do not represent those websites or companies.
+Not affiliated with reddit.com, weidian.com, taobao.com, tmall.com, 1688.com, pandabuy.com, wegobuy.com, superbuy.com, cssbuy.com, sugargoo.com or hagobuy.com. We do not represent those websites or companies.

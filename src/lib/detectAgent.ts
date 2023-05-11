@@ -19,5 +19,6 @@ export function detectAgent(href: string): Agent | null {
     return 'superbuy';
   if (url === 'www.sugargoo.com' || url === 'sugargoo.com') return 'sugargoo';
   if (url === 'www.cssbuy.com' || url === 'cssbuy.com') return 'cssbuy';
+  if (url === 'www.hagobuy.com' || url === 'hagobuy.com') return 'hagobuy';
   return null;
 }

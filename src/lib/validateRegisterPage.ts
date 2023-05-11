@@ -22,5 +22,8 @@ export function validateRegisterPage(
   if (agent === 'sugargoo') {
     return location.pathname.startsWith('/index/user/register');
   }
+  if (agent === 'hagobuy') {
+    return location.pathname.startsWith('/register');
+  }
   return false;
 }

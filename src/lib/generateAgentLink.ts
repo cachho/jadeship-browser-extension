@@ -85,6 +85,13 @@ export function generateAgentLink(
     }
     return `https://www.cssbuy.com/item-${id}?${urlParams.toString()}`;
   }
+  if (agent === 'hagobuy') {
+    if (aff && aff.param && aff.ref) {
+      urlParams.set(aff.param, aff.ref);
+    }
+    urlParams.set('url', innerLink);
+    return `https://www.hagobuy.com/item/details?${urlParams.toString()}`;
+  }
   if (agent === 'raw') {
     return generateProperLink(platform, id);
   }

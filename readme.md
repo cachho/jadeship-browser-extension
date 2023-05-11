@@ -26,7 +26,7 @@ Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 
 Safety & Privacy:
 - the source code is open source, so anyone can review it and contribute
-- minimalist approach, less than 40kb.
+- minimalist approach, less than 50kb.
 - the extension is only active on required sites, the URLs are matched very carefully.
 - you can opt out of all online interactions and run the extension offline
 - no user data is collected (with each request you do technically expose your IP, among other information).

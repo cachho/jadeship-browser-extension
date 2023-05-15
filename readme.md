@@ -65,12 +65,14 @@ Virtually all dependencies are for the developer experience and code maintainabi
 
 For testing on chromium and firefox you need to compile the typescript files. For this purpose you should have the typescript compiler installed globally (`npm install -g typescript`).
 
-If you change anything, you have to reload the extension in the browser. Because chrome can load unpacked files, it's quicker and recommended for developing, however both browsers must remain compatible.
+Webpack allows for hot reloads by running `npm run watch`.
+
+If you change anything, you always have to reload the extension in the browser. Because chrome can load unpacked files, it's quicker and recommended for developing, however both browsers must remain compatible.
 
 **Test Suite:** There is a subreddit that's specifically built to put all links that this extension has to work with in front of you: https://www.reddit.com/r/RADev/?f=flair_name%3A%22Test%22
 
 #### Chromium
-Chromium allows you to use use an unpacked folder, so running `npm run dev` or `tsc` is enough. The project is setup in a way, where you can go to `chrome://extensions/`, and load the root folder with `manifest.json` inside, it automatically points to the tsc-compiled files from inside `build/`. If you want to make sure everything works with the packaged zip, drag `dist/chromium.zip` into the `chrome://extensions/` window.
+Chromium allows you to use use an unpacked folder, so running `npm run dev` or `npm run watch` is enough. The project is setup in a way, where you can go to `chrome://extensions/`, and load the root folder with `manifest.json` inside, it automatically points to the tsc-compiled files from inside `build/`. If you want to make sure everything works with the packaged zip, drag `dist/chromium.zip` into the `chrome://extensions/` window.
 
 #### Firefox
 The extension needs to be packed as a zip. To do so run `npm run build`. It can then be found at `dist/firefox.zip`. Again, if you change anything you have to run the build script again.

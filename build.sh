@@ -17,14 +17,6 @@ webpack --config webpack.prod.js
 echo ""
 
 #######################################
-# Minify the JavaScript code
-#######################################
-for file in build/*.js; do
-  # Minify
-  ./node_modules/.bin/uglifyjs "$file" -o "$file"
-done
-
-#######################################
 # Copy assets & modify assets
 #######################################
 cp -r assets build

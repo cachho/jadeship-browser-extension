@@ -6,7 +6,7 @@
     "prepare": "husky install",
     "check-types": "tsc --noEmit --pretty"
   },
-  "dependencies": {
+  "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@commitlint/cz-commitlint": "^17.1.2",
@@ -25,9 +25,7 @@
     "json": "^11.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "webpack-merge": "^4.2.2"
-  },
-  "devDependencies": {
+    "webpack-merge": "^4.2.2",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",

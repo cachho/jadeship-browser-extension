@@ -25,7 +25,6 @@
     "json": "^11.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "uglify-js": "^3.17.4",
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {

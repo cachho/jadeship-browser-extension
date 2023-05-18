@@ -1,7 +1,8 @@
+import { extractId } from 'cn-links';
+
 import type { Agent, Platform } from '../models';
 import { decryptCssbuy } from './decryptCssbuy';
 import { detectPlatform } from './detectPlatform';
-import { extractId } from './extractId';
 import { extractInnerLink } from './extractInnerLink';
 
 /**
@@ -28,14 +29,14 @@ export function getIdPlatform(
     if (!innerLinkPlatform) {
       return { id: null, platform: null };
     }
-    const id = extractId(innerLinkPlatform, innerLink.href);
+    const id = extractId(innerLink, innerLinkPlatform);
     if (!id) {
       return { id: null, platform: null };
     }
     return { id, platform: innerLinkPlatform };
   }
   if (platform) {
-    const id = extractId(platform, currentHref);
+    const id = extractId(currentHref, platform);
     if (!id) {
       return { id: null, platform: null };
     }

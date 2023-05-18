@@ -1,7 +1,8 @@
+import { isAgentLink } from 'cn-links';
+
 import type { Settings } from '../models';
 import { extractInnerLink } from './extractInnerLink';
 import { handleShortenedLink } from './handleShortenedLink';
-import { isAgentLink } from './isAgentLink';
 
 export async function getLink(
   elem: HTMLAnchorElement,

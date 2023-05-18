@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign */
 
+import { detectMarketplace, extractId, isAgentLink, toRaw } from 'cn-links';
+
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
-import { detectPlatform } from './lib/detectPlatform';
-import { extractId } from './lib/extractId';
 import { findLinksOnPage } from './lib/findLinksOnPage';
 import { generateAgentLink } from './lib/generateAgentLink';
 import { generateProperLink } from './lib/generateProperLink';
-import { getLink } from './lib/getLink';
+import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
 import { addQcElement } from './lib/html/addQcElement';
 import { getImageAgent } from './lib/html/getImageAgent';
@@ -33,7 +33,16 @@ async function main(settings: Settings) {
     // Test if it is an agent link. If so, extract the inner link
     // Convert anchor tag to URL object.
     // Link is the URL object, elem is the html element (including the link)
-    const link = await getLink(elem, settings);
+    const getLink = async () => {
+      const decrypted = await handleShortenedLink(elem, settings);
+      const newLink = decrypted ?? new URL(elem.href);
+      if (isAgentLink(newLink)) {
+        return toRaw(newLink);
+      }
+      return newLink;
+    };
+
+    const link = await getLink();
 
     if (!link) {
       console.error('No link object could be extracted from link: ', elem.href);
@@ -45,12 +54,12 @@ async function main(settings: Settings) {
 
     // At this point we have an URL object that contains the marketplace link
 
-    const platform = detectPlatform(link.hostname);
+    const platform = detectMarketplace(link);
     if (!platform) {
       console.error('No platform detected in link: ', link.href);
       return false;
     }
-    const id = extractId(platform, link.href);
+    const id = extractId(link, platform);
     if (!id) {
       console.error('No id could be extracted from link: ', link.href);
       return false;

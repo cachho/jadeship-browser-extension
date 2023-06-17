@@ -35,6 +35,6 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "cn-links": "^1.0.1"
+    "cn-links": "^1.0.2"
   }
 }

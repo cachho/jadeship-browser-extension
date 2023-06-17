@@ -1,11 +1,9 @@
 /* eslint-disable no-param-reassign */
 
-import { detectMarketplace, extractId, isAgentLink, toRaw } from 'cn-links';
+import { CnLink } from 'cn-links';
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { findLinksOnPage } from './lib/findLinksOnPage';
-import { generateAgentLink } from './lib/generateAgentLink';
-import { generateProperLink } from './lib/generateProperLink';
 import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
 import { addQcElement } from './lib/html/addQcElement';
@@ -36,73 +34,60 @@ async function main(settings: Settings) {
     const getLink = async () => {
       const decrypted = await handleShortenedLink(elem, settings);
       const newLink = decrypted ?? new URL(elem.href);
-      if (isAgentLink(newLink)) {
-        return toRaw(newLink);
-      }
       return newLink;
     };
 
-    const link = await getLink();
+    const originalLink = await getLink();
 
-    if (!link) {
+    if (!originalLink) {
       console.error('No link object could be extracted from link: ', elem.href);
       return false;
     }
 
     // Update html element
-    elem.href = link.href;
+    elem.href = originalLink.href;
 
     // At this point we have an URL object that contains the marketplace link
 
-    const platform = detectMarketplace(link);
-    if (!platform) {
-      console.error('No platform detected in link: ', link.href);
-      return false;
-    }
-    const id = extractId(link, platform);
-    if (!id) {
-      console.error('No id could be extracted from link: ', link.href);
-      return false;
-    }
-    const innerLink = generateProperLink(platform, id);
-
-    const newLink = generateAgentLink(
-      selectedAgent,
-      innerLink,
-      platform,
-      id,
-      settings
-    );
+    const link = new CnLink(originalLink);
+    const newLink = link.as(selectedAgent);
 
     // ^^ Link build finished ^^
 
     // Add Images
     // Note: If raw images is selected, it defaults to platform images
     if (settings.logoPlatform) {
-      elem.insertAdjacentHTML('beforebegin', getPlatformImage(platform));
+      elem.insertAdjacentHTML(
+        'beforebegin',
+        getPlatformImage(link.marketplace)
+      );
     }
     if (settings.logoAgent && selectedAgent !== 'raw') {
       elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
     }
 
     if (newLink) {
-      elem.href = newLink;
+      elem.href = newLink.href;
       // Test: if the complete mark can be added here
 
       // Add details
       const { promiseDetails, promiseQcAvailable } = getOnlineFeatures(
         settings,
-        platform,
-        id
+        link
       );
       if (
         settings.onlineFeatures &&
-        !isBrokenRedditImageLink(elem.textContent ?? '', platform)
+        !isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
       ) {
         try {
           const details = await promiseDetails;
           if (details && details.data) {
-            addHtmlOnlineElements(settings, details.data, elem, platform);
+            addHtmlOnlineElements(
+              settings,
+              details.data,
+              elem,
+              link.marketplace
+            );
             elem.title = details.data.item.goodsTitle;
           }
           elem.textContent = replaceTextContent(
@@ -110,7 +95,7 @@ async function main(settings: Settings) {
             elem,
             details,
             selectedAgent,
-            platform
+            link.marketplace
           );
         } catch (detailsError) {
           console.error(detailsError);
@@ -119,12 +104,12 @@ async function main(settings: Settings) {
             elem,
             null,
             selectedAgent,
-            platform
+            link.marketplace
           );
         }
       } else if (
         (elem.textContent && elem.textContent.startsWith('https://')) ||
-        isBrokenRedditImageLink(elem.textContent ?? '', platform)
+        isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;
       }

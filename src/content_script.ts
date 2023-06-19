@@ -1,12 +1,10 @@
 /* eslint-disable no-param-reassign */
 
+import { CnLink } from 'cn-links';
+
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
-import { detectPlatform } from './lib/detectPlatform';
-import { extractId } from './lib/extractId';
 import { findLinksOnPage } from './lib/findLinksOnPage';
-import { generateAgentLink } from './lib/generateAgentLink';
-import { generateProperLink } from './lib/generateProperLink';
-import { getLink } from './lib/getLink';
+import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
 import { addQcElement } from './lib/html/addQcElement';
 import { getImageAgent } from './lib/html/getImageAgent';
@@ -33,67 +31,83 @@ async function main(settings: Settings) {
     // Test if it is an agent link. If so, extract the inner link
     // Convert anchor tag to URL object.
     // Link is the URL object, elem is the html element (including the link)
-    const link = await getLink(elem, settings);
+    const decryptLink = async () => {
+      const decrypted = await handleShortenedLink(elem, settings);
+      const newLink = decrypted ?? new URL(elem.href);
+      return newLink;
+    };
 
-    if (!link) {
-      console.error('No link object could be extracted from link: ', elem.href);
+    const originalLink = await decryptLink();
+
+    if (!originalLink) {
+      console.error(
+        'RA Browser Extension:',
+        'No link object could be extracted from link: ',
+        elem.href
+      );
       return false;
     }
 
     // Update html element
-    elem.href = link.href;
+    elem.href = originalLink.href;
 
     // At this point we have an URL object that contains the marketplace link
 
-    const platform = detectPlatform(link.hostname);
-    if (!platform) {
-      console.error('No platform detected in link: ', link.href);
-      return false;
-    }
-    const id = extractId(platform, link.href);
-    if (!id) {
-      console.error('No id could be extracted from link: ', link.href);
-      return false;
-    }
-    const innerLink = generateProperLink(platform, id);
+    const getLink = () => {
+      try {
+        return new CnLink(originalLink);
+      } catch (err) {
+        return null;
+      }
+    };
 
-    const newLink = generateAgentLink(
-      selectedAgent,
-      innerLink,
-      platform,
-      id,
-      settings
-    );
+    const link = getLink();
+    if (!link) {
+      console.error(
+        'RA Browser Extension:',
+        'Could not process link:',
+        originalLink
+      );
+      return false;
+    }
+    const newLink = link.as(selectedAgent);
 
     // ^^ Link build finished ^^
 
     // Add Images
     // Note: If raw images is selected, it defaults to platform images
     if (settings.logoPlatform) {
-      elem.insertAdjacentHTML('beforebegin', getPlatformImage(platform));
+      elem.insertAdjacentHTML(
+        'beforebegin',
+        getPlatformImage(link.marketplace)
+      );
     }
     if (settings.logoAgent && selectedAgent !== 'raw') {
       elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
     }
 
     if (newLink) {
-      elem.href = newLink;
+      elem.href = newLink.href;
       // Test: if the complete mark can be added here
 
       // Add details
       const { promiseDetails, promiseQcAvailable } = getOnlineFeatures(
         settings,
-        platform,
-        id
+        link
       );
       if (
         settings.onlineFeatures &&
-        !isBrokenRedditImageLink(elem.textContent ?? '', platform)
+        !isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
       ) {
         try {
           const details = await promiseDetails;
           if (details && details.data) {
-            addHtmlOnlineElements(settings, details.data, elem, platform);
+            addHtmlOnlineElements(
+              settings,
+              details.data,
+              elem,
+              link.marketplace
+            );
             elem.title = details.data.item.goodsTitle;
           }
           elem.textContent = replaceTextContent(
@@ -101,7 +115,7 @@ async function main(settings: Settings) {
             elem,
             details,
             selectedAgent,
-            platform
+            link.marketplace
           );
         } catch (detailsError) {
           console.error(detailsError);
@@ -110,12 +124,12 @@ async function main(settings: Settings) {
             elem,
             null,
             selectedAgent,
-            platform
+            link.marketplace
           );
         }
       } else if (
         (elem.textContent && elem.textContent.startsWith('https://')) ||
-        isBrokenRedditImageLink(elem.textContent ?? '', platform)
+        isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;
       }

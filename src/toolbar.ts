@@ -1,12 +1,15 @@
 // Get the storage API for the current browser
 
+import {
+  agents,
+  agentsWithRaw,
+  CnLink,
+  detectAgent,
+  detectMarketplace,
+} from 'cn-links';
+
 import { Button } from './components';
 import { getQcAvailable } from './lib/api/getQcAvailable';
-import { detectAgent } from './lib/detectAgent';
-import { detectPlatform } from './lib/detectPlatform';
-import { generateProperLink } from './lib/generateProperLink';
-import { getAllAgentLinks } from './lib/getAllAgentLinks';
-import { getIdPlatform } from './lib/getIdPlatform';
 import {
   addObserver,
   handleExceptionElements,
@@ -15,7 +18,7 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
-import type { Agent, AgentWithRaw, Platform, QcAvailable } from './models';
+import type { Agent, AgentWithRaw, CurrentPage, QcAvailable } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
@@ -35,12 +38,7 @@ const QC = (response: QcAvailable) => {
   return qc;
 };
 
-const Links = (
-  links: { [agent in AgentWithRaw]: string },
-  activeAgent: Agent | null,
-  activePlatform: Platform | null,
-  myAgent: AgentWithRaw
-) => {
+const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
   const div = document.createElement('div');
 
   const sortKeys = (a: string, b: string) => {
@@ -53,46 +51,41 @@ const Links = (
     return 0;
   };
 
-  if (activeAgent) {
-    Object.keys(links)
-      .filter((key) => key !== activeAgent && links[key as Agent])
+  if (currentPage.agent) {
+    agentsWithRaw
+      .filter((agent) => agent !== currentPage.agent)
       .sort(sortKeys)
-      .map((key) => {
-        const link = links[key as Agent];
-        const button = Button(link, true);
-        if (key === 'raw') {
-          const platform = detectPlatform(new URL(link).hostname);
-          if (platform) {
-            button.innerHTML = `${getPlatformImage(platform)} ${platform}`;
-          } else {
-            button.innerText = platform ?? key;
-          }
-        } else if (key === myAgent) {
-          button.innerHTML = `${getImageAgent(key as Agent)} ${key}`;
+      .map((agent: AgentWithRaw) => {
+        const link = currentPage.link.as(agent);
+        const button = Button(link.href, true);
+        if (agent === 'raw') {
+          button.innerHTML = `${getPlatformImage(
+            currentPage.link.marketplace
+          )} ${currentPage.link.marketplace}`;
+        } else if (agent === myAgent) {
+          button.innerHTML = `${getImageAgent(agent)} ${agent}`;
         } else {
-          button.innerHTML = getImageAgent(key as Agent);
+          button.innerHTML = getImageAgent(agent);
         }
-        button.title = key;
+        button.title = agent;
         div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
         return button;
       });
   }
-  if (activePlatform) {
-    Object.keys(links)
-      .filter((key) => links[key as Agent] && key !== 'raw')
-      .sort(sortKeys)
-      .map((key) => {
-        const link = links[key as Agent];
-        const button = Button(link, true);
-        if (key === myAgent) {
-          button.innerHTML = `${getImageAgent(key as Agent)} ${key}`;
-        } else {
-          button.innerHTML = getImageAgent(key as Agent);
-        }
-        button.title = key;
-        div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
-        return button;
-      });
+
+  if (currentPage.marketplace) {
+    [...agents].sort(sortKeys).map((agent: Agent) => {
+      const link = currentPage.link.as(agent);
+      const button = Button(link.href, true);
+      if (agent === myAgent) {
+        button.innerHTML = `${getImageAgent(agent)} ${agent}`;
+      } else {
+        button.innerHTML = getImageAgent(agent);
+      }
+      button.title = agent;
+      div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
+      return button;
+    });
   }
 
   return div;
@@ -133,31 +126,11 @@ async function toolbar() {
     return false;
   }
 
-  // Either one should be detected, depending on whether you are on an agent or platform page.
-  const agent = detectAgent(window.location.href);
-  const readPlatform = detectPlatform(window.location.hostname);
-
-  if (!agent && !readPlatform) {
-    return false;
-  }
-
-  // Get id and platform from wherever we are
-  const { id, platform } = getIdPlatform(
-    window.location.href,
-    agent ?? undefined,
-    readPlatform ?? undefined
-  );
-
-  if (!id || !platform) {
-    return false;
-  }
-
-  // Generate links to all platforms.
-  const links = getAllAgentLinks(
-    generateProperLink(platform, id),
-    platform,
-    id
-  );
+  const currentPage: CurrentPage = {
+    link: new CnLink(window.location.href),
+    agent: detectAgent(window.location.href),
+    marketplace: detectMarketplace(new URL(window.location.href)),
+  };
 
   // Build html
   const body = document.querySelector('body');
@@ -170,7 +143,7 @@ async function toolbar() {
     qcString = null;
   } else {
     try {
-      const response = await getQcAvailable(platform, id);
+      const response = await getQcAvailable(currentPage.link);
       if (response && response.state === 0 && response.data) {
         qcString = QC(response).outerHTML;
       }
@@ -180,12 +153,12 @@ async function toolbar() {
   }
 
   // Exceptions
-  handleExceptionElements(agent);
+  handleExceptionElements(detectAgent(window.location.href));
 
   const elem = BodyElement();
   const inner = Inner();
   inner.innerHTML = `${qcString ?? '<div></div>'} ${
-    Links(links, agent, readPlatform, settings.myAgent).outerHTML
+    Links(currentPage, settings.myAgent).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
@@ -202,11 +175,11 @@ async function toolbar() {
       if (elem) {
         toolbarElem.style.display = 'none';
       }
-      undoExceptionElements(agent);
+      undoExceptionElements(currentPage.agent);
     }
   });
 
-  const observer = addObserver(readPlatform);
+  const observer = addObserver(currentPage.marketplace);
   if (observer) {
     observer.observe(document.body, {
       childList: true,

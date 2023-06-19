@@ -1,4 +1,5 @@
-import { detectAgent } from './lib/detectAgent';
+import { detectAgent } from 'cn-links';
+
 import { getAffiliates } from './lib/getAffiliates';
 import { validateRegisterPage } from './lib/validateRegisterPage';
 

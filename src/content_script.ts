@@ -31,16 +31,20 @@ async function main(settings: Settings) {
     // Test if it is an agent link. If so, extract the inner link
     // Convert anchor tag to URL object.
     // Link is the URL object, elem is the html element (including the link)
-    const getLink = async () => {
+    const decryptLink = async () => {
       const decrypted = await handleShortenedLink(elem, settings);
       const newLink = decrypted ?? new URL(elem.href);
       return newLink;
     };
 
-    const originalLink = await getLink();
+    const originalLink = await decryptLink();
 
     if (!originalLink) {
-      console.error('No link object could be extracted from link: ', elem.href);
+      console.error(
+        'RA Browser Extension:',
+        'No link object could be extracted from link: ',
+        elem.href
+      );
       return false;
     }
 
@@ -49,7 +53,23 @@ async function main(settings: Settings) {
 
     // At this point we have an URL object that contains the marketplace link
 
-    const link = new CnLink(originalLink);
+    const getLink = () => {
+      try {
+        return new CnLink(originalLink);
+      } catch (err) {
+        return null;
+      }
+    };
+
+    const link = getLink();
+    if (!link) {
+      console.error(
+        'RA Browser Extension:',
+        'Could not process link:',
+        originalLink
+      );
+      return false;
+    }
     const newLink = link.as(selectedAgent);
 
     // ^^ Link build finished ^^

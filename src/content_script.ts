@@ -138,8 +138,8 @@ async function main(settings: Settings) {
       try {
         if (settings.onlineFeaturesQcPhotos) {
           const qcAvailable = await promiseQcAvailable;
-          if (qcAvailable && qcAvailable.state === 0 && qcAvailable.data) {
-            addQcElement(qcAvailable, elem);
+          if (qcAvailable?.success && qcAvailable.data?.product_has_qc) {
+            addQcElement(link, elem);
           }
         }
       } catch (qcAvailableError) {

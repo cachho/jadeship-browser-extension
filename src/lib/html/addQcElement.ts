@@ -1,11 +1,8 @@
-import type { QcAvailable } from '../../models';
+import type { CnLink } from 'cn-links';
 
-export function addQcElement(
-  qcAvailable: QcAvailable,
-  link: HTMLAnchorElement
-) {
+export function addQcElement(cnLink: CnLink, link: HTMLAnchorElement) {
   const elem = document.createElement('a');
-  elem.href = qcAvailable.link;
+  elem.href = `https://qc.photos/?url=${cnLink.as('raw')}`;
   elem.target = '_blank';
   elem.rel = 'nofollow norefferer noopener';
   elem.textContent = '📷';

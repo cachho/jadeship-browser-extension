@@ -18,7 +18,7 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
-import type { Agent, AgentWithRaw, CurrentPage, QcAvailable } from './models';
+import type { Agent, AgentWithRaw, CurrentPage } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
@@ -32,8 +32,8 @@ const BodyElement = () => {
   return elem;
 };
 
-const QC = (response: QcAvailable) => {
-  const qc = Button(response.link);
+const QC = (link: CnLink) => {
+  const qc = Button(`https://qc.photos/?url=${link.as('raw')}`);
   qc.innerText = `📷 QC Pics available`;
   return qc;
 };
@@ -144,8 +144,8 @@ async function toolbar() {
   } else {
     try {
       const response = await getQcAvailable(currentPage.link);
-      if (response && response.state === 0 && response.data) {
-        qcString = QC(response).outerHTML;
+      if (response?.success && response.data?.product_has_qc) {
+        qcString = QC(currentPage.link).outerHTML;
       }
     } catch (err) {
       console.error(err);

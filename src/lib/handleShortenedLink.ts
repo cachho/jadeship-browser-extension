@@ -19,6 +19,18 @@ export async function handleShortenedLink(
     if (response && response.data) {
       return new URL(response.data.url);
     }
+  } else if (link.hostname === 'k.youshop10.com' && settings.onlineFeatures) {
+    const url = `https://api.reparchive.com/convert/kyoushop${link.pathname}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return new URL(response.data.url);
+    }
+  } else if (link.hostname === 'm.tb.cn' && settings.onlineFeatures) {
+    const url = `https://api.reparchive.com/convert/taobao${link.pathname}`;
+    const response: ApiResponse<{ url: string }> = await fetchData(url);
+    if (response && response.data) {
+      return new URL(response.data.url);
+    }
   }
   return null;
 }

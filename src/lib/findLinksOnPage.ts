@@ -7,6 +7,7 @@ export function findLinksOnPage(settings: Settings) {
     targetedHrefs = targetedHrefs.concat([
       'weidian.com/item',
       'weidian.com/fastorder',
+      'k.youshop10.com',
     ]);
   }
 
@@ -14,6 +15,7 @@ export function findLinksOnPage(settings: Settings) {
     targetedHrefs = targetedHrefs.concat([
       'taobao.com/item',
       'm.intl.taobao.com/detail',
+      'm.tb.cn',
     ]);
   }
 

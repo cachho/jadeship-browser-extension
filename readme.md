@@ -17,7 +17,7 @@ This leaves you with a seamless shopping experience, where you don't have to wor
 Some other features:
 - shows you if quality control (QC) pics are available on qc.photos
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
-- handles shortened links
+- handles shortened links (pandabuy.page.link, k.youshop.com, m.tb.cn, qr.1688.com)
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 

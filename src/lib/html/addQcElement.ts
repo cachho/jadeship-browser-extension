@@ -2,7 +2,7 @@ import type { CnLink } from 'cn-links';
 
 export function addQcElement(cnLink: CnLink, link: HTMLAnchorElement) {
   const elem = document.createElement('a');
-  elem.href = `https://qc.photos/?url=${encodeURIComponent(
+  elem.href = `https://qc.photos/qc?url=${encodeURIComponent(
     cnLink.as('raw').href
   )}`;
   elem.target = '_blank';

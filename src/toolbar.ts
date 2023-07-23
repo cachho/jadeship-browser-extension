@@ -34,7 +34,7 @@ const BodyElement = () => {
 
 const QC = (link: CnLink) => {
   const qc = Button(
-    `https://qc.photos/?url=${encodeURIComponent(link.as('raw').href)}`
+    `https://qc.photos/qc?url=${encodeURIComponent(link.as('raw').href)}`
   );
   qc.innerText = `📷 QC Pics available`;
   return qc;

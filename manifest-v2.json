@@ -61,7 +61,7 @@
     "*://*.cssbuy.com/*",
     "*://*.pandabuy.com/*",
     "https://api.reparchive.com/*",
-    "https://product2.rep.ninja/*"
+    "https://api.qc.photos/*"
   ],
   "web_accessible_resources": [
     "assets/agent_logos/*",

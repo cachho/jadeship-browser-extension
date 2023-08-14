@@ -58,7 +58,7 @@ const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
       .filter((agent) => agent !== currentPage.agent)
       .sort(sortKeys)
       .map((agent: AgentWithRaw) => {
-        const link = currentPage.link.as(agent);
+        const link = currentPage.link.as(agent, undefined, '27');
         const button = Button(link.href, true);
         if (agent === 'raw') {
           button.innerHTML = `${getPlatformImage(
@@ -77,7 +77,7 @@ const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
 
   if (currentPage.marketplace) {
     [...agents].sort(sortKeys).map((agent: Agent) => {
-      const link = currentPage.link.as(agent);
+      const link = currentPage.link.as(agent, undefined, '27');
       const button = Button(link.href, true);
       if (agent === myAgent) {
         button.innerHTML = `${getImageAgent(agent)} ${agent}`;

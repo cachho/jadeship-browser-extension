@@ -70,7 +70,7 @@ async function main(settings: Settings) {
       );
       return false;
     }
-    const newLink = link.as(selectedAgent);
+    const newLink = link.as(selectedAgent, undefined, '27');
 
     // ^^ Link build finished ^^
 

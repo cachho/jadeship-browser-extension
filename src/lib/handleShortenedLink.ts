@@ -5,8 +5,14 @@ export async function handleShortenedLink(
   link: HTMLAnchorElement,
   settings: Settings
 ): Promise<URL | null> {
-  if (link.hostname === 'pandabuy.page.link' && settings.onlineFeatures) {
-    const url = `https://api.reparchive.com/convert/pandabuy${link.pathname}`;
+  if (
+    (link.hostname === 'pandabuy.page.link' ||
+      link.hostname === 'pandabuy.allapp.link') &&
+    settings.onlineFeatures
+  ) {
+    const url = `https://api.reparchive.com/convert/pandabuy?url=${encodeURIComponent(
+      link.href
+    )}`;
     const response: ApiResponse<{ url: string }> = await fetchData(url);
     if (response && response.data) {
       return new URL(response.data.url);

@@ -47,6 +47,7 @@ export function findLinksOnPage(settings: Settings) {
       'sugargoo.com/index/item',
       'cssbuy.com/item',
       'hagobuy.com/item',
+      'weidian.info',
     ]);
   }
 

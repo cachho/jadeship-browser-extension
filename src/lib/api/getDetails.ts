@@ -8,7 +8,7 @@ export async function getDetails(
   cnLink: CnLink
 ): Promise<ApiResponse<Details> | null> {
   const d = await fetchData(
-    `https://api.reparchive.com/livefeed/details/item/${cnLink.marketplace}/${cnLink.id}`
+    `https://reparchive.com/api/feed/details/${cnLink.marketplace}/${cnLink.id}`
   );
   return d;
 }

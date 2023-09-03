@@ -149,6 +149,7 @@ if (storage) {
     storage?.local.set({ taobaoLink: masterToggle.checked });
     storage?.local.set({ weidianLink: masterToggle.checked });
     storage?.local.set({ s1688Link: masterToggle.checked });
+    storage?.local.set({ tmallLink: masterToggle.checked });
     storage?.local.set({ agentLink: masterToggle.checked });
   });
   showThumbnail.addEventListener('change', () => {

@@ -2,7 +2,7 @@
 
 Short summary: **Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich the page with online information and QC pics.**
 
-Summary: **My Agent Extension - automatically convert all links on reddit and yupoo to your favorite agent and enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
+Summary: **My Agent Extension - automatically convert all links on reddit and yupoo to your favorite agent; enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
 
 ---
 

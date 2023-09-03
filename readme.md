@@ -15,10 +15,10 @@ It enriches the page with extra information about the product and it's sales ran
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
 Some other features:
+- convert links on reddit.com and yupoo.com
 - shows you if quality control (QC) pics are available on qc.photos
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
-- handles shortened links (pandabuy.page.link, k.youshop.com, m.tb.cn, qr.1688.com)
-- convert links on yupoo
+- handles shortened links (pandabuy.page.link, pandabuy.allapp.link, weidian.info, k.youshop.com, m.tb.cn, qr.1688.com, etc.)
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 

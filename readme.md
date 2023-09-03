@@ -1,12 +1,12 @@
 # RepArchive Browser Extension
 
-Short summary: **Automatically convert all links on reddit to your favorite shopping agent; enrich the page with online information and QC pics.**
+Short summary: **Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich the page with online information and QC pics.**
 
-Summary: **My Agent Extension - automatically convert all links on reddit to your favorite agent and enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
+Summary: **My Agent Extension - automatically convert all links on reddit and yupoo to your favorite agent and enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
 
 ---
 
-This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits.
+This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits, and yupoo.com.
 
 It rewrites all links to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
 
@@ -18,6 +18,7 @@ Some other features:
 - shows you if quality control (QC) pics are available on qc.photos
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
 - handles shortened links (pandabuy.page.link, k.youshop.com, m.tb.cn, qr.1688.com)
+- convert links on yupoo
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 

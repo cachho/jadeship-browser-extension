@@ -16,7 +16,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.reddit.com/*"],
+      "matches": ["*://*.reddit.com/*", "*://*.x.yupoo.com/*"],
       "js": ["build/content_script.js"],
       "run_at": "document_end"
     },
@@ -52,6 +52,7 @@
   "permissions": [
     "storage",
     "*://*.reddit.com/*",
+    "*://*.x.yupoo.com/*",
     "*://*.wegobuy.com/*",
     "*://*.superbuy.com/*",
     "*://*.sugargoo.com/*",

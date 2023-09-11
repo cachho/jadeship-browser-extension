@@ -7,6 +7,7 @@ export const settingNames = [
   's1688Link',
   'tmallLink',
   'agentLink',
+  'thirdPartyLink',
   'logoAgent',
   'logoPlatform',
   'myAgent',
@@ -33,6 +34,7 @@ export const settingNames = [
 
 export type Settings = {
   agentLink: boolean;
+  thirdPartyLink: boolean;
   affiliateProgram: boolean;
   affiliateAppend: boolean;
   logoAgent: boolean;
@@ -62,6 +64,7 @@ export type Settings = {
 
 export const defaultSettings: Settings = {
   agentLink: true,
+  thirdPartyLink: true,
   affiliateProgram: true,
   affiliateAppend: false,
   logoAgent: false,

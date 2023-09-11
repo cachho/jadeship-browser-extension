@@ -4,6 +4,7 @@ import { CnLink } from 'cn-links';
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { findLinksOnPage } from './lib/findLinksOnPage';
+import { getDomain } from './lib/getDomain';
 import { getTargetHrefs } from './lib/getTargetHrefs';
 import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
@@ -14,6 +15,8 @@ import { replaceTextContent } from './lib/html/replaceTextContent';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
 import type { AgentWithRaw } from './models';
+import type { ThirdParty } from './models/3rdParty';
+import { thirdParty } from './models/3rdParty';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
 
@@ -21,6 +24,17 @@ async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
   // Get the selected agent from local storage
   const selectedAgent: AgentWithRaw = settings.myAgent;
+
+  if (
+    !settings.thirdPartyLink &&
+    thirdParty.indexOf(
+      getDomain(new URL(window.location.href)) as ThirdParty
+    ) !== -1
+  ) {
+    // It's a third party link while those are not allowed.
+    return;
+  }
+
   // Find all the links on the page with "taobao.com" in the href attribute
   const targetedHrefs = getTargetHrefs(settings);
   const links = findLinksOnPage(targetedHrefs);

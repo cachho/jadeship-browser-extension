@@ -4,6 +4,7 @@ import { CnLink } from 'cn-links';
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { findLinksOnPage } from './lib/findLinksOnPage';
+import { getTargetHrefs } from './lib/getTargetHrefs';
 import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
 import { addQcElement } from './lib/html/addQcElement';
@@ -21,7 +22,8 @@ async function main(settings: Settings) {
   // Get the selected agent from local storage
   const selectedAgent: AgentWithRaw = settings.myAgent;
   // Find all the links on the page with "taobao.com" in the href attribute
-  const links = findLinksOnPage(settings);
+  const targetedHrefs = getTargetHrefs(settings);
+  const links = findLinksOnPage(targetedHrefs);
 
   links.forEach(async (elem) => {
     // This makes sure each link is only handled once.

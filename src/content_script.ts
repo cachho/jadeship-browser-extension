@@ -4,6 +4,7 @@ import { CnLink } from 'cn-links';
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { findLinksOnPage } from './lib/findLinksOnPage';
+import { findNestedLinksOnPage } from './lib/findNestedLinksOnPage';
 import { getTargetHrefs } from './lib/getTargetHrefs';
 import { getThirdPartyPage } from './lib/getThirdPartyPage';
 import { handleShortenedLink } from './lib/handleShortenedLink';
@@ -29,11 +30,13 @@ async function main(settings: Settings) {
     return;
   }
 
-  // Find all the links on the page with "taobao.com" in the href attribute
   const targetedHrefs = getTargetHrefs(settings);
+  // Nested links are scanned first. Then a dataset tag is added so they are not rescanned.
+  const nestedLinks = thirdPartyPage ? findNestedLinksOnPage() : [];
+  // Find all the links on the page with "taobao.com" in the href attribute
   const links = findLinksOnPage(targetedHrefs);
 
-  links.forEach(async (elem) => {
+  [...links, ...nestedLinks].forEach(async (elem) => {
     // This makes sure each link is only handled once.
     // TODO: Verify that this is the best way to deal with this.
     elem.dataset.reparchiveExtension = 'true';

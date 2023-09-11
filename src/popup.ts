@@ -14,6 +14,9 @@ if (storage) {
   const s1688Link = document.getElementById('s1688_link') as HTMLInputElement;
   const tmallLink = document.getElementById('tmall_link') as HTMLInputElement;
   const agentLink = document.getElementById('agent_link') as HTMLInputElement;
+  const thirdPartyLink = document.getElementById(
+    '3rdparty_link'
+  ) as HTMLInputElement;
   const logoAgent = document.getElementById('logo_agent') as HTMLInputElement;
   const logoPlatform = document.getElementById(
     'logo_platform'
@@ -71,6 +74,7 @@ if (storage) {
     s1688Link.checked = data.s1688Link;
     tmallLink.checked = data.tmallLink;
     agentLink.checked = data.agentLink;
+    thirdPartyLink.checked = data.thirdPartyLink;
     logoAgent.checked = data.logoAgent;
     logoPlatform.checked = data.logoPlatform;
     myAgent.value = data.myAgent;
@@ -119,6 +123,9 @@ if (storage) {
   agentLink.addEventListener('change', () => {
     storage?.local.set({ agentLink: agentLink.checked });
   });
+  thirdPartyLink.addEventListener('change', () => {
+    storage?.local.set({ thirdPartyLink: thirdPartyLink.checked });
+  });
   logoAgent.addEventListener('change', () => {
     storage?.local.set({ logoAgent: logoAgent.checked });
   });
@@ -146,11 +153,13 @@ if (storage) {
     s1688Link.checked = masterToggle.checked;
     tmallLink.checked = masterToggle.checked;
     agentLink.checked = masterToggle.checked;
+    thirdPartyLink.checked = masterToggle.checked;
     storage?.local.set({ taobaoLink: masterToggle.checked });
     storage?.local.set({ weidianLink: masterToggle.checked });
     storage?.local.set({ s1688Link: masterToggle.checked });
     storage?.local.set({ tmallLink: masterToggle.checked });
     storage?.local.set({ agentLink: masterToggle.checked });
+    storage?.local.set({ thirdPartyLink: thirdPartyLink.checked });
   });
   showThumbnail.addEventListener('change', () => {
     storage?.local.set({ showThumbnail: showThumbnail.checked });

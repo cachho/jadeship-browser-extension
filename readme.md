@@ -22,8 +22,9 @@ Some other features:
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Supported shopping agents: pandabuy.com, sugargoo.com, wegobuy.com, superbuy.com, cssbuy.com, hagobuy.com
+Supported shopping agents: Pandabuy, Sugargoo, Wegobuy, Superbuy, Cssbuy and Hagobuy
 Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
+Supported pages: Reddit, Yupoo, all shopping agents.
 
 Safety & Privacy:
 - the source code is open source, so anyone can review it and contribute

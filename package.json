@@ -1,20 +1,36 @@
 {
   "scripts": {
-    "dev": "webpack --config webpack.dev.js",
-    "watch": "webpack -w --config webpack.dev.js",
     "build": "sh build.sh",
+    "check-types": "tsc --noEmit --pretty",
+    "dev": "webpack --config webpack.dev.js",
     "prepare": "husky install",
-    "check-types": "tsc --noEmit --pretty"
+    "watch": "webpack -w --config webpack.dev.js"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "cn-links": "^1.3.2",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@commitlint/cz-commitlint": "^17.1.2",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "@types/chrome": "^0.0.211",
     "@types/firefox-webext-browser": "^109.0.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.11",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
     "addons-linter": "^5.28.0",
+    "css-loader": "^6.7.3",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
@@ -29,12 +45,9 @@
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "ts-loader": "^9.4.2",
-    "typescript": "^5.0.4",
-    "webpack": "^5.81.0",
-    "webpack-cli": "^5.0.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
     "webpack-merge": "^4.2.2"
-  },
-  "dependencies": {
-    "cn-links": "^1.3.2"
   }
 }

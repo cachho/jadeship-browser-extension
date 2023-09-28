@@ -17,12 +17,12 @@ webpack --config webpack.prod.js
 echo ""
 
 #######################################
-# Copy assets & modify assets
+# Copy public & modify public
 #######################################
-cp -r assets build
+cp -r public build
 
 # Replace all references of '../build/popup.js' with '../popup.js' in the copied popup.html
-sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/assets/popup.html
+sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
 
 #######################################
 # Copy the manifest file
@@ -77,7 +77,7 @@ json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings
 # For Firefox exclusively
 #######################################
 # Replace 'service_worker' with 'scripts'.
-json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./background.js"]; delete this.service_worker;'
+json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
 json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
 
 

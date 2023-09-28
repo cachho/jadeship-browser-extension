@@ -18,7 +18,6 @@ module.exports = {
     index: './src/index.tsx',
     background: './src/background.ts',
     content_script: './src/content_script.ts',
-    popup: './src/popup.ts',
     redirect: './src/redirect.ts',
     toolbar: './src/toolbar.ts',
   },

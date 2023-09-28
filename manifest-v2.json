@@ -27,7 +27,10 @@
         "*://*.sugargoo.com/*",
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
-        "*://*.hagobuy.com/*"
+        "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*"
       ],
       "js": ["build/js/redirect.js"],
       "run_at": "document_start"
@@ -40,6 +43,9 @@
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
         "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -59,6 +65,9 @@
     "*://*.hagobuy.com/*",
     "*://*.cssbuy.com/*",
     "*://*.pandabuy.com/*",
+    "*://*.kameymall.com/*",
+    "*://*.ezbuycn.com/*",
+    "*://*.cnfans.com/*",
     "https://*.reparchive.com/*",
     "https://api.qc.photos/*"
   ],

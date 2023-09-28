@@ -1,4 +1,4 @@
-import type { Agent } from './Agent';
+import type { Agent } from 'cn-links';
 
 export type Affiliate = {
   active: boolean;

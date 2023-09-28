@@ -1,10 +1,6 @@
-import type {
-  AgentWithRaw,
-  ApiResponse,
-  Details,
-  Platform,
-  Settings,
-} from '../../models';
+import type { AgentWithRaw } from 'cn-links';
+
+import type { ApiResponse, Details, Platform, Settings } from '../../models';
 import { isBrokenRedditImageLink } from '../isBrokenRedditImageLink';
 
 export function replaceTextContent(

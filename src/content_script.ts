@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+import type { AgentWithRaw } from 'cn-links';
 import { CnLink } from 'cn-links';
 
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
@@ -15,7 +16,6 @@ import { getPlatformImage } from './lib/html/getPlatformImage';
 import { replaceTextContent } from './lib/html/replaceTextContent';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
-import type { AgentWithRaw } from './models';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
 

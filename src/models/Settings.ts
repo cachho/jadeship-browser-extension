@@ -60,6 +60,7 @@ export type Settings = {
   displayOverwriteTitle: boolean;
   affiliate?: Affiliate[];
   showToolbar: boolean;
+  isDefault: boolean;
 };
 
 export const defaultSettings: Settings = {
@@ -89,4 +90,5 @@ export const defaultSettings: Settings = {
   displayTitleLength: '64',
   displayOverwriteTitle: false,
   showToolbar: true,
+  isDefault: true,
 };

@@ -1,9 +1,10 @@
 import "./App.css"
+import Popup from "./components/Popup";
 
 function App() {
   return (
     <div className="App">
-      Hello World
+      <Popup />
     </div>
   );
 }

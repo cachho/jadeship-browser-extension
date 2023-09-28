@@ -17,12 +17,12 @@ webpack --config webpack.prod.js
 echo ""
 
 #######################################
-# Copy assets & modify assets
+# Copy public & modify public
 #######################################
-cp -r assets build
+cp -r public build
 
 # Replace all references of '../build/popup.js' with '../popup.js' in the copied popup.html
-sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/assets/popup.html
+sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
 
 #######################################
 # Copy the manifest file

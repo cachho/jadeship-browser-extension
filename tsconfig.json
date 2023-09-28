@@ -1,13 +1,22 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "CommonJS",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
-    "outDir": "build",
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
     "rootDir": "src",
-    "sourceMap": true,
+    "jsx": "react-jsx",
     "types": ["chrome", "firefox-webext-browser"]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "build"]
+  "include": ["src"]
 }

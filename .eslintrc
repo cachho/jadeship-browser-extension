@@ -16,7 +16,7 @@
     "overrides": [
       // Configuration for TypeScript files
       {
-        "files": ["**/*.ts"],
+        "files": ["**/*.ts", "**/*.tsx"],
         "plugins": [
           "@typescript-eslint",
           "unused-imports",
@@ -43,9 +43,9 @@
           "simple-import-sort/imports": "error", // Import configuration for `eslint-plugin-simple-import-sort`
           "simple-import-sort/exports": "error", // Export configuration for `eslint-plugin-simple-import-sort`
           "@typescript-eslint/no-unused-vars": "off",
-          "react/jsx-filename-extension": "off", // Gives error
+"react/jsx-filename-extension": "off", // Gives error
           "unused-imports/no-unused-imports": "error",
-          "unused-imports/no-unused-vars": [
+                    "unused-imports/no-unused-vars": [
             "error",
             { "argsIgnorePattern": "^_" }
           ]

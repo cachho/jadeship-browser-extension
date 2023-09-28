@@ -1,0 +1,52 @@
+.container {
+    width: 18rem;
+    height: 15rem;
+}
+
+body {
+    margin: 0px;
+}
+
+.App {
+    overflow-y: auto;
+    padding: 10px; /* Fixed the 'padding' value to include a unit */
+    background-color: #2bb675;
+    color: white;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  select {
+    margin-right: 10px;
+    width: 115px;
+    padding: 3px;
+    border-radius: 25px; /* Fixed the 'border-radius' value to include a unit */
+  }
+  
+  /* Custom styles for the scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+  }
+  
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    margin: 0;
+  }
+  
+  /* Hide scrollbar on Firefox */
+  @-moz-document url-prefix() {
+    html, body {
+      scrollbar-width: none;
+    }
+  }
+  

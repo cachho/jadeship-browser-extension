@@ -18,11 +18,11 @@ Some other features:
 - convert links on reddit.com and yupoo.com
 - shows you if quality control (QC) pics are available on qc.photos
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
-- handles shortened links (pandabuy.page.link, pandabuy.allapp.link, weidian.info, k.youshop.com, m.tb.cn, qr.1688.com, etc.)
+- handles shortened links (pandabuy.page.link, pandabuy.app.link, weidian.info, etc.)
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Supported shopping agents: Pandabuy, Sugargoo, Wegobuy, Superbuy, Cssbuy and Hagobuy
+Supported shopping agents: Pandabuy, Sugargoo, Cssbuy, Hagobuy and other major agents
 Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 Supported pages: Reddit, Yupoo, all shopping agents.
 

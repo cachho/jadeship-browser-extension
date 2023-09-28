@@ -1,3 +1,5 @@
+import type { AgentWithRaw } from 'cn-links';
+import { agentsWithRaw } from 'cn-links';
 import React, { useEffect, useState } from 'react';
 
 import { getStorage, isChromeStorage } from '../lib/storage';
@@ -60,14 +62,20 @@ const Popup = () => {
         <img src="../public/reparchive_logo_white.png" width="232" />
       </a>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
-      <select id="my_agent">
-        <option value="pandabuy">PandaBuy</option>
-        <option value="superbuy">SuperBuy</option>
-        <option value="wegobuy">Wegobuy</option>
-        <option value="sugargoo">SugarGoo</option>
-        <option value="cssbuy">CSSBuy</option>
-        <option value="hagobuy">Hagobuy</option>
-        <option value="raw">raw (no agent)</option>
+      <select
+        onChange={(e) =>
+          agentsWithRaw.includes(e.target.value as AgentWithRaw)
+            ? setSettings({
+                ...settings,
+                myAgent: e.target.value as AgentWithRaw,
+              })
+            : console.error('Invalid agent')
+        }
+        value={settings.myAgent}
+      >
+        {agentsWithRaw.map((agent) => (
+          <option value={agent}>{agent}</option>
+        ))}
       </select>
       <a
         href="https://reparchive.com/shipping-calculator?r=extension"

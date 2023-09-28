@@ -2,7 +2,7 @@ import type { Agent } from 'cn-links';
 
 export function validateRegisterPage(
   agent: Agent,
-  location: Location
+  location: Location | URL
 ): boolean {
   if (agent === 'pandabuy') {
     return location.pathname.startsWith('/login');
@@ -20,7 +20,11 @@ export function validateRegisterPage(
     return location.pathname === '/' && params.get('action') === 'register';
   }
   if (agent === 'sugargoo') {
-    return location.pathname.startsWith('/index/user/register');
+    return (
+      location.pathname.startsWith('/#/login/login') ||
+      location.pathname.startsWith('/login/login') ||
+      location.pathname.startsWith('/index/user/register')
+    );
   }
   if (agent === 'hagobuy') {
     return location.pathname.startsWith('/register');

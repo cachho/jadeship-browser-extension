@@ -7,17 +7,17 @@
     "48": "assets/icon.png"
   },
   "background": {
-    "scripts": ["build/background.js"],
+    "scripts": ["build/js/background.js"],
     "persistent": true
   },
   "browser_action": {
     "default_icon": "assets/icon.png",
-    "default_popup": "assets/popup.html"
+    "default_popup": "build/js/index.html"
   },
   "content_scripts": [
     {
       "matches": ["*://*.reddit.com/*", "*://*.x.yupoo.com/*"],
-      "js": ["build/content_script.js"],
+      "js": ["build/js/content_script.js"],
       "run_at": "document_end"
     },
     {
@@ -29,7 +29,7 @@
         "*://*.pandabuy.com/*",
         "*://*.hagobuy.com/*"
       ],
-      "js": ["build/redirect.js"],
+      "js": ["build/js/redirect.js"],
       "run_at": "document_start"
     },
     {
@@ -45,7 +45,7 @@
         "*://*.1688.com/*",
         "*://*.tmall.com/*"
       ],
-      "js": ["build/toolbar.js"],
+      "js": ["build/js/toolbar.js"],
       "run_at": "document_end"
     }
   ],

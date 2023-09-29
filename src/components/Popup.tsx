@@ -95,7 +95,7 @@ const Popup = () => {
       <br />
       <h2 style={{ textAlign: 'center' }}>Settings</h2>
       <p>Changes take effect after reloading</p>
-      <h3>Functions:</h3>
+      <h3>Functionality:</h3>
       <h4>Scope:</h4>
       <input
         type="checkbox"
@@ -178,7 +178,6 @@ const Popup = () => {
       />
       3rd Party Link (Yupoo)
       <br />
-      <br />
       <h4>toolbar:</h4>
       <input
         type="checkbox"
@@ -188,42 +187,49 @@ const Popup = () => {
         }
       />
       show toolbar
-      <h4>toolbar includes:</h4>
-      {agents.map((agent) => {
-        const checked = settings.agentsInToolbar.includes(agent);
+      {settings.showToolbar ? (
+        <>
+          <h4>toolbar includes:</h4>
+          {agents.map((agent) => {
+            const checked = settings.agentsInToolbar.includes(agent);
 
-        function swap() {
-          const newSet = new Set(settings.agentsInToolbar);
-          if (checked) {
-            newSet.delete(agent);
-          } else {
-            newSet.add(agent);
-          }
-          setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
-        }
-        return (
-          <>
-            <input
-              type="checkbox"
-              checked={checked}
-              disabled={settings.myAgent === agent}
-              onClick={() => swap()}
-            />
-            {agent}
-            <br />
-          </>
-        );
-      })}
-      {settings.agentsInToolbar.length > 6 ? (
-        <span style={{ color: 'red' }}>
-          displaying more than 6 agents in the toolbar will lead to glitches on
-          weidian.
-        </span>
+            function swap() {
+              const newSet = new Set(settings.agentsInToolbar);
+              if (checked) {
+                newSet.delete(agent);
+              } else {
+                newSet.add(agent);
+              }
+              setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
+            }
+            return (
+              <>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={settings.myAgent === agent}
+                  onClick={() => swap()}
+                />
+                {agent}
+                <br />
+              </>
+            );
+          })}
+          {settings.agentsInToolbar.length > 6 ? (
+            <>
+              <span style={{ color: 'red' }}>
+                displaying more than 6 agents in the toolbar will lead to
+                glitches on weidian.
+              </span>
+              <br />
+            </>
+          ) : (
+            <></>
+          )}
+        </>
       ) : (
         <></>
       )}
-      <br />
-      <br />
       <h4>Online Features:</h4>
       <input
         type="checkbox"

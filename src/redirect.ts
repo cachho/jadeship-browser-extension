@@ -22,11 +22,7 @@ function redirect() {
         return null;
       }
 
-      const url = new URL(
-        agent !== 'sugargoo'
-          ? window.location.href
-          : `${window.location.href}`.replace('/#/', '/')
-      );
+      const url = new URL(window.location.href);
 
       if (agent === 'sugargoo') {
         url.hash = '';

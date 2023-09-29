@@ -20,14 +20,24 @@ export function validateRegisterPage(
     return location.pathname === '/' && params.get('action') === 'register';
   }
   if (agent === 'sugargoo') {
+    const newLocation = new URL(location.href.replace('/#/', '/'));
     return (
-      location.pathname.startsWith('/#/login/login') ||
-      location.pathname.startsWith('/login/login') ||
-      location.pathname.startsWith('/index/user/register')
+      newLocation.pathname.startsWith('/#/login/login') ||
+      newLocation.pathname.startsWith('/login/login') ||
+      newLocation.pathname.startsWith('/index/user/register')
     );
   }
   if (agent === 'hagobuy') {
     return location.pathname.startsWith('/register');
+  }
+  if (agent === 'kameymall') {
+    return location.pathname.startsWith('/login');
+  }
+  if (agent === 'cnfans') {
+    return location.pathname.startsWith('/register');
+  }
+  if (agent === 'ezbuycn') {
+    return location.pathname.startsWith('/reg.aspx');
   }
   return false;
 }

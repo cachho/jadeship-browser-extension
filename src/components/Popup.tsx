@@ -81,7 +81,9 @@ const Popup = () => {
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {agentsWithRaw.map((agent) => (
-          <option value={agent}>{agent}</option>
+          <option value={agent} key={`my-agent-select-${agent}`}>
+            {agent}
+          </option>
         ))}
       </select>
       <a
@@ -203,7 +205,7 @@ const Popup = () => {
               setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
             }
             return (
-              <>
+              <React.Fragment key={`toolbar-includes-${agent}`}>
                 <input
                   type="checkbox"
                   checked={checked}
@@ -212,7 +214,7 @@ const Popup = () => {
                 />
                 {agent}
                 <br />
-              </>
+              </React.Fragment>
             );
           })}
           {settings.agentsInToolbar.length > 6 ? (

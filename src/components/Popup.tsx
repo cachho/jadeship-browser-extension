@@ -214,6 +214,14 @@ const Popup = () => {
           </>
         );
       })}
+      {settings.agentsInToolbar.length > 6 ? (
+        <span style={{ color: 'red' }}>
+          displaying more than 6 agents in the toolbar will lead to glitches on
+          weidian.
+        </span>
+      ) : (
+        <></>
+      )}
       <br />
       <br />
       <h4>Online Features:</h4>

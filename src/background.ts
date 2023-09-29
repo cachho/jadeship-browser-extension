@@ -7,8 +7,9 @@ import { defaultSettings } from './models/Settings';
  * This script initializes local storage with default values and from the api.
  * @returns void
  */
-function initializeExtension() {
-  const storage = getStorage();
+function initializeExtension(
+  storage: typeof browser.storage | typeof chrome.storage | null
+) {
   // Check if we're running in Chrome
   if (storage && isChromeStorage(storage)) {
     Object.keys(defaultSettings).forEach((key) => {
@@ -72,4 +73,54 @@ function initializeExtension() {
   }
 }
 
-initializeExtension();
+/**
+ * Adds a listener to listen for redirect events.
+ */
+function addRedirectListener(isChrome: boolean) {
+  if (isChrome) {
+    chrome.webNavigation.onHistoryStateUpdated.addListener(
+      (details) => {
+        chrome.scripting.executeScript({
+          target: { tabId: details.tabId, allFrames: true },
+          files: ['build/js/redirect.js'],
+        });
+      },
+      {
+        url: [
+          { hostSuffix: 'wegobuy.com' },
+          { hostSuffix: 'superbuy.com' },
+          { hostSuffix: 'sugargoo.com' },
+          { hostSuffix: 'cssbuy.com' },
+          { hostSuffix: 'pandabuy.com' },
+          { hostSuffix: 'hagobuy.com' },
+          { hostSuffix: 'kameymall.com' },
+          { hostSuffix: 'ezbuycn.com' },
+          { hostSuffix: 'cnfans.com' },
+        ],
+      }
+    );
+  } else {
+    browser.webNavigation.onHistoryStateUpdated.addListener((details) => {
+      console.error(JSON.stringify(details));
+      browser.tabs
+        .executeScript(details.tabId, {
+          file: './js/redirect.js',
+          allFrames: true,
+        })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => {
+          console.error('Error executing script:', error);
+        });
+    });
+  }
+}
+
+function main() {
+  const storage = getStorage();
+  initializeExtension(storage);
+  addRedirectListener(isChromeStorage(storage));
+}
+
+main();

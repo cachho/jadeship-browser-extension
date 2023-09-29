@@ -48,21 +48,6 @@
         "*://*.hagobuy.com/*",
         "*://*.kameymall.com/*",
         "*://*.ezbuycn.com/*",
-        "*://*.cnfans.com/*"
-      ],
-      "js": ["build/js/redirect.js"],
-      "run_at": "document_start"
-    },
-    {
-      "matches": [
-        "*://*.wegobuy.com/*",
-        "*://*.superbuy.com/*",
-        "*://*.sugargoo.com/*",
-        "*://*.cssbuy.com/*",
-        "*://*.pandabuy.com/*",
-        "*://*.hagobuy.com/*",
-        "*://*.kameymall.com/*",
-        "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
@@ -76,5 +61,16 @@
   "background": {
     "service_worker": "build/js/background.js"
   },
-  "permissions": ["storage"]
+  "host_permissions": [
+    "*://*.wegobuy.com/*",
+    "*://*.superbuy.com/*",
+    "*://*.sugargoo.com/*",
+    "*://*.cssbuy.com/*",
+    "*://*.pandabuy.com/*",
+    "*://*.hagobuy.com/*",
+    "*://*.kameymall.com/*",
+    "*://*.ezbuycn.com/*",
+    "*://*.cnfans.com/*"
+  ],
+  "permissions": ["storage", "webNavigation", "scripting"]
 }

@@ -3,6 +3,10 @@ import { detectAgent } from 'cn-links';
 import { getAffiliates } from './lib/getAffiliates';
 import { validateRegisterPage } from './lib/validateRegisterPage';
 
+/**
+ * Redirect can run as a content script or be injected through a browser api listener.
+ * The first former does not work with client side navigation, which the agents use.
+ */
 function redirect() {
   getAffiliates()
     .then((affiliates) => {

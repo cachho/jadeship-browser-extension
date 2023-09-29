@@ -81,7 +81,9 @@ const Popup = () => {
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {agentsWithRaw.map((agent) => (
-          <option value={agent}>{agent}</option>
+          <option value={agent} key={`my-agent-select-${agent}`}>
+            {agent}
+          </option>
         ))}
       </select>
       <a
@@ -100,7 +102,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={!toggleAllAction}
-        onClick={() =>
+        onChange={() =>
           toggleAllAction
             ? setSettings({
                 ...settings,
@@ -127,7 +129,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.taobaoLink}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, taobaoLink: !settings.taobaoLink })
         }
       />
@@ -136,7 +138,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.weidianLink}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, weidianLink: !settings.weidianLink })
         }
       />
@@ -145,7 +147,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.s1688Link}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, s1688Link: !settings.s1688Link })
         }
       />
@@ -154,7 +156,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.tmallLink}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, tmallLink: !settings.tmallLink })
         }
       />
@@ -163,7 +165,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.agentLink}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, agentLink: !settings.agentLink })
         }
       />
@@ -172,7 +174,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.thirdPartyLink}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, thirdPartyLink: !settings.thirdPartyLink })
         }
       />
@@ -182,7 +184,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showToolbar}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, showToolbar: !settings.showToolbar })
         }
       />
@@ -203,16 +205,16 @@ const Popup = () => {
               setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
             }
             return (
-              <>
+              <React.Fragment key={`toolbar-includes-${agent}`}>
                 <input
                   type="checkbox"
                   checked={checked}
                   disabled={settings.myAgent === agent}
-                  onClick={() => swap()}
+                  onChange={() => swap()}
                 />
                 {agent}
                 <br />
-              </>
+              </React.Fragment>
             );
           })}
           {settings.agentsInToolbar.length > 6 ? (
@@ -235,7 +237,7 @@ const Popup = () => {
         type="checkbox"
         id="online_features"
         checked={settings.onlineFeatures}
-        onClick={() =>
+        onChange={() =>
           setSettings({ ...settings, onlineFeatures: !settings.onlineFeatures })
         }
       />
@@ -245,7 +247,7 @@ const Popup = () => {
         type="checkbox"
         id="online_features_qcphotos"
         checked={settings.onlineFeaturesQcPhotos}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             onlineFeaturesQcPhotos: !settings.onlineFeaturesQcPhotos,
@@ -290,7 +292,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.logoAgent}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             logoAgent: !settings.logoAgent,
@@ -302,7 +304,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.logoPlatform}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             logoPlatform: !settings.logoPlatform,
@@ -315,7 +317,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showThumbnail}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showThumbnail: !settings.showThumbnail,
@@ -327,7 +329,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showPrice}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showPrice: !settings.showPrice,
@@ -339,7 +341,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSoldSummary}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSoldSummary: !settings.showAmountSoldSummary,
@@ -351,7 +353,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSold1}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSold1: !settings.showAmountSold1,
@@ -363,7 +365,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSold7}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSold7: !settings.showAmountSold7,
@@ -375,7 +377,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSold30}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSold30: !settings.showAmountSold30,
@@ -387,7 +389,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSoldAt}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSoldAt: !settings.showAmountSoldAt,
@@ -399,7 +401,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showAmountSoldTimeframeLabel}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showAmountSoldTimeframeLabel:
@@ -412,7 +414,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showPos}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showPos: !settings.showPos,
@@ -424,7 +426,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.showTitle}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             showTitle: !settings.showTitle,
@@ -453,7 +455,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.displayOverwriteTitle}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             displayOverwriteTitle: !settings.displayOverwriteTitle,
@@ -467,7 +469,7 @@ const Popup = () => {
       <input
         type="checkbox"
         checked={settings.affiliateProgram}
-        onClick={() =>
+        onChange={() =>
           setSettings({
             ...settings,
             affiliateProgram: !settings.affiliateProgram,

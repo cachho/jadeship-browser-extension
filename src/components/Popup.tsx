@@ -187,39 +187,45 @@ const Popup = () => {
         }
       />
       show toolbar
-      <h4>toolbar includes:</h4>
-      {agents.map((agent) => {
-        const checked = settings.agentsInToolbar.includes(agent);
-
-        function swap() {
-          const newSet = new Set(settings.agentsInToolbar);
-          if (checked) {
-            newSet.delete(agent);
-          } else {
-            newSet.add(agent);
-          }
-          setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
-        }
-        return (
-          <>
-            <input
-              type="checkbox"
-              checked={checked}
-              disabled={settings.myAgent === agent}
-              onClick={() => swap()}
-            />
-            {agent}
-            <br />
-          </>
-        );
-      })}
-      {settings.agentsInToolbar.length > 6 ? (
+      {settings.showToolbar ? (
         <>
-          <span style={{ color: 'red' }}>
-            displaying more than 6 agents in the toolbar will lead to glitches
-            on weidian.
-          </span>
-          <br />
+          <h4>toolbar includes:</h4>
+          {agents.map((agent) => {
+            const checked = settings.agentsInToolbar.includes(agent);
+
+            function swap() {
+              const newSet = new Set(settings.agentsInToolbar);
+              if (checked) {
+                newSet.delete(agent);
+              } else {
+                newSet.add(agent);
+              }
+              setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
+            }
+            return (
+              <>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  disabled={settings.myAgent === agent}
+                  onClick={() => swap()}
+                />
+                {agent}
+                <br />
+              </>
+            );
+          })}
+          {settings.agentsInToolbar.length > 6 ? (
+            <>
+              <span style={{ color: 'red' }}>
+                displaying more than 6 agents in the toolbar will lead to
+                glitches on weidian.
+              </span>
+              <br />
+            </>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <></>

@@ -1,5 +1,5 @@
 import type { AgentWithRaw } from 'cn-links';
-import { agentsWithRaw } from 'cn-links';
+import { agents, agentsWithRaw } from 'cn-links';
 import React, { useEffect, useState } from 'react';
 
 import { getStorage, isChromeStorage } from '../lib/storage';
@@ -51,6 +51,23 @@ const Popup = () => {
     !settings.agentLink ||
     !settings.thirdPartyLink;
 
+  const handleChangeMyAgent = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newMyAgent = e.target.value as AgentWithRaw;
+    if (!agentsWithRaw.includes(newMyAgent)) {
+      console.error('Invalid agent');
+      return;
+    }
+    const newAgentsInToolbar = new Set(settings.agentsInToolbar);
+    if (newMyAgent !== 'raw' && !newAgentsInToolbar.has(newMyAgent)) {
+      newAgentsInToolbar.add(newMyAgent);
+    }
+    setSettings({
+      ...settings,
+      myAgent: newMyAgent,
+      agentsInToolbar: Array.from(newAgentsInToolbar),
+    });
+  };
+
   return (
     <>
       <a
@@ -62,17 +79,7 @@ const Popup = () => {
         <img src="../public/reparchive_logo_white.png" width="232" />
       </a>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
-      <select
-        onChange={(e) =>
-          agentsWithRaw.includes(e.target.value as AgentWithRaw)
-            ? setSettings({
-                ...settings,
-                myAgent: e.target.value as AgentWithRaw,
-              })
-            : console.error('Invalid agent')
-        }
-        value={settings.myAgent}
-      >
+      <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {agentsWithRaw.map((agent) => (
           <option value={agent}>{agent}</option>
         ))}
@@ -181,6 +188,32 @@ const Popup = () => {
         }
       />
       show toolbar
+      <h4>toolbar includes:</h4>
+      {agents.map((agent) => {
+        const checked = settings.agentsInToolbar.includes(agent);
+
+        function swap() {
+          const newSet = new Set(settings.agentsInToolbar);
+          if (checked) {
+            newSet.delete(agent);
+          } else {
+            newSet.add(agent);
+          }
+          setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
+        }
+        return (
+          <>
+            <input
+              type="checkbox"
+              checked={checked}
+              disabled={settings.myAgent === agent}
+              onClick={() => swap()}
+            />
+            {agent}
+            <br />
+          </>
+        );
+      })}
       <br />
       <br />
       <h4>Online Features:</h4>

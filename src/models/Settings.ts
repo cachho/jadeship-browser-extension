@@ -1,8 +1,8 @@
-import type { AgentWithRaw } from 'cn-links';
+import type { Agent, AgentWithRaw } from 'cn-links';
 
 import type { Affiliate } from './Affiliate';
 
-export const settingNames = [
+export const settingNames: (keyof Settings)[] = [
   'taobaoLink',
   'weidianLink',
   's1688Link',
@@ -16,7 +16,6 @@ export const settingNames = [
   'affiliateAppend',
   'onlineFeatures',
   'onlineFeaturesQcPhotos',
-  'masterToggle',
   'showThumbnail',
   'showPrice',
   'showAmountSoldSummary',
@@ -31,6 +30,8 @@ export const settingNames = [
   'displayOverwriteTitle',
   'affiliate',
   'showToolbar',
+  'agentsInToolbar',
+  'isDefault',
 ];
 
 export type Settings = {
@@ -62,6 +63,7 @@ export type Settings = {
   affiliate?: Affiliate[];
   showToolbar: boolean;
   isDefault: boolean;
+  agentsInToolbar: Agent[];
 };
 
 export const defaultSettings: Settings = {
@@ -92,4 +94,12 @@ export const defaultSettings: Settings = {
   displayOverwriteTitle: false,
   showToolbar: true,
   isDefault: true,
+  agentsInToolbar: [
+    'pandabuy',
+    'wegobuy',
+    'superbuy',
+    'sugargoo',
+    'cssbuy',
+    'hagobuy',
+  ],
 };

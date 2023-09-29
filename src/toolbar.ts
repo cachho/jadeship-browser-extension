@@ -19,7 +19,7 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
-import type { CurrentPage } from './models';
+import type { CurrentPage, Settings } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');
@@ -41,14 +41,14 @@ const QC = (link: CnLink) => {
   return qc;
 };
 
-const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
+const Links = (currentPage: CurrentPage, settings: Settings) => {
   const div = document.createElement('div');
 
   const sortKeys = (a: string, b: string) => {
-    if (a === myAgent) {
+    if (a === settings.myAgent) {
       return 1;
     }
-    if (b === myAgent || a === 'raw') {
+    if (b === settings.myAgent || a === 'raw') {
       return -1;
     }
     return 0;
@@ -56,7 +56,11 @@ const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
 
   if (currentPage.agent) {
     agentsWithRaw
-      .filter((agent) => agent !== currentPage.agent)
+      .filter(
+        (agent) =>
+          agent !== currentPage.agent &&
+          (agent === 'raw' || new Set(settings.agentsInToolbar).has(agent))
+      )
       .sort(sortKeys)
       .map((agent: AgentWithRaw) => {
         const link = currentPage.link.as(agent, undefined, '27');
@@ -65,7 +69,7 @@ const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
           button.innerHTML = `${getPlatformImage(
             currentPage.link.marketplace
           )} ${currentPage.link.marketplace}`;
-        } else if (agent === myAgent) {
+        } else if (agent === settings.myAgent) {
           button.innerHTML = `${getImageAgent(agent)} ${agent}`;
         } else {
           button.innerHTML = getImageAgent(agent);
@@ -77,18 +81,21 @@ const Links = (currentPage: CurrentPage, myAgent: AgentWithRaw) => {
   }
 
   if (currentPage.marketplace) {
-    [...agents].sort(sortKeys).map((agent: Agent) => {
-      const link = currentPage.link.as(agent, undefined, '27');
-      const button = Button(link.href, true);
-      if (agent === myAgent) {
-        button.innerHTML = `${getImageAgent(agent)} ${agent}`;
-      } else {
-        button.innerHTML = getImageAgent(agent);
-      }
-      button.title = agent;
-      div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
-      return button;
-    });
+    [...agents]
+      .filter((agent) => new Set(settings.agentsInToolbar).has(agent))
+      .sort(sortKeys)
+      .map((agent: Agent) => {
+        const link = currentPage.link.as(agent, undefined, '27');
+        const button = Button(link.href, true);
+        if (agent === settings.myAgent) {
+          button.innerHTML = `${getImageAgent(agent)} ${agent}`;
+        } else {
+          button.innerHTML = getImageAgent(agent);
+        }
+        button.title = agent;
+        div.innerHTML = `${div.innerHTML} ${button.outerHTML}`;
+        return button;
+      });
   }
 
   return div;
@@ -161,7 +168,7 @@ async function toolbar() {
   const elem = BodyElement();
   const inner = Inner();
   inner.innerHTML = `${qcString ?? '<div></div>'} ${
-    Links(currentPage, settings.myAgent).outerHTML
+    Links(currentPage, settings).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);

@@ -178,7 +178,6 @@ const Popup = () => {
       />
       3rd Party Link (Yupoo)
       <br />
-      <br />
       <h4>toolbar:</h4>
       <input
         type="checkbox"
@@ -215,15 +214,16 @@ const Popup = () => {
         );
       })}
       {settings.agentsInToolbar.length > 6 ? (
-        <span style={{ color: 'red' }}>
-          displaying more than 6 agents in the toolbar will lead to glitches on
-          weidian.
-        </span>
+        <>
+          <span style={{ color: 'red' }}>
+            displaying more than 6 agents in the toolbar will lead to glitches
+            on weidian.
+          </span>
+          <br />
+        </>
       ) : (
         <></>
       )}
-      <br />
-      <br />
       <h4>Online Features:</h4>
       <input
         type="checkbox"

@@ -95,7 +95,7 @@ const Popup = () => {
       <br />
       <h2 style={{ textAlign: 'center' }}>Settings</h2>
       <p>Changes take effect after reloading</p>
-      <h3>Functions:</h3>
+      <h3>Functionality:</h3>
       <h4>Scope:</h4>
       <input
         type="checkbox"

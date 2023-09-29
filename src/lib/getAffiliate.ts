@@ -1,4 +1,6 @@
-import type { Agent, Settings } from '../models';
+import type { Agent } from 'cn-links';
+
+import type { Settings } from '../models';
 
 export function getAffiliate(settings: Settings, agent: Agent) {
   if (!settings.affiliateProgram || !settings.affiliateAppend) {

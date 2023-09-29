@@ -22,7 +22,13 @@ function redirect() {
         return null;
       }
 
-      if (!validateRegisterPage(agent, window.location)) {
+      const url = new URL(window.location.href);
+
+      if (agent === 'sugargoo') {
+        url.hash = '';
+      }
+
+      if (!validateRegisterPage(agent, url)) {
         return null;
       }
 
@@ -30,15 +36,13 @@ function redirect() {
       if (!affiliate) {
         return null;
       }
-      // Get Url Parameters
-      const urlParams = new URLSearchParams(window.location.search);
 
       // Switch between agents that use url parameters and those who use url paths
       if (affiliate.param && affiliate.param !== '' && affiliate.ref) {
-        if (urlParams.get(affiliate.param) !== affiliate.ref) {
+        if (url.searchParams.get(affiliate.param) !== affiliate.ref) {
           // Check if not already applied
-          urlParams.set(affiliate.param, affiliate.ref);
-          window.location.search = urlParams.toString();
+          url.searchParams.set(affiliate.param, affiliate.ref);
+          window.location.search = url.searchParams.toString();
         }
       } else if (affiliate.ref && affiliate.param === '') {
         // Check if not already applied

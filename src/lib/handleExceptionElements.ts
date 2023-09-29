@@ -1,4 +1,6 @@
-import type { Agent, Platform } from '../models';
+import type { Agent } from 'cn-links';
+
+import type { Platform } from '../models';
 
 /**
  * This is where exceptions go, parts of the original site that have to be handled,

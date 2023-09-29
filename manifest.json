@@ -22,6 +22,9 @@
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
         "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -42,7 +45,10 @@
         "*://*.sugargoo.com/*",
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
-        "*://*.hagobuy.com/*"
+        "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*"
       ],
       "js": ["build/js/redirect.js"],
       "run_at": "document_start"
@@ -55,6 +61,9 @@
         "*://*.cssbuy.com/*",
         "*://*.pandabuy.com/*",
         "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",

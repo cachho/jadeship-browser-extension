@@ -1,8 +1,8 @@
-import type { Agent } from '../models/Agent';
+import type { Agent } from 'cn-links';
 
 export function validateRegisterPage(
   agent: Agent,
-  location: Location
+  location: Location | URL
 ): boolean {
   if (agent === 'pandabuy') {
     return location.pathname.startsWith('/login');
@@ -20,10 +20,24 @@ export function validateRegisterPage(
     return location.pathname === '/' && params.get('action') === 'register';
   }
   if (agent === 'sugargoo') {
-    return location.pathname.startsWith('/index/user/register');
+    const newLocation = new URL(location.href.replace('/#/', '/'));
+    return (
+      newLocation.pathname.startsWith('/#/login/login') ||
+      newLocation.pathname.startsWith('/login/login') ||
+      newLocation.pathname.startsWith('/index/user/register')
+    );
   }
   if (agent === 'hagobuy') {
     return location.pathname.startsWith('/register');
+  }
+  if (agent === 'kameymall') {
+    return location.pathname.startsWith('/login');
+  }
+  if (agent === 'cnfans') {
+    return location.pathname.startsWith('/register');
+  }
+  if (agent === 'ezbuycn') {
+    return location.pathname.startsWith('/reg.aspx');
   }
   return false;
 }

@@ -1,5 +1,6 @@
+import type { AgentWithRaw } from 'cn-links';
+
 import type { Affiliate } from './Affiliate';
-import type { AgentWithRaw } from './Agent';
 
 export const settingNames = [
   'taobaoLink',

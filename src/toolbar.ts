@@ -1,5 +1,6 @@
 // Get the storage API for the current browser
 
+import type { Agent, AgentWithRaw } from 'cn-links';
 import {
   agents,
   agentsWithRaw,
@@ -18,7 +19,7 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
-import type { Agent, AgentWithRaw, CurrentPage } from './models';
+import type { CurrentPage } from './models';
 
 const BodyElement = () => {
   const elem = document.createElement('div');

@@ -135,6 +135,12 @@ const Inner = () => {
   return elem;
 };
 
+const WebLinks = () => {
+  const elem = document.createElement('div');
+  elem.style.display = 'flex';
+  return elem;
+};
+
 async function toolbar() {
   const settings = await loadSettings();
 
@@ -181,9 +187,13 @@ async function toolbar() {
 
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = `${qcString ?? '<div></div>'} ${
+  const webLinks = WebLinks();
+  webLinks.innerHTML = `${qcString ?? '<div></div>'} ${
     statString ?? '<div></div>'
-  } ${Links(currentPage, settings).outerHTML} ${Close().outerHTML}`;
+  }`;
+  inner.innerHTML = `${webLinks.outerHTML} ${
+    Links(currentPage, settings).outerHTML
+  } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
 

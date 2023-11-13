@@ -41,6 +41,13 @@ const QC = (link: CnLink) => {
   return qc;
 };
 
+const Stats = (link: CnLink) => {
+  const url = `https://reparchive.com/item/${link.marketplace}/${link.id}`;
+  const button = Button(url);
+  button.innerText = `📊 Stats`;
+  return button;
+};
+
 const Links = (currentPage: CurrentPage, settings: Settings) => {
   const div = document.createElement('div');
 
@@ -128,6 +135,12 @@ const Inner = () => {
   return elem;
 };
 
+const WebLinks = () => {
+  const elem = document.createElement('div');
+  elem.style.display = 'flex';
+  return elem;
+};
+
 async function toolbar() {
   const settings = await loadSettings();
 
@@ -162,12 +175,23 @@ async function toolbar() {
     }
   }
 
+  let statString: string | null = null;
+  try {
+    statString = Stats(currentPage.link).outerHTML;
+  } catch (err) {
+    console.error(err);
+  }
+
   // Exceptions
   handleExceptionElements(detectAgent(window.location.href));
 
   const elem = BodyElement();
   const inner = Inner();
-  inner.innerHTML = `${qcString ?? '<div></div>'} ${
+  const webLinks = WebLinks();
+  webLinks.innerHTML = `${qcString ?? '<div></div>'} ${
+    statString ?? '<div></div>'
+  }`;
+  inner.innerHTML = `${webLinks.outerHTML} ${
     Links(currentPage, settings).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;

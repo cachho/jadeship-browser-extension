@@ -97,7 +97,7 @@ export const defaultSettings: Settings = {
   agentsInToolbar: [
     'pandabuy',
     'wegobuy',
-    'superbuy',
+    'cnfans',
     'sugargoo',
     'cssbuy',
     'hagobuy',

@@ -41,6 +41,13 @@ const QC = (link: CnLink) => {
   return qc;
 };
 
+const Stats = (link: CnLink) => {
+  const url = `https://reparchive.com/item/${link.marketplace}/${link.id}`;
+  const button = Button(url);
+  button.innerText = `📊 Stats`;
+  return button;
+};
+
 const Links = (currentPage: CurrentPage, settings: Settings) => {
   const div = document.createElement('div');
 
@@ -162,14 +169,21 @@ async function toolbar() {
     }
   }
 
+  let statString: string | null = null;
+  try {
+    statString = Stats(currentPage.link).outerHTML;
+  } catch (err) {
+    console.error(err);
+  }
+
   // Exceptions
   handleExceptionElements(detectAgent(window.location.href));
 
   const elem = BodyElement();
   const inner = Inner();
   inner.innerHTML = `${qcString ?? '<div></div>'} ${
-    Links(currentPage, settings).outerHTML
-  } ${Close().outerHTML}`;
+    statString ?? '<div></div>'
+  } ${Links(currentPage, settings).outerHTML} ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
   body.insertAdjacentElement('afterbegin', elem);
 

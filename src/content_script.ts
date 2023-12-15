@@ -24,7 +24,21 @@ async function main(settings: Settings) {
   // Get the selected agent from local storage
   const selectedAgent: AgentWithRaw = settings.myAgent;
 
-  const thirdPartyPage = getThirdPartyPage(new URL(window.location.href));
+  const currentUrl = new URL(window.location.href);
+
+  // Excluded pages
+  if (
+    currentUrl.hostname === 'www.reddit.com' &&
+    currentUrl.pathname.startsWith('/r/') &&
+    currentUrl.pathname.includes('/about/') &&
+    ['modqueue', 'reports', 'spam', 'edited', 'unmoderated'].some((path) =>
+      currentUrl.pathname.endsWith(`/${path}`)
+    )
+  ) {
+    return;
+  }
+
+  const thirdPartyPage = getThirdPartyPage(currentUrl);
   if (!settings.thirdPartyLink && thirdPartyPage) {
     // It's a third party link while those are not allowed.
     return;

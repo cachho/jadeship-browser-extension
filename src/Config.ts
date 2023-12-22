@@ -1,17 +1,17 @@
 export const Config = {
   host: {
-    details: 'https://jadeship.com',
+    details: 'https://www.jadeship.com',
     shortenedLinks: 'https://legacy-api.jadeship.com',
     qc: 'https://qc.photos',
   },
   social: {
-    homepage: 'https://jadeship.com/?r=extension',
-    bestAgent: 'https://jadeship.com/shipping-calculator?r=extension',
+    homepage: 'https://www.jadeship.com/?r=extension',
+    bestAgent: 'https://vjadeship.com/shipping-calculator?r=extension',
   },
   legal: {
     main: {
-      tos: 'https://jadship.com/tos',
-      privacy: 'https://jadship.com/privacy-policy',
+      tos: 'https://www.jadship.com/tos',
+      privacy: 'https://www.jadship.com/privacy-policy',
     },
     qc: {
       tos: 'https://qc.photos/tos',

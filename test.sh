@@ -16,6 +16,7 @@ check_description_length() {
 
     # Check if the description length is greater than 132 characters
     if [ "$len" -gt 132 ]; then
+        echo $len characters
         echo -e "\e[31mError: The description field exceeds 132 characters.\e[0m"
         exit 1
     else

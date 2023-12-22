@@ -4,6 +4,8 @@ Short summary: **Automatically convert all links on reddit and yupoo to your fav
 
 Summary: **My Agent Extension - automatically convert all links on reddit and yupoo to your favorite agent; enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
 
+> Formerly known as "My Agent Extension by RepArchive" 
+
 ---
 
 This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits, and yupoo.com.

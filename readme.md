@@ -42,7 +42,7 @@ This is a free and open source project, available at: https://github.com/cachho/
 You can install the extension from the Chrome Web Store or Firefox Browser Add-Ons.
 
 - Chrome Web Store: https://chrome.google.com/webstore/detail/my-agent-extension-by-rep/gnpcmjhhhobmpeeekcfmficdfgnmncim?hl=en&authuser=0
-- Firefox Browser Add-Ons: https://addons.mozilla.org/en-US/firefox/addon/reparchive-extension/
+- Firefox Browser Add-Ons: https://addons.mozilla.org/en-US/firefox/addon/jadeship-extension/
 
 ### Side Loading
 

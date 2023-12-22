@@ -2,6 +2,7 @@ import type { AgentWithRaw } from 'cn-links';
 import { agents, agentsWithRaw } from 'cn-links';
 import React, { useEffect, useState } from 'react';
 
+import { Config } from '../Config';
 import { getStorage, isChromeStorage } from '../lib/storage';
 import type { Settings } from '../models';
 import { defaultSettings, settingNames } from '../models/Settings';
@@ -71,7 +72,7 @@ const Popup = () => {
   return (
     <>
       <a
-        href="https://reparchive.com/?r=extension"
+        href={Config.social.homepage}
         target="_blank"
         rel="noopener norefferer"
         style={{ paddingRight: '8px' }}
@@ -87,7 +88,7 @@ const Popup = () => {
         ))}
       </select>
       <a
-        href="https://reparchive.com/shipping-calculator?r=extension"
+        href={Config.social.bestAgent}
         target="_blank"
         rel="noopener norefferer"
         style={{ color: 'white' }}
@@ -261,28 +262,25 @@ const Popup = () => {
         information, but are also technically necessary to convert shortened
         links. By establishing a connection you agree to our
         <a
-          href="https://ch-webdev.com/tos"
+          href={Config.legal.main.tos}
           target="_blank"
           rel="norefferer noopener nofollow"
         >
           terms and conditions
         </a>{' '}
         and
-        <a
-          href="https://ch-webdev.com/privacy"
-          rel="norefferer noopener nofollow"
-        >
+        <a href={Config.legal.main.privacy} rel="norefferer noopener nofollow">
           privacy policy
         </a>
         .
       </p>
       <p>
         By establishing a connection to qc.photos you agree to their{' '}
-        <a href="https://qc.photos/tos" rel="norefferer noopener nofollow">
+        <a href={Config.legal.qc.tos} rel="norefferer noopener nofollow">
           terms and conditions
         </a>{' '}
         and
-        <a href="https://qc.photos/privacy" rel="norefferer noopener nofollow">
+        <a href={Config.legal.qc.privacy} rel="norefferer noopener nofollow">
           privacy policy
         </a>
         .

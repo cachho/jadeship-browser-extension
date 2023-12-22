@@ -1,6 +1,6 @@
 export function addDetailsElement(text: string, nowrap?: boolean) {
   const elem = document.createElement('span');
-  elem.style.backgroundColor = '#2bb675';
+  elem.style.backgroundColor = '#020219';
   elem.style.color = 'white';
   elem.style.paddingLeft = '3px';
   elem.style.paddingRight = '3px';

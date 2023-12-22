@@ -53,7 +53,7 @@ async function main(settings: Settings) {
   [...links, ...nestedLinks].forEach(async (elem) => {
     // This makes sure each link is only handled once.
     // TODO: Verify that this is the best way to deal with this.
-    elem.dataset.reparchiveExtension = 'true';
+    elem.dataset.CnLinkExtension = 'true';
 
     // Test if it is an agent link. If so, extract the inner link
     // Convert anchor tag to URL object.

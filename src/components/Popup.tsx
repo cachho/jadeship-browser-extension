@@ -2,6 +2,7 @@ import type { AgentWithRaw } from 'cn-links';
 import { agents, agentsWithRaw } from 'cn-links';
 import React, { useEffect, useState } from 'react';
 
+import { Config } from '../Config';
 import { getStorage, isChromeStorage } from '../lib/storage';
 import type { Settings } from '../models';
 import { defaultSettings, settingNames } from '../models/Settings';
@@ -70,14 +71,42 @@ const Popup = () => {
 
   return (
     <>
-      <a
-        href="https://reparchive.com/?r=extension"
-        target="_blank"
-        rel="noopener norefferer"
-        style={{ paddingRight: '8px' }}
-      >
-        <img src="../public/reparchive_logo_white.png" width="232" />
-      </a>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <a
+          href={Config.social.homepage}
+          target="_blank"
+          rel="noopener norefferer"
+          style={{
+            padding: '0.4rem',
+            borderTopLeftRadius: '9999px',
+            borderTopRightRadius: '9999px',
+            borderBottomLeftRadius: '9999px',
+            borderBottomRightRadius: '9999px',
+            fontSize: '32px',
+            color: 'black',
+            backgroundColor: 'rgb(55, 251, 208)',
+            textDecoration: 'none',
+            width: '100%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}
+        >
+          JadeShip.com
+        </a>
+      </div>
+      <p>
+        RepArchive.com is now{' '}
+        <a
+          href={Config.social.homepage}
+          style={{ color: 'white' }}
+          target="_blank"
+          rel="noopener norefferer"
+        >
+          JadeShip.com
+        </a>
+      </p>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {agentsWithRaw.map((agent) => (
@@ -87,7 +116,7 @@ const Popup = () => {
         ))}
       </select>
       <a
-        href="https://reparchive.com/shipping-calculator?r=extension"
+        href={Config.social.bestAgent}
         target="_blank"
         rel="noopener norefferer"
         style={{ color: 'white' }}
@@ -241,7 +270,7 @@ const Popup = () => {
           setSettings({ ...settings, onlineFeatures: !settings.onlineFeatures })
         }
       />
-      RepArchive online features
+      {Config.name} online features
       <br />
       <input
         type="checkbox"
@@ -259,30 +288,27 @@ const Popup = () => {
       <p>
         Online features are provided by RepArchive.com. They include the extra
         information, but are also technically necessary to convert shortened
-        links. By establishing a connection you agree to our
+        links. By establishing a connection you agree to our{' '}
         <a
-          href="https://ch-webdev.com/tos"
+          href={Config.legal.main.tos}
           target="_blank"
           rel="norefferer noopener nofollow"
         >
           terms and conditions
         </a>{' '}
         and
-        <a
-          href="https://ch-webdev.com/privacy"
-          rel="norefferer noopener nofollow"
-        >
+        <a href={Config.legal.main.privacy} rel="norefferer noopener nofollow">
           privacy policy
         </a>
         .
       </p>
       <p>
         By establishing a connection to qc.photos you agree to their{' '}
-        <a href="https://qc.photos/tos" rel="norefferer noopener nofollow">
+        <a href={Config.legal.qc.tos} rel="norefferer noopener nofollow">
           terms and conditions
         </a>{' '}
-        and
-        <a href="https://qc.photos/privacy" rel="norefferer noopener nofollow">
+        and{' '}
+        <a href={Config.legal.qc.privacy} rel="norefferer noopener nofollow">
           privacy policy
         </a>
         .
@@ -313,7 +339,7 @@ const Popup = () => {
       />
       display platform logo
       <br />
-      <h4>RepArchive Online Elements:</h4>
+      <h4>{Config.name} Online Elements:</h4>
       <input
         type="checkbox"
         checked={settings.showThumbnail}

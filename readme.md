@@ -1,4 +1,4 @@
-# RepArchive Browser Extension
+# JadeShip.com Extension
 
 Short summary: **Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich the page with online information and QC pics.**
 
@@ -10,7 +10,7 @@ This extension serves two main purposes to upgrade the quality of life for reddi
 
 It rewrites all links to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
 
-It enriches the page with extra information about the product and it's sales ranking from reparchive.com.
+It enriches the page with extra information about the product and it's sales ranking from www.jadeship.com.
 
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
@@ -33,7 +33,7 @@ Safety & Privacy:
 - you can opt out of all online interactions and run the extension offline
 - no user data is collected (with each request you do technically expose your IP, among other information).
 
-This is a free and open source project, available at: https://github.com/cachho/reparchive-browser-extension
+This is a free and open source project, available at: https://github.com/cachho/jadeship-browser-extension
 
 ## Installation for Users
 
@@ -89,7 +89,7 @@ There's no reason this should only work on reddit. We can expand beyond that. Ho
 I tried google sheets, but it seems very hard to modify the html there.
 
 ## Bugs / Issues / Support
-The following site can be used to quickly report bugs: https://reparchive.com/report?service=Browser+Extension
+The following site can be used to quickly report bugs: https://www.jadeship.com/report?service=Browser+Extension
 
 It's even better if you open an issue here on github, so we can methodically fix the issue.
 

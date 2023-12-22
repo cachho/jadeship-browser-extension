@@ -10,8 +10,8 @@ export function findLinksOnPage(targetedHrefs: string[]) {
     .filter((a) => targetedHrefs.some((href) => a.href.indexOf(href) !== -1))
     .filter(
       (a) =>
-        a.dataset.reparchiveExtension !== 'true' &&
-        a.dataset.reparchiveExtensionNested !== 'true'
+        a.dataset.CnLinkExtension !== 'true' &&
+        a.dataset.CnLinkExtensionNested !== 'true'
     )
     .filter((a) => !a.href.startsWith('https://qc.photos'));
 }

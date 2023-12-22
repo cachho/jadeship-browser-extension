@@ -1,3 +1,4 @@
+import { Config } from './Config';
 import { fetchData } from './lib/api/fetchData';
 import { getStorage, isChromeStorage } from './lib/storage';
 import type { Settings } from './models/Settings';
@@ -56,7 +57,7 @@ function initializeExtension(
     if (isChromeStorage(storage)) {
       storage.local.get('onlineFeatures', (onlineFeatures) => {
         if (onlineFeatures.onlineFeatures) {
-          fetchData('https://api.ch-webdev.com/affiliate-links')
+          fetchData(Config.endpoint.affiliateLinks)
             .then((response) => storage.local.set({ affiliate: response.data }))
             .catch((error) => console.error('Error fetching data:', error));
         }
@@ -66,7 +67,7 @@ function initializeExtension(
         .get()
         .then((onlineFeatures) => {
           if (onlineFeatures.onlineFeatures) {
-            fetchData('https://api.ch-webdev.com/affiliate-links')
+            fetchData(Config.endpoint.affiliateLinks)
               .then((response) =>
                 storage.local.set({ affiliate: response.data })
               )

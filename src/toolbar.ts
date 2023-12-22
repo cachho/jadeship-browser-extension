@@ -10,6 +10,7 @@ import {
 } from 'cn-links';
 
 import { Button } from './components';
+import { Config } from './Config';
 import { getQcAvailable } from './lib/api/getQcAvailable';
 import {
   addObserver,
@@ -35,14 +36,14 @@ const BodyElement = () => {
 
 const QC = (link: CnLink) => {
   const qc = Button(
-    `https://qc.photos/qc?url=${encodeURIComponent(link.as('raw').href)}`
+    `${Config.host.qc}/qc?url=${encodeURIComponent(link.as('raw').href)}`
   );
   qc.innerText = `📷 QC Pics available`;
   return qc;
 };
 
 const Stats = (link: CnLink) => {
-  const url = `https://reparchive.com/item/${link.marketplace}/${link.id}`;
+  const url = `${Config.host.details}/item/${link.marketplace}/${link.id}`;
   const button = Button(url);
   button.innerText = `📊 Stats`;
   return button;

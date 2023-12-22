@@ -21,7 +21,7 @@ export function findNestedLinksOnPage() {
           const innerLink = url.searchParams.get('url');
           if (innerLink) {
             elem.href = new URL(decodeURIComponent(innerLink)).href;
-            elem.dataset.reparchiveExtensionNested = 'true';
+            elem.dataset.CnLinkExtensionNested = 'true';
             acc.push(elem);
           }
         }

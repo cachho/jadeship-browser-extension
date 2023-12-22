@@ -270,7 +270,7 @@ const Popup = () => {
           setSettings({ ...settings, onlineFeatures: !settings.onlineFeatures })
         }
       />
-      RepArchive online features
+      {Config.name} online features
       <br />
       <input
         type="checkbox"
@@ -339,7 +339,7 @@ const Popup = () => {
       />
       display platform logo
       <br />
-      <h4>RepArchive Online Elements:</h4>
+      <h4>{Config.name} Online Elements:</h4>
       <input
         type="checkbox"
         checked={settings.showThumbnail}

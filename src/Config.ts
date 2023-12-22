@@ -1,4 +1,5 @@
 export const Config = {
+  name: 'JadeShip.com',
   endpoint: {
     affiliateLinks: 'https://legacy-api.jadeship.com/affiliate-links',
   },

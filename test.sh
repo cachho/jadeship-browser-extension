@@ -20,7 +20,7 @@ check_description_length() {
         echo -e "\e[31mError: The description field exceeds 132 characters.\e[0m"
         exit 1
     else
-        echo "Description length is within the limit."
+        exit 0
     fi
 }
 

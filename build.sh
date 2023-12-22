@@ -4,6 +4,26 @@
 # for Firefox and Chromium
 
 #######################################
+# Run tests
+#######################################
+# Running the description check script
+sh test.sh
+
+# Capturing the exit status of the previous command
+exit_status=$?
+
+# Check if the exit status is not equal to 0 (which means an error occurred in the check_description.sh script)
+if [ $exit_status -ne 0 ]; then
+    echo -e "\e[31mThe description check failed with status: $exit_status\e[0m"
+    # Exit this script with a non-zero status to indicate failure
+    exit $exit_status
+fi
+
+# Other test commands can go here
+
+echo "All tests passed successfully."
+
+#######################################
 # General configuration
 #######################################
 alias json=./node_modules/.bin/json

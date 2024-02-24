@@ -14,6 +14,18 @@ export function handleExceptionElements(agent?: Agent | null) {
       // eslint-disable-next-line no-param-reassign
       (otherElement as HTMLElement).style.top = '48px';
     });
+  } else if (agent === 'hagobuy') {
+    const otherElements = document.getElementsByClassName('top_bar');
+    console.log(
+      '🚀 ~ handleExceptionElements ~ otherElements:',
+      otherElements.length
+    );
+    Array.from(otherElements).forEach((otherElement: Element) => {
+      // eslint-disable-next-line no-param-reassign
+      (otherElement as HTMLElement).style.top = '48px';
+      // eslint-disable-next-line no-param-reassign
+      (otherElement as HTMLElement).style.display = 'hidden';
+    });
   }
 }
 

@@ -218,6 +218,15 @@ const Popup = () => {
         }
       />
       show toolbar
+      <br />
+      <input
+        type="checkbox"
+        checked={settings.stickyToolbar}
+        onChange={() =>
+          setSettings({ ...settings, stickyToolbar: !settings.stickyToolbar })
+        }
+      />
+      sticky toolbar
       {settings.showToolbar ? (
         <>
           <h4>toolbar includes:</h4>

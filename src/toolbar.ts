@@ -20,6 +20,7 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
+import { placeToolbar } from './lib/placeToolbar';
 import type { CurrentPage, Settings } from './models';
 
 const BodyElement = () => {
@@ -184,7 +185,8 @@ async function toolbar() {
   }
 
   // Exceptions
-  handleExceptionElements(detectAgent(window.location.href));
+  const agent = detectAgent(window.location.href);
+  handleExceptionElements(agent);
 
   const elem = BodyElement();
   const inner = Inner();
@@ -196,7 +198,7 @@ async function toolbar() {
     Links(currentPage, settings).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
-  body.insertAdjacentElement('afterbegin', elem);
+  placeToolbar(body, elem, agent);
 
   // Close toolbar
   body.addEventListener('click', (event) => {

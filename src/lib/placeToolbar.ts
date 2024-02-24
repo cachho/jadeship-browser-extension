@@ -1,8 +1,12 @@
 import type { Agent } from 'cn-links';
 
+import type { Settings } from '../models';
 import { waitForElement } from './waitForElement';
 
+export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy'];
+
 export function placeToolbar(
+  settings: Settings,
   body: HTMLBodyElement,
   elem: HTMLElement,
   agent?: Agent
@@ -21,7 +25,7 @@ export function placeToolbar(
       }
     });
   }
-  if (agent === 'pandabuy') {
+  if (agent === 'pandabuy' && settings.stickyToolbar) {
     // Select the target element with the class 'home-fixed'
     const query = '.global-content';
     waitForElement(query, (targetElement) => {

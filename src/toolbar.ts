@@ -20,10 +20,10 @@ import {
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { loadSettings } from './lib/loadSettings';
-import { placeToolbar } from './lib/placeToolbar';
+import { agentsWhereStickyIsNotAStyle, placeToolbar } from './lib/placeToolbar';
 import type { CurrentPage, Settings } from './models';
 
-const BodyElement = () => {
+const BodyElement = (settings: Settings, agent?: Agent) => {
   const elem = document.createElement('div');
   elem.classList.add('ra-ext-toolbar');
 
@@ -32,6 +32,14 @@ const BodyElement = () => {
   elem.style.width = '100%';
   elem.style.height = '48px';
   elem.style.zIndex = '10000';
+
+  if (
+    settings.stickyToolbar &&
+    (!agent || !agentsWhereStickyIsNotAStyle.includes(agent))
+  ) {
+    elem.style.position = 'sticky';
+    elem.style.top = '0px';
+  }
   return elem;
 };
 
@@ -188,7 +196,7 @@ async function toolbar() {
   const agent = detectAgent(window.location.href);
   handleExceptionElements(agent);
 
-  const elem = BodyElement();
+  const elem = BodyElement(settings, agent);
   const inner = Inner();
   const webLinks = WebLinks();
   webLinks.innerHTML = `${qcString ?? '<div></div>'} ${
@@ -198,7 +206,7 @@ async function toolbar() {
     Links(currentPage, settings).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
-  placeToolbar(body, elem, agent);
+  placeToolbar(settings, body, elem, agent);
 
   // Close toolbar
   body.addEventListener('click', (event) => {

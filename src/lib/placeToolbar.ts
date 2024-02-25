@@ -24,8 +24,19 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
-  }
-  if (agent === 'pandabuy' && settings.stickyToolbar) {
+    waitForElement('.item-page', (targetElement) => {
+      console.log('target:', targetElement);
+      const padding = document.createElement('div');
+      padding.className = 'ra-ext-padding';
+      padding.style.height = '48px';
+      // Insert padding as the first child of targetElement
+      if (targetElement.firstChild) {
+        targetElement.insertBefore(padding, targetElement.firstChild);
+      } else {
+        targetElement.appendChild(padding); // Use appendChild if there are no other children
+      }
+    });
+  } else if (agent === 'pandabuy' && settings.stickyToolbar) {
     // Select the target element with the class 'home-fixed'
     const query = '.global-content';
     waitForElement(query, (targetElement) => {

@@ -30,6 +30,7 @@ export const settingNames: (keyof Settings)[] = [
   'displayOverwriteTitle',
   'affiliate',
   'showToolbar',
+  'stickyToolbar',
   'agentsInToolbar',
   'isDefault',
 ];
@@ -62,6 +63,7 @@ export type Settings = {
   displayOverwriteTitle: boolean;
   affiliate?: Affiliate[];
   showToolbar: boolean;
+  stickyToolbar: boolean;
   isDefault: boolean;
   agentsInToolbar: Agent[];
 };
@@ -93,6 +95,7 @@ export const defaultSettings: Settings = {
   displayTitleLength: '64',
   displayOverwriteTitle: false,
   showToolbar: true,
+  stickyToolbar: true,
   isDefault: true,
   agentsInToolbar: [
     'pandabuy',

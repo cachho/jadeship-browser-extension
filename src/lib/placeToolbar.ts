@@ -3,7 +3,7 @@ import type { Agent } from 'cn-links';
 import type { Settings } from '../models';
 import { waitForElement } from './waitForElement';
 
-export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy'];
+export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy', 'cssbuy'];
 
 export function placeToolbar(
   settings: Settings,
@@ -39,6 +39,19 @@ export function placeToolbar(
   } else if (agent === 'pandabuy' && settings.stickyToolbar) {
     // Select the target element with the class 'home-fixed'
     const query = '.global-content';
+    waitForElement(query, (targetElement) => {
+      // Check if the target element has a first child
+      if (targetElement.firstChild) {
+        // If there is a first child, insert the element before it
+        targetElement.insertBefore(elem, targetElement.firstChild);
+      } else {
+        // If there is no first child, append the element to the target element
+        targetElement.appendChild(elem);
+      }
+    });
+  } else if (agent === 'cssbuy' && settings.stickyToolbar) {
+    // Select the target element with the class 'home-fixed'
+    const query = '#menuBar';
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {

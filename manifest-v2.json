@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "JadeShip.com Extension",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "(formerly RepArchive Ext) Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich pages with price info and QC pics.",
   "icons": {
     "48": "public/icon.png"

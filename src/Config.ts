@@ -5,7 +5,7 @@ export const Config = {
   },
   host: {
     details: 'https://www.jadeship.com',
-    shortenedLinks: 'https://legacy-api.jadeship.com',
+    shortenedLinks: 'https://www.jadeship.com/api',
     qc: 'https://qc.photos',
   },
   social: {

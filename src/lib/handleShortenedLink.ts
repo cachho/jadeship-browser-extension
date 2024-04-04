@@ -16,7 +16,7 @@ export async function handleShortenedLink(
         link.href
       )}`
     );
-    if (data.data) {
+    if (data?.data) {
       return new URL(data.data);
     }
   }

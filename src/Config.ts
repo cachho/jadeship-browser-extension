@@ -10,7 +10,7 @@ export const Config = {
   },
   social: {
     homepage: 'https://www.jadeship.com/?r=extension',
-    bestAgent: 'https://vjadeship.com/shipping-calculator?r=extension',
+    bestAgent: 'https://www.jadeship.com/shipping-calculator?r=extension',
   },
   legal: {
     main: {

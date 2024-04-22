@@ -10,6 +10,7 @@ import { validateRegisterPage } from './lib/validateRegisterPage';
 function redirect() {
   getAffiliates()
     .then((affiliates) => {
+      console.log('🚀 ~ .then ~ affiliates:', affiliates);
       if (!affiliates) {
         return null;
       }

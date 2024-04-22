@@ -25,6 +25,7 @@
         "*://*.kameymall.com/*",
         "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
+        "*://*.hoobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -49,6 +50,7 @@
         "*://*.kameymall.com/*",
         "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
+        "*://*.hoobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -70,7 +72,8 @@
     "*://*.hagobuy.com/*",
     "*://*.kameymall.com/*",
     "*://*.ezbuycn.com/*",
-    "*://*.cnfans.com/*"
+    "*://*.cnfans.com/*",
+    "*://*.hoobuy.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

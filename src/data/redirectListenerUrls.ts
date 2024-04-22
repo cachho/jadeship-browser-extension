@@ -8,4 +8,5 @@ export const redirectListenerUrls = [
   { hostSuffix: 'kameymall.com' },
   { hostSuffix: 'ezbuycn.com' },
   { hostSuffix: 'cnfans.com' },
+  { hostSuffix: 'hoobuy.com' },
 ];

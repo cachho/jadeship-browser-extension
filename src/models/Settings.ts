@@ -1,6 +1,6 @@
 import type { Agent, AgentWithRaw } from 'cn-links';
 
-import type { Affiliate } from './Affiliate';
+import type { AffiliateLinks } from '.';
 
 export const settingNames: (keyof Settings)[] = [
   'taobaoLink',
@@ -61,7 +61,7 @@ export type Settings = {
   showTitle: boolean;
   displayTitleLength: string;
   displayOverwriteTitle: boolean;
-  affiliate?: Affiliate[];
+  affiliate?: AffiliateLinks | null;
   showToolbar: boolean;
   stickyToolbar: boolean;
   isDefault: boolean;

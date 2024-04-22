@@ -10,7 +10,6 @@ import { validateRegisterPage } from './lib/validateRegisterPage';
 function redirect() {
   getAffiliates()
     .then((affiliates) => {
-      console.log('🚀 ~ .then ~ affiliates:', affiliates);
       if (!affiliates) {
         return null;
       }
@@ -37,23 +36,14 @@ function redirect() {
         return null;
       }
 
-      const affiliate = affiliates.find((aff) => aff.name === agent);
-      if (!affiliate) {
-        return null;
-      }
+      const affiliate = affiliates[agent];
 
       // Switch between agents that use url parameters and those who use url paths
-      if (affiliate.param && affiliate.param !== '' && affiliate.ref) {
-        if (url.searchParams.get(affiliate.param) !== affiliate.ref) {
-          // Check if not already applied
-          url.searchParams.set(affiliate.param, affiliate.ref);
-          window.location.search = url.searchParams.toString();
-        }
-      } else if (affiliate.ref && affiliate.param === '') {
-        // Check if not already applied
-        if (window.location.href !== affiliate.url) {
-          window.location.href = affiliate.url;
-        }
+      if (
+        affiliate.signupLink &&
+        affiliate.signupLink !== window.location.href
+      ) {
+        window.location.href = affiliate.signupLink;
       }
       return true;
     })

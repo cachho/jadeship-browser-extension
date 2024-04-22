@@ -1,7 +1,7 @@
 export const Config = {
   name: 'JadeShip.com',
   endpoint: {
-    affiliateLinks: 'https://www.jadeship.com/api/affiliate-links',
+    affiliateLinks: 'https://www.jadeship.com/api/agents/affiliate-links',
   },
   host: {
     details: 'https://www.jadeship.com',

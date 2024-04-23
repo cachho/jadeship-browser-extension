@@ -39,5 +39,8 @@ export function validateRegisterPage(
   if (agent === 'ezbuycn') {
     return location.pathname.startsWith('/reg.aspx');
   }
+  if (agent === 'hoobuy') {
+    return location.pathname.startsWith('/signUp');
+  }
   return false;
 }

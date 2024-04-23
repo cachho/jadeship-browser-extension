@@ -1,10 +1,9 @@
-import type { Affiliate } from '../models';
+import type { AffiliateLinks } from '../models';
 import { isRedirectAllowed } from './isRedirectAllowed';
 import { getStorage, isChromeStorage } from './storage';
 
-export async function getAffiliates(): Promise<Affiliate[] | null> {
+export async function getAffiliates(): Promise<AffiliateLinks | null> {
   const storage = getStorage();
-
   // Check if affiliates feature is enabled
   const isAllowed = await isRedirectAllowed(storage);
   if (isAllowed !== true) {

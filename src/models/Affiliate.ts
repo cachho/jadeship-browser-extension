@@ -1,16 +1,12 @@
 import type { Agent } from 'cn-links';
 
-export type Affiliate = {
-  active: boolean;
-  altRef?: string;
-  dateAdded: string;
+export type AffiliateLink = {
+  signupRef: string;
+  itemRef: string;
   incentive?: string;
-  itemUrlTaobao?: string;
-  itemUrlWeidian?: string;
-  name: Agent | string;
-  owner: string;
-  param?: string;
-  ref?: string;
-  tag?: string;
-  url: string;
+  signupLink?: string;
+};
+
+export type AffiliateLinks = {
+  [x in Agent]: AffiliateLink;
 };

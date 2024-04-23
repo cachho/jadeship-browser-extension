@@ -14,6 +14,7 @@ describe('validateRegisterPage', () => {
       ezbuycn: 'https://ezbuycn.com/reg.aspx',
       cnfans: 'https://cnfans.com/register/',
       kameymall: 'https://www.kameymall.com/login?loginType=1',
+      hoobuy: 'https://hoobuy.com/signUp',
     };
 
     agents.forEach((agent) => {

@@ -31,6 +31,7 @@
         "*://*.kameymall.com/*",
         "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
+        "*://*.hoobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -54,6 +55,7 @@
     "*://*.kameymall.com/*",
     "*://*.ezbuycn.com/*",
     "*://*.cnfans.com/*",
+    "*://*.hoobuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*",
     "https://api.qc.photos/*"

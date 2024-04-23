@@ -1,4 +1,5 @@
 import { Config } from './Config';
+import { redirectListenerUrls } from './data/redirectListenerUrls';
 import { fetchData } from './lib/api/fetchData';
 import { getStorage, isChromeStorage } from './lib/storage';
 import type { Settings } from './models/Settings';
@@ -92,17 +93,7 @@ function addRedirectListener(isChrome: boolean) {
         });
       },
       {
-        url: [
-          { hostSuffix: 'wegobuy.com' },
-          { hostSuffix: 'superbuy.com' },
-          { hostSuffix: 'sugargoo.com' },
-          { hostSuffix: 'cssbuy.com' },
-          { hostSuffix: 'pandabuy.com' },
-          { hostSuffix: 'hagobuy.com' },
-          { hostSuffix: 'kameymall.com' },
-          { hostSuffix: 'ezbuycn.com' },
-          { hostSuffix: 'cnfans.com' },
-        ],
+        url: redirectListenerUrls,
       }
     );
   } else {

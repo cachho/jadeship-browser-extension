@@ -1,5 +1,10 @@
 import type { Settings } from '../models';
 
+/**
+ * Targeted hrefs are the links that the page is scanned for which are then converted.
+ * @param settings
+ * @returns
+ */
 export function getTargetHrefs(settings: Settings) {
   let targetedHrefs: string[] = [];
 
@@ -48,6 +53,10 @@ export function getTargetHrefs(settings: Settings) {
       'cssbuy.com/item',
       'hagobuy.com/item',
       'weidian.info',
+      'kameymall.com/purchases/search',
+      'cnfans.com/product',
+      'hoobuy.com/product',
+      'ezbuycn.com/api',
     ]);
   }
 

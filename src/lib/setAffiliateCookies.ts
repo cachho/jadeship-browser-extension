@@ -96,7 +96,7 @@ export async function setAffiliateCookies(
         values.map((value) => chrome.cookies?.set(value));
       } else {
         values.map((value) =>
-          chrome.cookies?.set({ ...value, sameSite: 'no_restriction' })
+          browser.cookies?.set({ ...value, sameSite: 'no_restriction' })
         );
       }
     }

@@ -43,7 +43,7 @@ function redirect() {
         affiliate.signupLink &&
         affiliate.signupLink !== window.location.href
       ) {
-        window.location.href = affiliate.signupLink;
+        window.location.replace(affiliate.signupLink);
       }
       return true;
     })

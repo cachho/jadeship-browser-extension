@@ -5,6 +5,8 @@ export type AffiliateLink = {
   itemRef: string;
   incentive?: string;
   signupLink?: string;
+  localStorage?: string;
+  cookie?: string;
 };
 
 export type AffiliateLinks = {

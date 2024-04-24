@@ -31,6 +31,22 @@
         "*://*.kameymall.com/*",
         "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
+        "*://*.hoobuy.com/*"
+      ],
+      "js": ["build/js/affiliates.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://*.wegobuy.com/*",
+        "*://*.superbuy.com/*",
+        "*://*.sugargoo.com/*",
+        "*://*.cssbuy.com/*",
+        "*://*.pandabuy.com/*",
+        "*://*.hagobuy.com/*",
+        "*://*.kameymall.com/*",
+        "*://*.ezbuycn.com/*",
+        "*://*.cnfans.com/*",
         "*://*.hoobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",

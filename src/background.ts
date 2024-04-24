@@ -1,6 +1,7 @@
 import { Config } from './Config';
-import { redirectListenerUrls } from './data/redirectListenerUrls';
 import { fetchData } from './lib/api/fetchData';
+import { getAffiliates } from './lib/getAffiliates';
+import { setAffiliateCookies } from './lib/setAffiliateCookies';
 import { getStorage, isChromeStorage } from './lib/storage';
 import type { Settings } from './models/Settings';
 import { defaultSettings } from './models/Settings';
@@ -80,44 +81,15 @@ function initializeExtension(
   }
 }
 
-/**
- * Adds a listener to listen for redirect events.
- */
-function addRedirectListener(isChrome: boolean) {
-  if (isChrome) {
-    chrome.webNavigation.onHistoryStateUpdated.addListener(
-      (details) => {
-        chrome.scripting.executeScript({
-          target: { tabId: details.tabId, allFrames: true },
-          files: ['build/js/redirect.js'],
-        });
-      },
-      {
-        url: redirectListenerUrls,
-      }
-    );
-  } else {
-    browser.webNavigation.onHistoryStateUpdated.addListener((details) => {
-      console.error(JSON.stringify(details));
-      browser.tabs
-        .executeScript(details.tabId, {
-          file: './js/redirect.js',
-          allFrames: true,
-        })
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((error) => {
-          console.error('Error executing script:', error);
-        });
-    });
-  }
-}
-
 function main() {
   const storage = getStorage();
   initializeExtension(storage);
-  addRedirectListener(isChromeStorage(storage));
+  // addRedirectListener(isChromeStorage(storage));
+  getAffiliates().then((affiliates) => {
+    if (affiliates) {
+      setAffiliateCookies(isChromeStorage(storage), affiliates);
+    }
+  });
 }
 
 main();

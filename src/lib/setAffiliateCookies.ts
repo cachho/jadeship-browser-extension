@@ -57,8 +57,8 @@ export function getCookie(
         ...shared,
         url: 'https://www.cssbuy.com',
         domain: 'www.cssbuy.com',
-        name: Object.values(obj)[0] as string,
-        value: Object.keys(obj)[0],
+        name: Object.keys(obj)[0],
+        value: Object.values(obj)[0] as string,
       },
       {
         ...shared,

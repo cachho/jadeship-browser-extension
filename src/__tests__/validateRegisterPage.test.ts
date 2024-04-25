@@ -15,6 +15,8 @@ describe('validateRegisterPage', () => {
       cnfans: 'https://cnfans.com/register/',
       kameymall: 'https://www.kameymall.com/login?loginType=1',
       hoobuy: 'https://hoobuy.com/signUp',
+      allchinabuy:
+        'https://www.allchinabuy.com/en/page/login/?ref=https%3A%2F%2Fwww.allchinabuy.com%2Fen%2F&type=register',
     };
 
     agents.forEach((agent) => {

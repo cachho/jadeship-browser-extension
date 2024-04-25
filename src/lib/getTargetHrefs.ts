@@ -44,6 +44,10 @@ export function getTargetHrefs(settings: Settings) {
     targetedHrefs = targetedHrefs.concat([
       'wegobuy.com/en/page/buy',
       'superbuy.com/en/page/buy',
+      'allchinabuy.com/en/page/buy',
+      'wegobuy.com/cn/page/buy',
+      'superbuy.com/cn/page/buy',
+      'allchinabuy.com/cn/page/buy',
       'm.superbuy.com',
       'pandabuy.com/product',
       'pandabuy.page.link',

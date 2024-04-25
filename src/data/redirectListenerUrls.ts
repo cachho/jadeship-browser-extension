@@ -1,4 +1,4 @@
-export const redirectListenerUrls = [
+export const redirectListenerUrls: Array<{ hostSuffix: string }> = [
   { hostSuffix: 'wegobuy.com' },
   { hostSuffix: 'superbuy.com' },
   { hostSuffix: 'sugargoo.com' },
@@ -9,4 +9,5 @@ export const redirectListenerUrls = [
   { hostSuffix: 'ezbuycn.com' },
   { hostSuffix: 'cnfans.com' },
   { hostSuffix: 'hoobuy.com' },
+  { hostSuffix: 'allchinabuy.com' },
 ];

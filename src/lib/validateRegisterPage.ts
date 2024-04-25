@@ -7,7 +7,7 @@ export function validateRegisterPage(
   if (agent === 'pandabuy') {
     return location.pathname.startsWith('/login');
   }
-  if (agent === 'superbuy' || agent === 'wegobuy') {
+  if (agent === 'superbuy' || agent === 'wegobuy' || agent === 'allchinabuy') {
     const params = new URLSearchParams(location.search);
     return (
       (location.pathname.startsWith('/en/page/login') ||

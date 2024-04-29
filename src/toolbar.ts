@@ -159,8 +159,12 @@ async function toolbar() {
     return false;
   }
 
+  const cnLinkResponse = CnLink.safeInstantiate(window.location.href);
+
+  if (!cnLinkResponse.success) return null;
+
   const currentPage: CurrentPage = {
-    link: new CnLink(window.location.href),
+    link: cnLinkResponse.data,
     agent: detectAgent(window.location.href),
     marketplace: detectMarketplace(new URL(window.location.href)),
   };

@@ -85,20 +85,20 @@ function initializeExtension(
  */
 function addRedirectListener(isChrome: boolean) {
   if (isChrome) {
-    chrome.webNavigation.onHistoryStateUpdated.addListener(
-      (details) => {
+    chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+      if (changeInfo.status === 'complete') return;
+      if (!changeInfo.url) return;
+      const url = new URL(changeInfo.url);
+      if (redirectListenerUrls.some((x) => url.host.endsWith(x.hostSuffix))) {
         chrome.scripting.executeScript({
-          target: { tabId: details.tabId, allFrames: true },
+          target: { tabId, allFrames: true },
           files: ['build/js/redirect.js'],
         });
-      },
-      {
-        url: redirectListenerUrls,
       }
-    );
+    });
   } else {
+    // TODO: Figure out how to get this to work in Firefox
     browser.webNavigation.onHistoryStateUpdated.addListener((details) => {
-      console.error(JSON.stringify(details));
       browser.tabs
         .executeScript(details.tabId, {
           file: './js/redirect.js',

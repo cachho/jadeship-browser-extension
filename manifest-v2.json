@@ -32,6 +32,7 @@
         "*://*.ezbuycn.com/*",
         "*://*.cnfans.com/*",
         "*://*.hoobuy.com/*",
+        "*://*.allchinabuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -56,6 +57,7 @@
     "*://*.ezbuycn.com/*",
     "*://*.cnfans.com/*",
     "*://*.hoobuy.com/*",
+    "*://*.allchinabuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*",
     "https://api.qc.photos/*"

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "cn-links": "^1.11.0",
+    "cn-links": "^1.12.0",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

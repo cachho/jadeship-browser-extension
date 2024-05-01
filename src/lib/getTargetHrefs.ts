@@ -60,6 +60,7 @@ export function getTargetHrefs(settings: Settings) {
       'kameymall.com/purchases/search',
       'cnfans.com/product',
       'hoobuy.com/product',
+      'hoobuy.com/m/product',
       'ezbuycn.com/api',
     ]);
   }

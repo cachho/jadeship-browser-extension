@@ -33,6 +33,7 @@
         "*://*.cnfans.com/*",
         "*://*.hoobuy.com/*",
         "*://*.allchinabuy.com/*",
+        "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -58,6 +59,7 @@
     "*://*.cnfans.com/*",
     "*://*.hoobuy.com/*",
     "*://*.allchinabuy.com/*",
+    "*://*.basetao.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*",
     "https://api.qc.photos/*"

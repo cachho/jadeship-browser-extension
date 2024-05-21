@@ -42,5 +42,8 @@ export function validateRegisterPage(
   if (agent === 'hoobuy') {
     return location.pathname.startsWith('/signUp');
   }
+  if (agent === 'basetao') {
+    return false;
+  }
   return false;
 }

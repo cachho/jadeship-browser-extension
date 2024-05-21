@@ -27,6 +27,7 @@
         "*://*.cnfans.com/*",
         "*://*.hoobuy.com/*",
         "*://*.allchinabuy.com/*",
+        "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -53,6 +54,7 @@
         "*://*.cnfans.com/*",
         "*://*.hoobuy.com/*",
         "*://*.allchinabuy.com/*",
+        "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -76,7 +78,8 @@
     "*://*.ezbuycn.com/*",
     "*://*.cnfans.com/*",
     "*://*.hoobuy.com/*",
-    "*://*.allchinabuy.com/*"
+    "*://*.allchinabuy.com/*",
+    "*://*.basetao.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

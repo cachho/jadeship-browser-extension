@@ -4,7 +4,7 @@ import { validateRegisterPage } from '../lib/validateRegisterPage';
 
 describe('validateRegisterPage', () => {
   test('should handle all agents', () => {
-    const testLinks: { [agent in Agent]: string } = {
+    const testLinks: { [agent in Agent]: string | null } = {
       pandabuy: 'https://www.pandabuy.com/login?id=1',
       superbuy: 'https://www.superbuy.com/en/page/login/?type=register',
       wegobuy: 'https://login.wegobuy.com/en/page/login/?&type=register',
@@ -17,10 +17,15 @@ describe('validateRegisterPage', () => {
       hoobuy: 'https://hoobuy.com/signUp',
       allchinabuy:
         'https://www.allchinabuy.com/en/page/login/?ref=https%3A%2F%2Fwww.allchinabuy.com%2Fen%2F&type=register',
+      basetao: null,
     };
 
     agents.forEach((agent) => {
       const link = testLinks[agent];
+      if (!link) {
+        // Skip agents that specifically have a null value for link
+        return;
+      }
       const url = new URL(link);
       const valid = validateRegisterPage(agent, url!);
       if (!valid) {

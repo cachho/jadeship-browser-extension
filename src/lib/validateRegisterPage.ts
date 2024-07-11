@@ -48,5 +48,8 @@ export function validateRegisterPage(
   if (agent === 'mulebuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'eastmallbuy') {
+    return location.pathname.startsWith('/index/user/register');
+  }
   return false;
 }

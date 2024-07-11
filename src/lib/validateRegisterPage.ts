@@ -51,5 +51,8 @@ export function validateRegisterPage(
   if (agent === 'eastmallbuy') {
     return location.pathname.startsWith('/index/user/register');
   }
+  if (agent === 'hubbuycn') {
+    return location.pathname.startsWith('/index/user/register');
+  }
   return false;
 }

@@ -20,6 +20,7 @@ describe('validateRegisterPage', () => {
       basetao: null,
       mulebuy: 'https://mulebuy.com/register/',
       eastmallbuy: 'https://eastmallbuy.com/index/user/register.html',
+      hubbuycn: 'https://hubbuycn.com/index/user/register.html',
     };
 
     agents.forEach((agent) => {

@@ -69,6 +69,7 @@ export function getTargetHrefs(settings: Settings) {
       'eastmallbuy.com/index/item',
       'hubbuycn.com/index/item',
       'joyabuy.com/product',
+      'orientdig.com/product',
     ]);
   }
 

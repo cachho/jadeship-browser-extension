@@ -22,6 +22,7 @@ describe('validateRegisterPage', () => {
       eastmallbuy: 'https://eastmallbuy.com/index/user/register.html',
       hubbuycn: 'https://hubbuycn.com/index/user/register.html',
       joyabuy: 'https://joyabuy.com/register/',
+      orientdig: 'https://orientdig.com/register/',
     };
 
     agents.forEach((agent) => {

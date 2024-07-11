@@ -57,5 +57,8 @@ export function validateRegisterPage(
   if (agent === 'joyabuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'orientdig') {
+    return location.pathname.startsWith('/register');
+  }
   return false;
 }

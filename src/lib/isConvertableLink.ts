@@ -7,6 +7,8 @@ export function isConvertableLink(url: URL): boolean {
     'qr.1688.com',
     'tinyurl.com',
     'weidian.info',
+    'hoobuy.cc',
+    'l.acbuy.com',
   ] as const;
 
   if (

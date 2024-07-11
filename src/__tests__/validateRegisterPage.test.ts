@@ -19,6 +19,7 @@ describe('validateRegisterPage', () => {
         'https://www.allchinabuy.com/en/page/login/?ref=https%3A%2F%2Fwww.allchinabuy.com%2Fen%2F&type=register',
       basetao: null,
       mulebuy: 'https://mulebuy.com/register/',
+      eastmallbuy: 'https://eastmallbuy.com/index/user/register.html',
     };
 
     agents.forEach((agent) => {

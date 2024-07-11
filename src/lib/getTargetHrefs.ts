@@ -66,6 +66,7 @@ export function getTargetHrefs(settings: Settings) {
       'ezbuycn.com/api',
       'basetao.com/best-taobao-agent-service/products/agent',
       'mulebuy.com/product',
+      'eastmallbuy.com/index/item',
     ]);
   }
 

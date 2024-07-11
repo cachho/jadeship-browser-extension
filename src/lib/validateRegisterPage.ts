@@ -45,5 +45,8 @@ export function validateRegisterPage(
   if (agent === 'basetao') {
     return false;
   }
+  if (agent === 'mulebuy') {
+    return location.pathname.startsWith('/register');
+  }
   return false;
 }

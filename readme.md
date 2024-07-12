@@ -24,7 +24,7 @@ Some other features:
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Supported shopping agents: Pandabuy, Cssbuy, Hagobuy, neo-shopping-agents such as AllChinaBuy and Hoobuy and all other major agents.
+Supported shopping agents: Pandabuy, Cssbuy, Hagobuy, neo-shopping-agents such as AllChinaBuy, Hoobuy, Mulebuy and all other major agents.
 Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 Supported pages: Reddit, Yupoo, all shopping agents.
 

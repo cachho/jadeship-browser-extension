@@ -3,7 +3,7 @@ import type { Agent } from 'cn-links';
 import type { Settings } from '../models';
 import { waitForElement } from './waitForElement';
 
-export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy', 'cssbuy'];
+export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy'];
 
 export function placeToolbar(
   settings: Settings,

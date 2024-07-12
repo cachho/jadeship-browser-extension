@@ -32,6 +32,7 @@ const BodyElement = (settings: Settings, agent?: Agent) => {
   elem.style.width = '100%';
   elem.style.height = '48px';
   elem.style.zIndex = '10000';
+  elem.style.flexShrink = '0';
 
   if (
     settings.stickyToolbar &&
@@ -210,6 +211,9 @@ async function toolbar() {
     Links(currentPage, settings).outerHTML
   } ${Close().outerHTML}`;
   elem.innerHTML = inner.outerHTML;
+  elem.style.flexShrink = '0';
+  // Make sure elem is full width, even as a flex element
+  elem.style.width = '100%';
   placeToolbar(settings, body, elem, agent);
 
   // Close toolbar

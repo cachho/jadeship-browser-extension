@@ -1,6 +1,6 @@
-export async function fetchData(url: string): Promise<any> {
+export async function fetchData(url: string, init?: RequestInit): Promise<any> {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, init);
     if (!response.ok) {
       return null;
     }

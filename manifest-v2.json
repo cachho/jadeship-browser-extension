@@ -73,8 +73,7 @@
     "*://*.joyabuy.com/*",
     "*://*.orientdig.com/*",
     "https://*.reparchive.com/*",
-    "https://*.jadeship.com/*",
-    "https://api.qc.photos/*"
+    "https://*.jadeship.com/*"
   ],
   "web_accessible_resources": [
     "public/agent_logos/*",

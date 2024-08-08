@@ -165,7 +165,7 @@ async function main(settings: Settings) {
       try {
         if (settings.onlineFeaturesQcPhotos) {
           const qcAvailable = await promiseQcAvailable;
-          if (qcAvailable?.success && qcAvailable.data?.product_has_qc) {
+          if (qcAvailable?.some((qc) => qc.qcPhotos.length > 0)) {
             addQcElement(link, elem);
           }
         }

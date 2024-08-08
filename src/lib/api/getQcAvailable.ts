@@ -1,14 +1,22 @@
-import type { CnLink } from 'cn-links';
+import type { CnLink, Marketplace } from 'cn-links';
 
 import { Config } from '../../Config';
-import type { QcAvailable } from '../../models';
+import type { QcResponse } from '../../models';
 import { fetchData } from './fetchData';
+
+export const findslyMappings = new Map<Marketplace, string>([
+  ['1688', 'ONE_SIX_EIGHT_EIGHT'],
+  ['taobao', 'TAOBAO'],
+  ['weidian', 'WEIDIAN'],
+  ['tmall', 'TAOBAO'],
+]);
 
 export async function getQcAvailable(
   cnLink: CnLink
-): Promise<QcAvailable | null> {
-  const link = encodeURIComponent(cnLink.as('raw').href);
-  const url = `${Config.host.qc}/v3/checkIfProductHasQcImages?url=${link}`;
+): Promise<QcResponse | null> {
+  const url = `${Config.host.qc}/products/${findslyMappings.get(
+    cnLink.marketplace
+  )}/${cnLink.id}/qcPhotos`;
   const d = await fetchData(url);
   return d;
 }

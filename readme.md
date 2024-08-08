@@ -20,11 +20,12 @@ Some other features:
 - convert links on reddit.com and yupoo.com
 - shows you if quality control (QC) pics are available on finds.ly
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
-- handles shortened links (pandabuy.page.link, pandabuy.app.link, weidian.info, etc.)
+- handles shortened links (pandabuy.page.link, pandabuy.app.link, weidian.info, l.acbuy.com, etc.)
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Supported shopping agents: Pandabuy, Cssbuy, Hagobuy, neo-shopping-agents such as AllChinaBuy, Hoobuy, Mulebuy and all other major agents.
+Support shopping agents: Support for the biggest list of shopping agents any tool has to offer, from classics such as Superbuy, Cssbuy and Sugargoo, to neo-agents such as AllChinaBuy, Hoobuy and Mulebuy.
+Support for legacy agents: supports for defunct agents is kept so that you can convert those old links, for instance Pandabuy, Hagobuy and Wegobuy.
 Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 Supported pages: Reddit, Yupoo, all shopping agents.
 
@@ -96,4 +97,4 @@ The following site can be used to quickly report bugs: https://www.jadeship.com/
 It's even better if you open an issue here on github, so we can methodically fix the issue.
 
 ## Disclaimer
-Not affiliated with reddit.com, weidian.com, taobao.com, tmall.com, 1688.com, pandabuy.com, wegobuy.com, superbuy.com, cssbuy.com, sugargoo.com or hagobuy.com. We do not represent those websites or companies.
+Not affiliated with reddit.com, weidian.com, taobao.com, tmall.com, 1688.com, or any of the agent pages listed in the manifest. We do not represent those websites or companies.

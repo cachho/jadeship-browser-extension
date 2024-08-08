@@ -8,11 +8,11 @@ Summary: **My Agent Extension - automatically convert all links on reddit and yu
 
 ---
 
-This extension serves two main purposes to upgrade the quality of life for reddit users on Taobao, Weidian and 1688 related subreddits, and yupoo.com.
+This extension is an essential quality of life upgrade for you as a customers of Chinese shopping sites (Taobao, Weidian, 1688), whether you're browsing the shopping site itself, via an agent or looking on reddit - you get link conversions, QC pics, prices and more.
 
 It rewrites all links to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
 
-It enriches the page with extra information about the product and it's sales ranking from www.jadeship.com.
+Pages become enriched with extra information about the products you're seeing, you get sales stats from www.jadeship.com and QC pics from finds.ly.
 
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
@@ -24,10 +24,11 @@ Some other features:
 - countless display options
 - freedom to opt out of all online features and the affiliates program.
 
-Support shopping agents: Support for the biggest list of shopping agents any tool has to offer, from classics such as Superbuy, Cssbuy and Sugargoo, to neo-agents such as AllChinaBuy, Hoobuy and Mulebuy.
-Support for legacy agents: supports for defunct agents is kept so that you can convert those old links, for instance Pandabuy, Hagobuy and Wegobuy.
-Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
-Supported pages: Reddit, Yupoo, all shopping agents.
+Supported pages:
+- Supported shopping agents: Support for the biggest list of shopping agents any tool has to offer, from classics such as Superbuy, Cssbuy and Sugargoo, to neo-agents such as AllChinaBuy, Hoobuy and Mulebuy.
+- Support for legacy agents: supports for defunct agents is kept so that you can convert those old links, for instance Pandabuy, Hagobuy and Wegobuy.
+- Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
+- Supported pages: Reddit, Yupoo, all shopping agents.
 
 Safety & Privacy:
 - the source code is open source, so anyone can review it and contribute

@@ -182,7 +182,7 @@ async function toolbar() {
   } else {
     try {
       const response = await getQcAvailable(currentPage.link);
-      if (response?.success && response.data?.product_has_qc) {
+      if (response?.some((qc) => qc.qcPhotos.length > 0)) {
         qcString = QC(currentPage.link).outerHTML;
       }
     } catch (err) {

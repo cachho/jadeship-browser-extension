@@ -6,7 +6,7 @@ export const Config = {
   host: {
     details: 'https://www.jadeship.com',
     shortenedLinks: 'https://www.jadeship.com/api',
-    qc: 'https://qc.photos',
+    qc: 'https://www.jadeship.com/api/quota-limited/findsly',
   },
   social: {
     homepage: 'https://www.jadeship.com/?r=extension',

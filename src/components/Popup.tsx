@@ -292,7 +292,7 @@ const Popup = () => {
           })
         }
       />
-      qc.photos online features
+      finds.ly online features
       <br />
       <p>
         Online features are provided by RepArchive.com. They include the extra

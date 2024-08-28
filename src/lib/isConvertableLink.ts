@@ -10,6 +10,7 @@ export function isConvertableLink(url: URL): boolean {
     'hoobuy.cc',
     'l.acbuy.com',
     'oopbuy.cc',
+    'sl.hegobuy.com',
   ] as const;
 
   if (

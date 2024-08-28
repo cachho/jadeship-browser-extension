@@ -34,6 +34,7 @@
         "*://*.hubbuycn.com/*",
         "*://*.joyabuy.com/*",
         "*://*.orientdig.com/*",
+        "*://*.oopbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -67,6 +68,7 @@
         "*://*.hubbuycn.com/*",
         "*://*.joyabuy.com/*",
         "*://*.orientdig.com/*",
+        "*://*.oopbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -97,7 +99,8 @@
     "*://*.eastmallbuy.com/*",
     "*://*.hubbuycn.com/*",
     "*://*.joyabuy.com/*",
-    "*://*.orientdig.com/*"
+    "*://*.orientdig.com/*",
+    "*://*.oopbuy.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

@@ -39,6 +39,7 @@
         "*://*.hubbuycn.com/*",
         "*://*.joyabuy.com/*",
         "*://*.orientdig.com/*",
+        "*://*.oopbuy.com/*",
         "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
@@ -72,6 +73,7 @@
     "*://*.hubbuycn.com/*",
     "*://*.joyabuy.com/*",
     "*://*.orientdig.com/*",
+    "*://*.oopbuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

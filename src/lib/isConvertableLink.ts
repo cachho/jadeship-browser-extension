@@ -9,6 +9,7 @@ export function isConvertableLink(url: URL): boolean {
     'weidian.info',
     'hoobuy.cc',
     'l.acbuy.com',
+    'oopbuy.cc',
   ] as const;
 
   if (

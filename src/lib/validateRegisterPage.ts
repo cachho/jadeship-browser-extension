@@ -60,5 +60,8 @@ export function validateRegisterPage(
   if (agent === 'orientdig') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'oopbuy') {
+    return location.pathname.startsWith('/register');
+  }
   return false;
 }

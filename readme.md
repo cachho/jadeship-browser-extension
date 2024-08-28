@@ -25,7 +25,7 @@ Some other features:
 - freedom to opt out of all online features and the affiliates program.
 
 Supported pages:
-- Supported shopping agents: Support for the biggest list of shopping agents any tool has to offer, from classics such as Superbuy, Cssbuy and Sugargoo, to neo-agents such as AllChinaBuy, Hoobuy and Mulebuy.
+- Supported shopping agents: Support for the biggest list of shopping agents any tool has to offer, from classics such as Superbuy, Cssbuy and Sugargoo, to neo-agents such as AllChinaBuy, Hoobuy, oopbuy and Mulebuy.
 - Support for legacy agents: supports for defunct agents is kept so that you can convert those old links, for instance Pandabuy, Hagobuy and Wegobuy.
 - Supported marketplaces/platforms: weidian.com, taobao.com, 1688.com, tmall.com
 - Supported pages: Reddit, Yupoo, all shopping agents.

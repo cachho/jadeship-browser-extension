@@ -62,6 +62,18 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
+  } else if (agent === 'panglobalbuy') {
+    const query = '.index-wrap';
+    waitForElement(query, (targetElement) => {
+      // Check if the target element has a first child
+      if (targetElement.firstChild) {
+        // If there is a first child, insert the element before it
+        targetElement.insertBefore(elem, targetElement.firstChild);
+      } else {
+        // If there is no first child, append the element to the target element
+        targetElement.appendChild(elem);
+      }
+    });
   } else {
     body.insertAdjacentElement('afterbegin', elem);
   }

@@ -27,7 +27,7 @@ export function validateRegisterPage(
       newLocation.pathname.startsWith('/index/user/register')
     );
   }
-  if (agent === 'hagobuy') {
+  if (agent === 'hagobuy' || agent === 'hegobuy') {
     return location.pathname.startsWith('/register');
   }
   if (agent === 'kameymall') {
@@ -63,5 +63,19 @@ export function validateRegisterPage(
   if (agent === 'oopbuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'lovegobuy') {
+    return location.pathname.startsWith('/login/signup');
+  }
+  if (agent === 'blikbuy') {
+    const params = new URLSearchParams(location.search);
+    return location.pathname === '/' && params.get('action') === 'register';
+  }
+  if (agent === 'ponybuy') {
+    return location.pathname.includes('/register');
+  }
+  if (agent === 'panglobalbuy') {
+    return location.href.includes('/register');
+  }
+
   return false;
 }

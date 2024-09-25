@@ -58,6 +58,7 @@ export function getTargetHrefs(settings: Settings) {
       'sugargoo.com/index/item',
       'cssbuy.com/item',
       'hagobuy.com/item',
+      'hegobuy.com/item',
       'weidian.info',
       'kameymall.com/purchases/search',
       'cnfans.com/product',
@@ -70,6 +71,11 @@ export function getTargetHrefs(settings: Settings) {
       'hubbuycn.com/index/item',
       'joyabuy.com/product',
       'orientdig.com/product',
+      'oopbuy.com/product',
+      'lovegobuy.com/product',
+      'blikbuy.com/',
+      'panglobalbuy.com/#/details',
+      'ponybuy.com/',
     ]);
   }
 

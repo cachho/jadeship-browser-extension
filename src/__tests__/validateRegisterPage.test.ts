@@ -11,6 +11,7 @@ describe('validateRegisterPage', () => {
       cssbuy: 'https://m.cssbuy.com/?go=user&action=register',
       sugargoo: 'https://www.sugargoo.com/#/login/login?redirect=/home/home',
       hagobuy: 'https://www.hagobuy.com/register',
+      hegobuy: 'https://www.hegobuy.com/register',
       ezbuycn: 'https://ezbuycn.com/reg.aspx',
       cnfans: 'https://cnfans.com/register/',
       kameymall: 'https://www.kameymall.com/login?loginType=1',
@@ -24,6 +25,10 @@ describe('validateRegisterPage', () => {
       joyabuy: 'https://joyabuy.com/register/',
       orientdig: 'https://orientdig.com/register/',
       oopbuy: 'https://www.oopbuy.com/register',
+      lovegobuy: 'https://www.lovegobuy.com/login/signup',
+      blikbuy: 'https://blikbuy.com/?go=user&action=register',
+      ponybuy: 'https://www.ponybuy.com/en-gb/register',
+      panglobalbuy: 'https://panglobalbuy.com/#/register',
     };
 
     agents.forEach((agent) => {

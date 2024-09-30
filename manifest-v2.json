@@ -45,6 +45,7 @@
         "*://*.blikbuy.com/*",
         "*://*.ponybuy.com/*",
         "*://*.panglobalbuy.com/*",
+        "*://*.sifubuy.com/*",
         "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
@@ -84,6 +85,7 @@
     "*://*.blikbuy.com/*",
     "*://*.ponybuy.com/*",
     "*://*.panglobalbuy.com/*",
+    "*://*.sifubuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

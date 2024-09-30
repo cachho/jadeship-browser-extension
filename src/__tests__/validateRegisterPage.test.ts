@@ -29,6 +29,7 @@ describe('validateRegisterPage', () => {
       blikbuy: 'https://blikbuy.com/?go=user&action=register',
       ponybuy: 'https://www.ponybuy.com/en-gb/register',
       panglobalbuy: 'https://panglobalbuy.com/#/register',
+      sifubuy: 'https://sifubuy.com/login?type=register',
     };
 
     agents.forEach((agent) => {

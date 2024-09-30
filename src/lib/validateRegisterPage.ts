@@ -76,6 +76,12 @@ export function validateRegisterPage(
   if (agent === 'panglobalbuy') {
     return location.href.includes('/register');
   }
+  if (agent === 'sifubuy') {
+    return (
+      location.pathname.startsWith('/login') &&
+      location.search.includes('type=register')
+    );
+  }
 
   return false;
 }

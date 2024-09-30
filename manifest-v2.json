@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "JadeShip.com Extension",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "description": "(formerly RepArchive Ext) Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich pages with price info and QC pics.",
   "icons": {
     "48": "public/icon.png"
@@ -45,6 +45,7 @@
         "*://*.blikbuy.com/*",
         "*://*.ponybuy.com/*",
         "*://*.panglobalbuy.com/*",
+        "*://*.sifubuy.com/*",
         "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
@@ -84,6 +85,7 @@
     "*://*.blikbuy.com/*",
     "*://*.ponybuy.com/*",
     "*://*.panglobalbuy.com/*",
+    "*://*.sifubuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

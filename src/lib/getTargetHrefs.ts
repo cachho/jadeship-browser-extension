@@ -76,6 +76,7 @@ export function getTargetHrefs(settings: Settings) {
       'blikbuy.com/',
       'panglobalbuy.com/#/details',
       'ponybuy.com/',
+      'sifubuy.com/detail',
     ]);
   }
 

@@ -11,6 +11,7 @@ export function isConvertableLink(url: URL): boolean {
     'l.acbuy.com',
     'oopbuy.cc',
     'sl.hegobuy.com',
+    'ihego.vip',
     'blikbuy.seewebs.com',
   ] as const;
 

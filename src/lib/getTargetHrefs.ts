@@ -77,6 +77,7 @@ export function getTargetHrefs(settings: Settings) {
       'panglobalbuy.com/#/details',
       'ponybuy.com/',
       'sifubuy.com/detail',
+      'loongbuy.com/product-details',
     ]);
   }
 

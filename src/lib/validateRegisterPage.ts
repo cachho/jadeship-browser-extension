@@ -82,6 +82,9 @@ export function validateRegisterPage(
       location.search.includes('type=register')
     );
   }
+  if (agent === 'loongbuy') {
+    return location.pathname.startsWith('/register');
+  }
 
   return false;
 }

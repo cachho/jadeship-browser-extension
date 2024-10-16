@@ -30,6 +30,7 @@ describe('validateRegisterPage', () => {
       ponybuy: 'https://www.ponybuy.com/en-gb/register',
       panglobalbuy: 'https://panglobalbuy.com/#/register',
       sifubuy: 'https://sifubuy.com/login?type=register',
+      loongbuy: 'https://loongbuy.com/register',
     };
 
     agents.forEach((agent) => {

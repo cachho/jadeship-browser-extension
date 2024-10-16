@@ -41,6 +41,7 @@
         "*://*.ponybuy.com/*",
         "*://*.panglobalbuy.com/*",
         "*://*.sifubuy.com/*",
+        "*://*.loongbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -81,6 +82,7 @@
         "*://*.ponybuy.com/*",
         "*://*.panglobalbuy.com/*",
         "*://*.sifubuy.com/*",
+        "*://*.loongbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -118,7 +120,8 @@
     "*://*.blikbuy.com/*",
     "*://*.ponybuy.com/*",
     "*://*.panglobalbuy.com/*",
-    "*://*.sifubuy.com/*"
+    "*://*.sifubuy.com/*",
+    "*://*.loongbuy.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

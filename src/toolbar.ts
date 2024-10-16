@@ -61,6 +61,12 @@ const Stats = (link: CnLink) => {
 
 const Links = (currentPage: CurrentPage, settings: Settings) => {
   const div = document.createElement('div');
+  div.style.height = '100%';
+  div.style.width = '100%';
+  div.style.display = 'flex';
+  div.style.justifyContent = 'center';
+  div.style.paddingLeft = '16px';
+  div.style.paddingRight = '16px';
 
   const sortKeys = (a: string, b: string) => {
     if (a === settings.myAgent) {
@@ -81,6 +87,7 @@ const Links = (currentPage: CurrentPage, settings: Settings) => {
       )
       .sort(sortKeys)
       .map((agent: AgentWithRaw) => {
+        // Agent button
         const link = currentPage.link.as(agent, undefined, '27');
         const button = Button(link.href, true);
         if (agent === 'raw') {

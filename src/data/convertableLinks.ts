@@ -1,0 +1,15 @@
+export const convertableLinks = [
+  'pandabuy.page.link',
+  'pandabuy.allapp.link',
+  'k.youshop10.com',
+  'm.tb.cn',
+  'qr.1688.com',
+  'tinyurl.com',
+  'weidian.info',
+  'hoobuy.cc',
+  'l.acbuy.com',
+  'oopbuy.cc',
+  'sl.hegobuy.com',
+  'ihego.vip',
+  'blikbuy.seewebs.com',
+] as const;

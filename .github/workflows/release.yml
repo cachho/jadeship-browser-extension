@@ -23,6 +23,14 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Update manifest versions
+      id: update_manifests
+      run: |
+        RELEASE_VERSION=${{ github.event.release.tag_name }}
+        RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
+        jq --arg version "$RELEASE_VERSION" '.version = $version' manifest.json > manifest.tmp && mv manifest.tmp manifest.json
+        jq --arg version "$RELEASE_VERSION" '.version = $version' manifest-v2.json > manifest-v2.tmp && mv manifest-v2.tmp manifest-v2.json
+
     - name: Verify release version
       id: verify_version
       run: |

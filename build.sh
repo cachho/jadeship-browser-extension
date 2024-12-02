@@ -1,14 +1,8 @@
 #######################################
-# General configuration
-#######################################
-alias json=./node_modules/.bin/json
-alias addons-linter=./node_modules/.bin/addons-linter
-
-#######################################
 # Compile to TypeScript Code
 #######################################
 echo "> Running Webpack (production)..."
-webpack --config webpack.prod.js
+npx webpack --config webpack.prod.js
 echo ""
 
 #######################################
@@ -28,13 +22,12 @@ sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
 cp manifest.json temp-manifest.json
 cp manifest-v2.json temp-manifest-v2.json
 
-
 #######################################
 # Modify Manifest
 #######################################
 
 ## Replace all references of 'build/' with './' in the copied manifest file
-json -I -f temp-manifest.json -e 'function replace(obj) { 
+npx json -I -f temp-manifest.json -e 'function replace(obj) { 
     for (var prop in obj) {
         if (typeof obj[prop] === "string") {
             obj[prop] = obj[prop].replace(/build\//g, "./");
@@ -45,7 +38,7 @@ json -I -f temp-manifest.json -e 'function replace(obj) {
 }; replace(this);'
 
 # Manifest V2
-json -I -f temp-manifest-v2.json -e 'function replace(obj) { 
+npx json -I -f temp-manifest-v2.json -e 'function replace(obj) { 
     for (var prop in obj) {
         if (typeof obj[prop] === "string") {
             obj[prop] = obj[prop].replace(/build\//g, "./");
@@ -66,15 +59,14 @@ cp temp-manifest-v2.json temp-manifest-firefox.json
 # For Chromium exclusively
 #######################################
 # Delete browser specific settings
-json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
+npx json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
 
 #######################################
 # For Firefox exclusively
 #######################################
 # Replace 'service_worker' with 'scripts'.
-json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
-json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
-
+npx json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
+npx json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
 
 #######################################
 # Build package .zip
@@ -118,7 +110,7 @@ rm -f  temp-manifest-chromium.json temp-manifest-firefox.json
 # Run Mozilla's Firefox Addons-Linter
 #######################################
 echo "\n> Running Firefox Addons-Linter..."
-addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
+npx addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
 
 #######################################
 # Report back

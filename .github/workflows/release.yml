@@ -43,6 +43,9 @@ jobs:
           exit 1
         fi
 
+    - name: Build permissions
+      run: chmod +x build.sh
+
     - name: Run build script
       run: ./build.sh
 

@@ -68,21 +68,17 @@ jobs:
           path: dist/firefox.zip
 
       - name: Upload Chromium zip to release
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/chromium.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/chromium.zip
-          asset_name: chromium.zip
-          asset_content_type: application/zip
 
       - name: Upload Firefox zip to release
-        uses: actions/upload-release-asset@v1
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/firefox.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: dist/firefox.zip
-          asset_name: firefox.zip
-          asset_content_type: application/zip

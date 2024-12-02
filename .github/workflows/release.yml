@@ -44,10 +44,16 @@ jobs:
         fi
 
     - name: Build permissions
-      run: chmod +x build.sh
+      run: chmod +x *build.sh
 
     - name: Run build script
       run: ./build.sh
+
+    - name: Inspect build
+      run: ./inspect-build.sh
+
+    - name: Post Build
+      run: ./post-build.sh
 
     - name: Upload Chromium zip as artifact
       uses: actions/upload-artifact@v3

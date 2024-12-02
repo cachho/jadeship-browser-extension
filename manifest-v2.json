@@ -47,6 +47,7 @@
         "*://*.panglobalbuy.com/*",
         "*://*.sifubuy.com/*",
         "*://*.loongbuy.com/*",
+        "*://*.kakobuy.com/*",
         "*://*.basetao.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
@@ -88,6 +89,7 @@
     "*://*.panglobalbuy.com/*",
     "*://*.sifubuy.com/*",
     "*://*.loongbuy.com/*",
+    "*://*.kakobuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

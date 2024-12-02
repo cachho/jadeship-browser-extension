@@ -78,6 +78,7 @@ export function getTargetHrefs(settings: Settings) {
       'ponybuy.com/',
       'sifubuy.com/detail',
       'loongbuy.com/product-details',
+      'kakobuy.com/item',
     ]);
   }
 

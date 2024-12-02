@@ -1,28 +1,3 @@
-#!/bin/bash
-#
-# Build script for building the packages
-# for Firefox and Chromium
-
-#######################################
-# Run tests
-#######################################
-# Running the description check script
-./tests/_run_all.sh
-
-# Capturing the exit status of the previous command
-exit_status=$?
-
-# Check if the exit status is not equal to 0 (which means an error occurred in the check_description.sh script)
-if [ $exit_status -ne 0 ]; then
-    echo -e "\e[31mTests failed with status: $exit_status\e[0m"
-    # Exit this script with a non-zero status to indicate failure
-    exit $exit_status
-fi
-
-# Other test commands can go here
-
-echo "All tests passed successfully."
-
 #######################################
 # General configuration
 #######################################

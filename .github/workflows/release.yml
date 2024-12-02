@@ -12,6 +12,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Cache node modules
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: Install dependencies
       run: npm install
 
@@ -26,9 +34,6 @@ jobs:
           echo "Release version does not match manifest versions"
           exit 1
         fi
-
-    - name: Set execute permissions for build script
-      run: chmod +x ./build.sh
 
     - name: Run build script
       run: ./build.sh

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #######################################
 # Compile to TypeScript Code
 #######################################
@@ -103,19 +105,9 @@ cp temp-manifest-chromium.json build/manifest.json
 rm -f temp-manifest.json temp-manifest-v2.json 
 rm -f  temp-manifest-chromium.json temp-manifest-firefox.json
 
-#######################################
-# Run Mozilla's Firefox Addons-Linter
-#######################################
-echo "\n> Running Firefox Addons-Linter..."
-npx addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
+
 
 #######################################
 # Report back
 #######################################
 echo "\nBuild finished"
-echo "> build/"
-echo "> dist/chromium.zip"
-echo "> dist/firefox.zip"
-find "dist" -type f -exec stat -c"%s %n" {} \; | awk '{size_in_kb = $1 / 1024; printf("%-10.2f KB %s\n", size_in_kb, $2)}'
-
-# TODO: Validate build

@@ -2,6 +2,12 @@
 
 # Alias for the json tool, ensure it points to the correct installation path
 alias json=./node_modules/.bin/json
+# Test that json exists
+if ! command -v json &> /dev/null
+then
+    echo -e "\e[31mError: json tool is not installed.\e[0m"
+    exit 1
+fi
 
 # File path to the manifest.json file
 MANIFEST_FILE="manifest.json"
@@ -19,10 +25,12 @@ check_description_length() {
         echo $len characters
         echo -e "\e[31mError: The description field exceeds 132 characters.\e[0m"
         exit 1
-    else
-        exit 0
     fi
 }
 
 # Run the check
 check_description_length
+
+echo -e "\e[32mThe description length is within the character limit.\e[0m"
+exit 0
+

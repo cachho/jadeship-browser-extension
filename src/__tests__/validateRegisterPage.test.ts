@@ -31,6 +31,7 @@ describe('validateRegisterPage', () => {
       panglobalbuy: 'https://panglobalbuy.com/#/register',
       sifubuy: 'https://sifubuy.com/login?type=register',
       loongbuy: 'https://loongbuy.com/register',
+      kakobuy: 'https://www.kakobuy.com/register',
     };
 
     agents.forEach((agent) => {

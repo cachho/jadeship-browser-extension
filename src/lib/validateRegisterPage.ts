@@ -27,7 +27,7 @@ export function validateRegisterPage(
       newLocation.pathname.startsWith('/index/user/register')
     );
   }
-  if (agent === 'hagobuy' || agent === 'hegobuy') {
+  if (agent === 'hagobuy' || agent === 'hegobuy' || agent === 'kakobuy') {
     return location.pathname.startsWith('/register');
   }
   if (agent === 'kameymall') {

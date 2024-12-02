@@ -1,48 +1,14 @@
-#!/bin/bash
-#
-# Build script for building the packages
-# for Firefox and Chromium
-
-#######################################
-# Run tests
-#######################################
-# Running the description check script
-./tests/_run_all.sh
-
-# Capturing the exit status of the previous command
-exit_status=$?
-
-# Check if the exit status is not equal to 0 (which means an error occurred in the check_description.sh script)
-if [ $exit_status -ne 0 ]; then
-    echo -e "\e[31mTests failed with status: $exit_status\e[0m"
-    # Exit this script with a non-zero status to indicate failure
-    exit $exit_status
-fi
-
-# Other test commands can go here
-
-echo "All tests passed successfully."
-
-#######################################
-# General configuration
-#######################################
-alias json=./node_modules/.bin/json
-alias addons-linter=./node_modules/.bin/addons-linter
-
 #######################################
 # Compile to TypeScript Code
 #######################################
 echo "> Running Webpack (production)..."
-webpack --config webpack.prod.js
+npx webpack --config webpack.prod.js
 echo ""
 
 #######################################
 # Copy public & modify public
 #######################################
 cp -r public build
-
-# Replace all references of '../build/popup.js' with '../popup.js' in the copied popup.html
-sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
 
 #######################################
 # Copy the manifest file
@@ -53,13 +19,12 @@ sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
 cp manifest.json temp-manifest.json
 cp manifest-v2.json temp-manifest-v2.json
 
-
 #######################################
 # Modify Manifest
 #######################################
 
 ## Replace all references of 'build/' with './' in the copied manifest file
-json -I -f temp-manifest.json -e 'function replace(obj) { 
+npx json -I -f temp-manifest.json -e 'function replace(obj) { 
     for (var prop in obj) {
         if (typeof obj[prop] === "string") {
             obj[prop] = obj[prop].replace(/build\//g, "./");
@@ -70,7 +35,7 @@ json -I -f temp-manifest.json -e 'function replace(obj) {
 }; replace(this);'
 
 # Manifest V2
-json -I -f temp-manifest-v2.json -e 'function replace(obj) { 
+npx json -I -f temp-manifest-v2.json -e 'function replace(obj) { 
     for (var prop in obj) {
         if (typeof obj[prop] === "string") {
             obj[prop] = obj[prop].replace(/build\//g, "./");
@@ -91,15 +56,14 @@ cp temp-manifest-v2.json temp-manifest-firefox.json
 # For Chromium exclusively
 #######################################
 # Delete browser specific settings
-json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
+npx json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
 
 #######################################
 # For Firefox exclusively
 #######################################
 # Replace 'service_worker' with 'scripts'.
-json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
-json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
-
+npx json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
+npx json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
 
 #######################################
 # Build package .zip
@@ -143,7 +107,7 @@ rm -f  temp-manifest-chromium.json temp-manifest-firefox.json
 # Run Mozilla's Firefox Addons-Linter
 #######################################
 echo "\n> Running Firefox Addons-Linter..."
-addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
+npx addons-linter dist/firefox.zip --min-manifest-version 2 --max-manifest-version 3
 
 #######################################
 # Report back

@@ -69,6 +69,8 @@ jobs:
 
     - name: Upload Chromium zip to release
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: dist/chromium.zip
@@ -77,6 +79,8 @@ jobs:
 
     - name: Upload Firefox zip to release
       uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ github.event.release.upload_url }}
         asset_path: dist/firefox.zip

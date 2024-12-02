@@ -7,7 +7,7 @@ describe('Agents', () => {
   it('should include the agent in manifest v3', () => {
     const webAccessibleResources =
       manifest.web_accessible_resources[0].matches.join(', ');
-    const contentScripts = manifest.content_scripts[0].matches.join(', ');
+    const contentScripts = manifest.content_scripts[1].matches.join(', ');
     const hostPermissions = manifest.host_permissions.join(', ');
 
     agents.forEach((agent) => {

@@ -3,3 +3,5 @@ set -e
 
 ./tests/check_description.sh
 ./tests/logos.sh
+
+npm run test

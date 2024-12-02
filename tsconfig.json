@@ -14,9 +14,9 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "jsx": "react-jsx",
     "types": ["chrome", "firefox-webext-browser"]
   },
-  "include": ["src"]
+  "include": ["src", "manifest.json", "manifest-v2.json"]
 }

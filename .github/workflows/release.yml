@@ -9,80 +9,80 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Cache node modules
-      uses: actions/cache@v3
-      with:
-        path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Update manifest versions
-      id: update_manifests
-      run: |
-        RELEASE_VERSION=${{ github.event.release.tag_name }}
-        RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
-        jq --arg version "$RELEASE_VERSION" '.version = $version' manifest.json > manifest.tmp && mv manifest.tmp manifest.json
-        jq --arg version "$RELEASE_VERSION" '.version = $version' manifest-v2.json > manifest-v2.tmp && mv manifest-v2.tmp manifest-v2.json
+      - name: Update manifest versions
+        id: update_manifests
+        run: |
+          RELEASE_VERSION=${{ github.event.release.tag_name }}
+          RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
+          jq --arg version "$RELEASE_VERSION" '.version = $version' manifest.json > manifest.tmp && mv manifest.tmp manifest.json
+          jq --arg version "$RELEASE_VERSION" '.version = $version' manifest-v2.json > manifest-v2.tmp && mv manifest-v2.tmp manifest-v2.json
 
-    - name: Verify release version
-      id: verify_version
-      run: |
-        RELEASE_VERSION=${{ github.event.release.tag_name }}
-        RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
-        MANIFEST_VERSION=$(jq -r '.version' manifest.json)
-        MANIFEST_V2_VERSION=$(jq -r '.version' manifest-v2.json)
-        if [[ "$RELEASE_VERSION" != "$MANIFEST_VERSION" || "$RELEASE_VERSION" != "$MANIFEST_V2_VERSION" ]]; then
-          echo "Release version does not match manifest versions"
-          exit 1
-        fi
+      - name: Verify release version
+        id: verify_version
+        run: |
+          RELEASE_VERSION=${{ github.event.release.tag_name }}
+          RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
+          MANIFEST_VERSION=$(jq -r '.version' manifest.json)
+          MANIFEST_V2_VERSION=$(jq -r '.version' manifest-v2.json)
+          if [[ "$RELEASE_VERSION" != "$MANIFEST_VERSION" || "$RELEASE_VERSION" != "$MANIFEST_V2_VERSION" ]]; then
+            echo "Release version does not match manifest versions"
+            exit 1
+          fi
 
-    - name: Build permissions
-      run: chmod +x *build.sh
+      - name: Build permissions
+        run: chmod +x *build.sh
 
-    - name: Run build script
-      run: ./build.sh
+      - name: Run build script
+        run: ./build.sh
 
-    - name: Inspect build
-      run: ./inspect-build.sh
+      - name: Inspect build
+        run: ./inspect-build.sh
 
-    - name: Post Build
-      run: ./post-build.sh
+      - name: Post Build
+        run: ./post-build.sh
 
-    - name: Upload Chromium zip as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: chromium-zip
-        path: dist/chromium.zip
+      - name: Upload Chromium zip as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chromium-zip
+          path: dist/chromium.zip
 
-    - name: Upload Firefox zip as artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: firefox-zip
-        path: dist/firefox.zip
+      - name: Upload Firefox zip as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: firefox-zip
+          path: dist/firefox.zip
 
-    - name: Upload Chromium zip to release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/chromium.zip
-        asset_name: chromium.zip
-        asset_content_type: application/zip
+      - name: Upload Chromium zip to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: dist/chromium.zip
+          asset_name: chromium.zip
+          asset_content_type: application/zip
 
-    - name: Upload Firefox zip to release
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/firefox.zip
-        asset_name: firefox.zip
-        asset_content_type: application/zip
+      - name: Upload Firefox zip to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: dist/firefox.zip
+          asset_name: firefox.zip
+          asset_content_type: application/zip

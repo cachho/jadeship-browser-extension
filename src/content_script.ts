@@ -80,23 +80,16 @@ async function main(settings: Settings) {
 
     // At this point we have an URL object that contains the marketplace link
 
-    const getLink = () => {
-      try {
-        return new CnLink(originalLink);
-      } catch (err) {
-        return null;
-      }
-    };
-
-    const link = getLink();
-    if (!link) {
+    const linkResult = CnLink.safeInstantiate(originalLink);
+    if (!linkResult.success) {
       console.error(
         'RA Browser Extension:',
         'Could not process link:',
-        originalLink
+        originalLink.href
       );
       return false;
     }
+    const link = linkResult.data;
     const newLink = link.as(selectedAgent, undefined, '27');
 
     // ^^ Link build finished ^^

@@ -15,5 +15,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set execute permissions for test script
+        run: chmod +x ./tests/_run_all.sh
+
       - name: Run tests
         run: ./tests/_run_all.sh

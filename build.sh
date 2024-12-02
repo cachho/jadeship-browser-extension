@@ -10,9 +10,6 @@ echo ""
 #######################################
 cp -r public build
 
-# Replace all references of '../build/popup.js' with '../popup.js' in the copied popup.html
-sed -i 's/\.\.\/build\/popup.js/\.\.\/popup.js/g' build/public/popup.html
-
 #######################################
 # Copy the manifest file
 # TODO: Manifest V2 is a firefox

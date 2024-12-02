@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Verify release version
+      id: verify_version
+      run: |
+        RELEASE_VERSION=${{ github.event.release.tag_name }}
+        RELEASE_VERSION=${RELEASE_VERSION#v}  # Strip the 'v' prefix
+        MANIFEST_VERSION=$(jq -r '.version' manifest.json)
+        MANIFEST_V2_VERSION=$(jq -r '.version' manifest-v2.json)
+        if [[ "$RELEASE_VERSION" != "$MANIFEST_VERSION" || "$RELEASE_VERSION" != "$MANIFEST_V2_VERSION" ]]; then
+          echo "Release version does not match manifest versions"
+          exit 1
+        fi
+
+    - name: Set execute permissions for build script
+      run: chmod +x ./build.sh
+
+    - name: Run build script
+      run: ./build.sh
+
+    - name: Upload Chromium zip as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: chromium-zip
+        path: dist/chromium.zip
+
+    - name: Upload Firefox zip as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: firefox-zip
+        path: dist/firefox.zip
+
+    - name: Upload Chromium zip to release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/chromium.zip
+        asset_name: chromium.zip
+        asset_content_type: application/zip
+
+    - name: Upload Firefox zip to release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/firefox.zip
+        asset_name: firefox.zip
+        asset_content_type: application/zip

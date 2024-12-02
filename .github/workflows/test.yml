@@ -18,5 +18,8 @@ jobs:
       - name: Set execute permissions for test script
         run: chmod -R +x ./tests
 
-      - name: Run tests
+      - name: Run file tests
         run: ./tests/_run_all.sh
+
+      - name: Run unit tests
+        run: npm run test

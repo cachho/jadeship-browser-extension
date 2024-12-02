@@ -16,7 +16,7 @@ jobs:
         run: npm install
 
       - name: Set execute permissions for test script
-        run: chmod +x .r ./tests
+        run: chmod +x -r ./tests
 
       - name: Run tests
         run: ./tests/_run_all.sh

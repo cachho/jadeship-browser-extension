@@ -11,7 +11,7 @@ import {
 
 import { Button } from './components';
 import { Config } from './Config';
-import { getQcAvailable } from './lib/api/getQcAvailable';
+import { findslyMappings, getQcAvailable } from './lib/api/getQcAvailable';
 import {
   addObserver,
   handleExceptionElements,
@@ -46,7 +46,9 @@ const BodyElement = (settings: Settings, agent?: Agent) => {
 
 const QC = (link: CnLink) => {
   const qc = Button(
-    `${Config.host.qc}/qc?url=${encodeURIComponent(link.as('raw').href)}`
+    `https://finds.ly/product/${findslyMappings.get(link.marketplace)}/${
+      link.id
+    }`
   );
   qc.innerText = `📷 QC Pics available`;
   return qc;

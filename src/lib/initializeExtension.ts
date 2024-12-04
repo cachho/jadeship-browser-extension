@@ -28,7 +28,7 @@ export async function initializeExtension(
             result[key] === null
           ) {
             const defaultVal = defaultSettings[key as keyof Settings];
-            console.error(
+            console.debug(
               `Key does not exist. Creating key '${key}' with value: ${defaultVal}`
             );
             storage.local.set({ [key]: defaultVal });
@@ -38,7 +38,7 @@ export async function initializeExtension(
               }
             });
           } else {
-            console.error(
+            console.debug(
               `Key '${key}' already exists with value: ${result[key]}`
             );
           }

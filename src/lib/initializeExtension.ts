@@ -24,15 +24,23 @@ export async function initializeExtension(
           // Only proceed if the previous local storage does not have the key
           if (
             !Object.prototype.hasOwnProperty.call(result, key) ||
-            result[key] === undefined
+            result[key] === undefined ||
+            result[key] === null
           ) {
             const defaultVal = defaultSettings[key as keyof Settings];
+            console.error(
+              `Key does not exist. Creating key '${key}' with value: ${defaultVal}`
+            );
             storage.local.set({ [key]: defaultVal });
             storage.local.get(param, (r) => {
               if (r[key] !== defaultVal) {
                 console.error(`Setting unsuccessful: ${r[key]} ${defaultVal}`);
               }
             });
+          } else {
+            console.error(
+              `Key '${key}' already exists with value: ${result[key]}`
+            );
           }
         });
       }
@@ -58,21 +66,27 @@ export async function initializeExtension(
 
   // Only get links if online features are enabled.
   if (isChromeStorage(storage)) {
-    storage.local.get('onlineFeatures', (onlineFeatures) => {
+    storage.local.get('onlineFeatures', async (onlineFeatures) => {
       if (onlineFeatures.onlineFeatures) {
-        fetchData(Config.endpoint.affiliateLinks)
-          .then((response) => storage.local.set({ affiliate: response.data }))
-          .catch((error) => console.error('Error fetching data:', error));
+        const response = await fetchData(Config.endpoint.affiliateLinks);
+        if (response) {
+          storage.local.set({ affiliate: response.data });
+        } else {
+          console.error('Error retrieving data:', response);
+        }
       }
     });
   } else {
     storage.local
       .get()
-      .then((onlineFeatures) => {
+      .then(async (onlineFeatures) => {
         if (onlineFeatures.onlineFeatures) {
-          fetchData(Config.endpoint.affiliateLinks)
-            .then((response) => storage.local.set({ affiliate: response.data }))
-            .catch((error) => console.error('Error fetching data:', error));
+          const response = await fetchData(Config.endpoint.affiliateLinks);
+          if (response) {
+            storage.local.set({ affiliate: response.data });
+          } else {
+            console.error('Error retrieving data:', response);
+          }
         }
       })
       .catch((error) => console.error('Error retrieving data:', error));

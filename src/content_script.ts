@@ -14,8 +14,10 @@ import { addQcElement } from './lib/html/addQcElement';
 import { getImageAgent } from './lib/html/getImageAgent';
 import { getPlatformImage } from './lib/html/getPlatformImage';
 import { replaceTextContent } from './lib/html/replaceTextContent';
+import { initializeExtension } from './lib/initializeExtension';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
+import { getStorage } from './lib/storage';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
 
@@ -23,6 +25,7 @@ async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
   // Get the selected agent from local storage
   const selectedAgent: AgentWithRaw = settings.myAgent;
+  console.error(selectedAgent);
 
   const currentUrl = new URL(window.location.href);
 
@@ -173,7 +176,32 @@ async function main(settings: Settings) {
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((_mutation) => {
     loadSettings(settingNames).then((settings) => {
-      main(settings as Settings);
+      if (settings && Object.keys(settings).length > 0) {
+        main(settings as Settings);
+      } else {
+        console.error('RA Browser Extension:', 'No settings found');
+        const storage = getStorage();
+        console.error('storage', JSON.stringify(storage));
+        initializeExtension(storage)
+          .then(() => {
+            console.log('RA Browser Extension:', 'Initialized extension');
+          })
+          .finally(() => {
+            console.log('RA Browser Extension:', 'Reloading settings');
+            loadSettings(settingNames).then((s) => {
+              if (s && Object.keys(s).length > 0) {
+                main(s as Settings);
+              }
+            });
+          })
+          .catch((error) => {
+            console.error(
+              'RA Browser Extension:',
+              'Error initializing extension',
+              error
+            );
+          });
+      }
     });
   });
 });
@@ -187,11 +215,3 @@ const options = {
 };
 
 observer.observe(document.body, options);
-// Run once when the loading is complete
-window.onload = () => {
-  loadSettings(settingNames).then((settings) => {
-    if (settings) {
-      main(settings as Settings);
-    }
-  });
-};

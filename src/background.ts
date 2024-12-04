@@ -38,8 +38,9 @@ function addRedirectListener(isChrome: boolean) {
 
 function main() {
   const storage = getStorage();
-  initializeExtension(storage);
-  addRedirectListener(isChromeStorage(storage));
+  initializeExtension(storage).finally(() => {
+    addRedirectListener(isChromeStorage(storage));
+  });
 }
 
 main();

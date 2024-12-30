@@ -375,76 +375,16 @@ const Popup = () => {
       <br />
       <input
         type="checkbox"
-        checked={settings.showAmountSoldSummary}
+        checked={settings.showAmountSold}
         onChange={() =>
           setSettings({
             ...settings,
-            showAmountSoldSummary: !settings.showAmountSoldSummary,
+            showAmountSold: !settings.showAmountSold,
           })
         }
       />
-      display amount sold total summary
+      display amount sold (last 30 days)
       <br />
-      <input
-        type="checkbox"
-        checked={settings.showAmountSold1}
-        onChange={() =>
-          setSettings({
-            ...settings,
-            showAmountSold1: !settings.showAmountSold1,
-          })
-        }
-      />
-      display amount sold 24 hours
-      <br />
-      <input
-        type="checkbox"
-        checked={settings.showAmountSold7}
-        onChange={() =>
-          setSettings({
-            ...settings,
-            showAmountSold7: !settings.showAmountSold7,
-          })
-        }
-      />
-      display amount sold 7 days
-      <br />
-      <input
-        type="checkbox"
-        checked={settings.showAmountSold30}
-        onChange={() =>
-          setSettings({
-            ...settings,
-            showAmountSold30: !settings.showAmountSold30,
-          })
-        }
-      />
-      display amount sold 30 days
-      <br />
-      <input
-        type="checkbox"
-        checked={settings.showAmountSoldAt}
-        onChange={() =>
-          setSettings({
-            ...settings,
-            showAmountSoldAt: !settings.showAmountSoldAt,
-          })
-        }
-      />
-      display amount sold all time
-      <br />
-      <input
-        type="checkbox"
-        checked={settings.showAmountSoldTimeframeLabel}
-        onChange={() =>
-          setSettings({
-            ...settings,
-            showAmountSoldTimeframeLabel:
-              !settings.showAmountSoldTimeframeLabel,
-          })
-        }
-      />
-      display amount sold timeframe label
       <br />
       <input
         type="checkbox"
@@ -456,7 +396,7 @@ const Popup = () => {
           })
         }
       />
-      display 30 day position (ranking)
+      display ranking (last 30 days)
       <br />
       <input
         type="checkbox"

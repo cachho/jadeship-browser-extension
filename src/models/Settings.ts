@@ -18,12 +18,7 @@ export const settingNames: (keyof Settings)[] = [
   'onlineFeaturesQcPhotos',
   'showThumbnail',
   'showPrice',
-  'showAmountSoldSummary',
-  'showAmountSold1',
-  'showAmountSold7',
-  'showAmountSold30',
-  'showAmountSoldAt',
-  'showAmountSoldTimeframeLabel',
+  'showAmountSold',
   'showPos',
   'showTitle',
   'displayTitleLength',
@@ -51,12 +46,7 @@ export type Settings = {
   onlineFeaturesQcPhotos: boolean;
   showThumbnail: boolean;
   showPrice: boolean;
-  showAmountSoldSummary: boolean;
-  showAmountSold1: boolean;
-  showAmountSold7: boolean;
-  showAmountSold30: boolean;
-  showAmountSoldAt: boolean;
-  showAmountSoldTimeframeLabel: boolean;
+  showAmountSold: boolean;
   showPos: boolean;
   showTitle: boolean;
   displayTitleLength: string;
@@ -84,12 +74,7 @@ export const defaultSettings: Settings = {
   onlineFeaturesQcPhotos: true,
   showThumbnail: true,
   showPrice: true,
-  showAmountSoldSummary: false,
-  showAmountSold1: false,
-  showAmountSold7: false,
-  showAmountSold30: true,
-  showAmountSoldAt: false,
-  showAmountSoldTimeframeLabel: false,
+  showAmountSold: true,
   showPos: false,
   showTitle: true,
   displayTitleLength: '64',

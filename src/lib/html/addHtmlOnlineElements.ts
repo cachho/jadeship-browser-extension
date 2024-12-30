@@ -33,7 +33,11 @@ export function addHtmlOnlineElements(
     );
   }
 
-  if (settings.showAmountSold) {
+  if (
+    settings.showAmountSold &&
+    details.amountSold !== undefined &&
+    details.amountSold !== null
+  ) {
     link.insertAdjacentElement(
       'afterend',
       addDetailsElement(`${details.amountSold.count} sold`, true)

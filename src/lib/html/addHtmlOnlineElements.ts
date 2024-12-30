@@ -26,67 +26,17 @@ export function addHtmlOnlineElements(
     );
   }
 
-  if (settings.showPos && details.amountSold[30] > 0) {
+  if (settings.showPos && details.amountSold.pos < 1000) {
     link.insertAdjacentElement(
       'afterend',
       addDetailsElement(`#${details.amountSold.pos}`, true)
     );
   }
 
-  if (settings.showAmountSoldAt) {
+  if (settings.showAmountSold) {
     link.insertAdjacentElement(
       'afterend',
-      addDetailsElement(
-        `${settings.showAmountSoldTimeframeLabel ? 'all-time: ' : ''}${
-          details.amountSold.at
-        } sold`,
-        true
-      )
-    );
-  }
-
-  if (settings.showAmountSold30) {
-    link.insertAdjacentElement(
-      'afterend',
-      addDetailsElement(
-        `${settings.showAmountSoldTimeframeLabel ? '30d: ' : ''}${
-          details.amountSold[30]
-        } sold`,
-        true
-      )
-    );
-  }
-
-  if (settings.showAmountSold7) {
-    link.insertAdjacentElement(
-      'afterend',
-      addDetailsElement(
-        `${settings.showAmountSoldTimeframeLabel ? '7d: ' : ''}${
-          details.amountSold[7]
-        } sold`,
-        true
-      )
-    );
-  }
-
-  if (settings.showAmountSold1) {
-    link.insertAdjacentElement(
-      'afterend',
-      addDetailsElement(
-        `${settings.showAmountSoldTimeframeLabel ? '24h: ' : ''}${
-          details.amountSold[1]
-        } sold`,
-        true
-      )
-    );
-  }
-
-  if (settings.showAmountSoldSummary) {
-    link.insertAdjacentElement(
-      'afterend',
-      addDetailsElement(
-        `sold: 24h: ${details.amountSold[1]} / 7d: ${details.amountSold[7]} / 30d: ${details.amountSold[30]} / all-time: ${details.amountSold.at}`
-      )
+      addDetailsElement(`${details.amountSold.count} sold`, true)
     );
   }
 

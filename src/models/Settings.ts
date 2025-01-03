@@ -65,7 +65,7 @@ export const defaultSettings: Settings = {
   affiliateAppend: false,
   logoAgent: false,
   logoPlatform: true,
-  myAgent: 'lovegobuy',
+  myAgent: 'cnfans',
   taobaoLink: true,
   weidianLink: true,
   s1688Link: true,

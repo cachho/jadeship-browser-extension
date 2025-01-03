@@ -85,6 +85,12 @@ export function validateRegisterPage(
   if (agent === 'loongbuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'acbuy') {
+    return (
+      location.pathname.startsWith('/login') &&
+      location.search.includes('loginStatus=register')
+    );
+  }
 
   return false;
 }

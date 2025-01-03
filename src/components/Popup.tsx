@@ -10,6 +10,7 @@ import { defaultSettings, settingNames } from '../models/Settings';
 const Popup = () => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const storage = getStorage();
+  const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -109,7 +110,7 @@ const Popup = () => {
       </p>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
-        {agentsWithRaw.map((agent) => (
+        {[...sortedAgents, 'raw'].map((agent) => (
           <option value={agent} key={`my-agent-select-${agent}`}>
             {agent}
           </option>
@@ -230,7 +231,7 @@ const Popup = () => {
       {settings.showToolbar ? (
         <>
           <h4>toolbar includes:</h4>
-          {agents.map((agent) => {
+          {sortedAgents.map((agent) => {
             const checked = settings.agentsInToolbar.includes(agent);
 
             function swap() {

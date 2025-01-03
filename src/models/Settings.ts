@@ -82,5 +82,5 @@ export const defaultSettings: Settings = {
   showToolbar: true,
   stickyToolbar: true,
   isDefault: true,
-  agentsInToolbar: ['mulebuy', 'allchinabuy', 'hoobuy', 'sugargoo', 'cssbuy'],
+  agentsInToolbar: ['mulebuy', 'allchinabuy', 'hoobuy', 'sugargoo', 'acbuy'],
 };

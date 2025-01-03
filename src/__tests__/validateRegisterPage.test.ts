@@ -32,6 +32,7 @@ describe('validateRegisterPage', () => {
       sifubuy: 'https://sifubuy.com/login?type=register',
       loongbuy: 'https://loongbuy.com/register',
       kakobuy: 'https://www.kakobuy.com/register',
+      acbuy: 'https://acbuy.com/login?loginStatus=register',
     };
 
     agents.forEach((agent) => {

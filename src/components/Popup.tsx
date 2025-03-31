@@ -285,7 +285,7 @@ const Popup = () => {
       finds.ly online features
       <br />
       <p>
-        Online features are provided by RepArchive.com. They include the extra
+        Online features are provided by Jadeship.com. They include the extra
         information, but are also technically necessary to convert shortened
         links. By establishing a connection you agree to our{' '}
         <a

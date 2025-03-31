@@ -1,16 +1,15 @@
-type QcAvailable = {
-  id: number;
-  dataSource: {
-    name: string;
-    displayName: string;
-  };
-  qcPhotos: PhotoSet[];
-  timeFetched: string;
+type ItemQc = {
+  qcList: {
+    url: string;
+    time: number;
+    format: string;
+  }[];
+  findqcDetailUrl: string;
+  qcCount: number;
 };
 
-type PhotoSet = {
-  id: number;
-  photoUrl: string;
-};
-
-export type QcResponse = Array<QcAvailable>;
+export type QcResponse = Promise<{
+  state: number;
+  msg: string;
+  data: ItemQc;
+}>;

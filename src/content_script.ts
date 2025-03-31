@@ -160,8 +160,8 @@ async function main(settings: Settings) {
       // Add Qc Availability
       try {
         if (settings.onlineFeaturesQcPhotos) {
-          const qcAvailable = await promiseQcAvailable;
-          if (qcAvailable?.some((qc) => qc.qcPhotos.length > 0)) {
+          const response = await promiseQcAvailable;
+          if (response?.data && response.data.qcCount > 0) {
             addQcElement(link, elem);
           }
         }

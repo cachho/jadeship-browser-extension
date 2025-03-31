@@ -11,7 +11,7 @@ import {
 
 import { Button } from './components';
 import { Config } from './Config';
-import { findslyMappings, getQcAvailable } from './lib/api/getQcAvailable';
+import { generateLink, getQcAvailable } from './lib/api/getQcAvailable';
 import {
   addObserver,
   handleExceptionElements,
@@ -45,11 +45,7 @@ const BodyElement = (settings: Settings, agent?: Agent) => {
 };
 
 const QC = (link: CnLink) => {
-  const qc = Button(
-    `https://finds.ly/product/${findslyMappings.get(link.marketplace)}/${
-      link.id
-    }`
-  );
+  const qc = Button(generateLink(link));
   qc.innerText = `📷 QC Pics available`;
   return qc;
 };
@@ -191,7 +187,7 @@ async function toolbar() {
   } else {
     try {
       const response = await getQcAvailable(currentPage.link);
-      if (response?.some((qc) => qc.qcPhotos.length > 0)) {
+      if (response?.data && response?.data.qcCount > 0) {
         qcString = QC(currentPage.link).outerHTML;
       }
     } catch (err) {

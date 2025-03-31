@@ -12,13 +12,13 @@ This extension is an essential quality of life upgrade for you as a customers of
 
 It rewrites all links to your preferred shopping agent. (This includes shopping agent links and direct links to taobao.com and weidian.com.)
 
-Pages become enriched with extra information about the products you're seeing, you get sales stats from www.jadeship.com and QC pics from finds.ly.
+Pages become enriched with extra information about the products you're seeing, you get sales stats from www.jadeship.com and QC pics from findqc.com.
 
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
 Some other features:
 - convert links on reddit.com and yupoo.com
-- shows you if quality control (QC) pics are available on finds.ly
+- shows you if quality control (QC) pics are available on findqc.com
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
 - handles shortened links (pandabuy.page.link, pandabuy.app.link, weidian.info, l.acbuy.com, etc.)
 - countless display options

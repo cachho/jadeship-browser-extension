@@ -97,17 +97,6 @@ const Popup = () => {
           JadeShip.com
         </a>
       </div>
-      <p>
-        RepArchive.com is now{' '}
-        <a
-          href={Config.social.homepage}
-          style={{ color: 'white' }}
-          target="_blank"
-          rel="noopener norefferer"
-        >
-          JadeShip.com
-        </a>
-      </p>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {[...sortedAgents, 'raw'].map((agent) => (
@@ -296,7 +285,7 @@ const Popup = () => {
       finds.ly online features
       <br />
       <p>
-        Online features are provided by RepArchive.com. They include the extra
+        Online features are provided by Jadeship.com. They include the extra
         information, but are also technically necessary to convert shortened
         links. By establishing a connection you agree to our{' '}
         <a

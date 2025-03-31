@@ -97,17 +97,6 @@ const Popup = () => {
           JadeShip.com
         </a>
       </div>
-      <p>
-        RepArchive.com is now{' '}
-        <a
-          href={Config.social.homepage}
-          style={{ color: 'white' }}
-          target="_blank"
-          rel="noopener norefferer"
-        >
-          JadeShip.com
-        </a>
-      </p>
       <h2 style={{ textAlign: 'center' }}>My Shopping Agent</h2>
       <select onChange={handleChangeMyAgent} value={settings.myAgent}>
         {[...sortedAgents, 'raw'].map((agent) => (

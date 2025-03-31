@@ -70,6 +70,7 @@ export function getTargetHrefs(settings: Settings) {
       'eastmallbuy.com/index/item',
       'hubbuycn.com/index/item',
       'joyabuy.com/product',
+      'joyagoo.com/product',
       'orientdig.com/product',
       'oopbuy.com/product',
       'lovegobuy.com/product',

@@ -17,6 +17,7 @@ export const redirectListenerUrls: Array<{ hostSuffix: string }> = [
   { hostSuffix: 'eastmallbuy.com' },
   { hostSuffix: 'hubbuycn.com' },
   { hostSuffix: 'joyabuy.com' },
+  { hostSuffix: 'joyagoo.com' },
   { hostSuffix: 'orientdig.com' },
   { hostSuffix: 'oopbuy.com' },
   { hostSuffix: 'lovegobuy.com' },

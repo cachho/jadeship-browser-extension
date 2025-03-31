@@ -59,13 +59,13 @@ jobs:
         run: ./post-build.sh
 
       - name: Upload Chromium zip as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: chromium-zip
           path: dist/chromium.zip
 
       - name: Upload Firefox zip as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firefox-zip
           path: dist/firefox.zip

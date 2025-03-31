@@ -54,7 +54,7 @@ export function validateRegisterPage(
   if (agent === 'hubbuycn') {
     return location.pathname.startsWith('/index/user/register');
   }
-  if (agent === 'joyabuy') {
+  if (agent === 'joyabuy' || agent === 'joyagoo') {
     return location.pathname.startsWith('/register');
   }
   if (agent === 'orientdig') {

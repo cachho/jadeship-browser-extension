@@ -282,7 +282,7 @@ const Popup = () => {
           })
         }
       />
-      finds.ly online features
+      findqc.com online features
       <br />
       <p>
         Online features are provided by Jadeship.com. They include the extra

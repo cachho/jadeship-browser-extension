@@ -34,6 +34,7 @@ describe('validateRegisterPage', () => {
       loongbuy: 'https://loongbuy.com/register',
       kakobuy: 'https://www.kakobuy.com/register',
       acbuy: 'https://acbuy.com/login?loginStatus=register',
+      itaobuy: 'https://www.itaobuy.com/register',
     };
 
     agents.forEach((agent) => {

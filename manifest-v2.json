@@ -50,6 +50,7 @@
         "*://*.loongbuy.com/*",
         "*://*.kakobuy.com/*",
         "*://*.basetao.com/*",
+        "*://*.itaobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -92,6 +93,7 @@
     "*://*.sifubuy.com/*",
     "*://*.loongbuy.com/*",
     "*://*.kakobuy.com/*",
+    "*://*.itaobuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

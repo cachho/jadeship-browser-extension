@@ -80,6 +80,7 @@ export function getTargetHrefs(settings: Settings) {
       'sifubuy.com/detail',
       'loongbuy.com/product-details',
       'kakobuy.com/item',
+      'itaobuy.com/product-detail',
     ]);
   }
 

@@ -91,6 +91,9 @@ export function validateRegisterPage(
       location.search.includes('loginStatus=register')
     );
   }
+  if (agent === 'itaobuy') {
+    return location.pathname.startsWith('/register');
+  }
 
   return false;
 }

@@ -1,6 +1,7 @@
 dist
 build
 node_modules
+package-lock.json
 
 # packed chrome extension
 dist.crx

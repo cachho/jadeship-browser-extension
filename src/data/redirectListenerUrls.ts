@@ -28,4 +28,7 @@ export const redirectListenerUrls: Array<{ hostSuffix: string }> = [
   { hostSuffix: 'loongbuy.com' },
   { hostSuffix: 'kakobuy.com' },
   { hostSuffix: 'itaobuy.com' },
+  { hostSuffix: 'usfans.com' },
+  { hostSuffix: 'cnshopper.com' },
+  { hostSuffix: 'hipobuy.com' },
 ];

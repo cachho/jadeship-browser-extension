@@ -94,6 +94,18 @@ export function validateRegisterPage(
   if (agent === 'itaobuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'usfans') {
+    return location.pathname.startsWith('/register');
+  }
+  if (agent === 'cnshopper') {
+    return (
+      location.pathname.startsWith('/login') &&
+      location.search.includes('type=register')
+    );
+  }
+  if (agent === 'hipobuy') {
+    return location.pathname.startsWith('/register');
+  }
 
   return false;
 }

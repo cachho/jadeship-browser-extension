@@ -2,6 +2,9 @@ export const Config = {
   name: 'JadeShip.com',
   endpoint: {
     affiliateLinks: 'https://www.jadeship.com/api/agents/affiliate-links',
+    convertDecrypt:
+      'http://localhost:3000/api/quota-limited/extension/v2/convert-decrypt/multi',
+    qc: 'http://localhost:3000/api/quota-limited/extension/v2/qc',
   },
   host: {
     details: 'https://www.jadeship.com',

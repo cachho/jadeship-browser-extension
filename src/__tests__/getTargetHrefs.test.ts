@@ -1,5 +1,4 @@
-import { agents } from 'cn-links';
-
+import { agents } from '../lib/cn-links';
 import { getTargetHrefs } from '../lib/getTargetHrefs';
 import { defaultSettings } from '../models/Settings';
 

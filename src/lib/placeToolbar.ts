@@ -1,6 +1,4 @@
-import type { Agent } from 'cn-links';
-
-import type { Settings } from '../models';
+import type { Agent, Settings } from '../models';
 import { addPadding } from './addPadding';
 import { waitForElement } from './waitForElement';
 

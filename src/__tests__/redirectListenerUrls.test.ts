@@ -1,6 +1,5 @@
-import { agents } from 'cn-links';
-
 import { redirectListenerUrls } from '../data/redirectListenerUrls';
+import { agents } from '../lib/cn-links';
 
 describe('redirectListenerUrls', () => {
   it('should redirect for all agents', () => {

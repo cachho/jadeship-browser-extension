@@ -1,4 +1,4 @@
-import type { Agent } from 'cn-links';
+import type { Agent } from '../../models';
 
 export function getImageAgent(agent: Agent) {
   const src = `../public/agent_logos/${agent}_logo.png`;

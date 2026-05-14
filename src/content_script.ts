@@ -1,14 +1,11 @@
 /* eslint-disable no-param-reassign */
 
-import type { AgentWithRaw } from 'cn-links';
-import { CnLink } from 'cn-links';
-
+import { getConvertDecrypt } from './lib/api/getConvertDecrypt';
 import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
 import { findLinksOnPage } from './lib/findLinksOnPage';
 import { findNestedLinksOnPage } from './lib/findNestedLinksOnPage';
 import { getTargetHrefs } from './lib/getTargetHrefs';
 import { getThirdPartyPage } from './lib/getThirdPartyPage';
-import { handleShortenedLink } from './lib/handleShortenedLink';
 import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
 import { addQcElement } from './lib/html/addQcElement';
 import { getImageAgent } from './lib/html/getImageAgent';
@@ -18,6 +15,7 @@ import { initializeExtension } from './lib/initializeExtension';
 import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
 import { loadSettings } from './lib/loadSettings';
 import { getStorage } from './lib/storage';
+import type { AgentWithRaw } from './models';
 import type { Settings } from './models/Settings';
 import { settingNames } from './models/Settings';
 
@@ -25,7 +23,6 @@ async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
   // Get the selected agent from local storage
   const selectedAgent: AgentWithRaw = settings.myAgent;
-  console.error(selectedAgent);
 
   const currentUrl = new URL(window.location.href);
 
@@ -58,16 +55,7 @@ async function main(settings: Settings) {
     // TODO: Verify that this is the best way to deal with this.
     elem.dataset.CnLinkExtension = 'true';
 
-    // Test if it is an agent link. If so, extract the inner link
-    // Convert anchor tag to URL object.
-    // Link is the URL object, elem is the html element (including the link)
-    const decryptLink = async () => {
-      const decrypted = await handleShortenedLink(elem, settings);
-      const newLink = decrypted ?? new URL(elem.href);
-      return newLink;
-    };
-
-    const originalLink = await decryptLink();
+    const originalLink = new URL(elem.href);
 
     if (!originalLink) {
       console.error(
@@ -81,19 +69,29 @@ async function main(settings: Settings) {
     // Update html element
     elem.href = originalLink.href;
 
-    // At this point we have an URL object that contains the marketplace link
+    const converted = await getConvertDecrypt(
+      originalLink.href,
+      settings.agentsInToolbar
+    );
 
-    const linkResult = CnLink.safeInstantiate(originalLink);
-    if (!linkResult.success) {
+    if (!converted) {
       console.error(
-        'RA Browser Extension:',
+        'JadeShip Browser Extension:',
         'Could not process link:',
         originalLink.href
       );
       return false;
     }
-    const link = linkResult.data;
-    const newLink = link.as(selectedAgent, undefined, '27');
+
+    const link = converted.cnLink;
+    const newHref =
+      selectedAgent === 'raw'
+        ? originalLink.href
+        : converted.data.find((item) => item.target === selectedAgent)?.url;
+
+    if (!newHref) {
+      return false;
+    }
 
     // ^^ Link build finished ^^
 
@@ -109,8 +107,8 @@ async function main(settings: Settings) {
       elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
     }
 
-    if (newLink) {
-      elem.href = newLink.href;
+    if (newHref) {
+      elem.href = newHref;
       // Test: if the complete mark can be added here
 
       // Add details
@@ -161,8 +159,8 @@ async function main(settings: Settings) {
       try {
         if (settings.onlineFeaturesQcPhotos) {
           const response = await promiseQcAvailable;
-          if (response?.data && response.data.qcCount > 0) {
-            addQcElement(link, elem);
+          if (response && response.count > 0) {
+            addQcElement(response.fullPageUrl, elem);
           }
         }
       } catch (qcAvailableError) {

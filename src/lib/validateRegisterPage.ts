@@ -1,4 +1,4 @@
-import type { Agent } from 'cn-links';
+import type { Agent } from '../models';
 
 export function validateRegisterPage(
   agent: Agent,

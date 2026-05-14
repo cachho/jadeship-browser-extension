@@ -7,7 +7,7 @@ export async function getDetails(
   cnLink: CnLink
 ): Promise<ApiResponse<Details> | null> {
   const d = await fetchData(
-    `${Config.host.details}/api/feed/details/${cnLink.marketplace}/${cnLink.id}`
+    `${Config.endpoint.details}/${cnLink.marketplace}/${cnLink.id}`
   );
   return d;
 }

@@ -5,11 +5,7 @@ export const Config = {
     convertDecrypt:
       'https://www.jadeship.com/api/quota-limited/extension/v2/convert-decrypt/multi',
     qc: 'https://www.jadeship.com/api/quota-limited/extension/v2/qc',
-  },
-  host: {
-    details: 'https://www.jadeship.com',
-    shortenedLinks: 'https://www.jadeship.com/api',
-    qc: 'https://www.jadeship.com/api/quota-limited/extension/qc',
+    details: 'https://www.jadeship.com/api/quota-limited/extension/v2/details',
   },
   social: {
     homepage: 'https://www.jadeship.com/?r=extension',

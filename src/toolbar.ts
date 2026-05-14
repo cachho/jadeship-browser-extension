@@ -192,7 +192,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   }
 
   const statsUrl = cnLink
-    ? `${Config.host.details}/item/${cnLink.marketplace}/${cnLink.id}`
+    ? `${Config.endpoint.details}/${cnLink.marketplace}/${cnLink.id}`
     : null;
 
   return React.createElement(

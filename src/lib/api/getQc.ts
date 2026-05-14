@@ -9,9 +9,7 @@ export async function getQc(
   id: string,
   marketplace: Marketplace
 ): Promise<QcResponse | null> {
-  const url = new URL(Config.endpoint.qc);
-  url.searchParams.set('id', id);
-  url.searchParams.set('marketplace', marketplace);
+  const url = new URL(`${Config.endpoint.qc}/${marketplace}/${id}`);
   const response = await fetch(url.href);
   if (!response.ok) {
     console.error('Failed to fetch qc:', response.statusText);

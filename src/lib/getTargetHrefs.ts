@@ -81,6 +81,9 @@ export function getTargetHrefs(settings: Settings) {
       'loongbuy.com/product-details',
       'kakobuy.com/item',
       'itaobuy.com/product-detail',
+      'usfans.com/product',
+      'cnshopper.com/goods/detail',
+      'hipobuy.com/product',
     ]);
   }
 

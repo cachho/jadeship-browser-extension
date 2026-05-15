@@ -45,6 +45,9 @@
         "*://*.loongbuy.com/*",
         "*://*.kakobuy.com/*",
         "*://*.itaobuy.com/*",
+        "*://*.usfans.com/*",
+        "*://*.cnshopper.com/*",
+        "*://*.hipobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -89,6 +92,9 @@
         "*://*.loongbuy.com/*",
         "*://*.kakobuy.com/*",
         "*://*.itaobuy.com/*",
+        "*://*.usfans.com/*",
+        "*://*.cnshopper.com/*",
+        "*://*.hipobuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -130,7 +136,10 @@
     "*://*.sifubuy.com/*",
     "*://*.loongbuy.com/*",
     "*://*.kakobuy.com/*",
-    "*://*.itaobuy.com/*"
+    "*://*.itaobuy.com/*",
+    "*://*.usfans.com/*",
+    "*://*.cnshopper.com/*",
+    "*://*.hipobuy.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 
 import { Config } from "../Config";
 import { agents, agentsWithRaw } from "../lib/cn-links";

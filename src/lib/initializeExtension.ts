@@ -18,12 +18,12 @@ export async function initializeExtension(
   // Check if we're running in Chrome
   if (isChromeStorage(storage)) {
     Object.keys(defaultSettings).forEach((key) => {
-      if (Object.prototype.hasOwnProperty.call(defaultSettings, key)) {
+      if (Object.hasOwn(defaultSettings, key)) {
         const param: { [key: string]: any } = { [key]: null };
         storage.local.get(param, (result) => {
           // Only proceed if the previous local storage does not have the key
           if (
-            !Object.prototype.hasOwnProperty.call(result, key) ||
+            !Object.hasOwn(result, key) ||
             result[key] === undefined ||
             result[key] === null
           ) {
@@ -53,10 +53,7 @@ export async function initializeExtension(
       const params: { [key: string]: any } = {};
       params[key] = null;
       storage.local.get(params).then((result) => {
-        if (
-          !Object.prototype.hasOwnProperty.call(result, key) ||
-          !result[key]
-        ) {
+        if (!Object.hasOwn(result, key) || !result[key]) {
           const defaultVal = defaultSettings[key as keyof Settings];
           storage.local.set({ [key]: defaultVal });
         }

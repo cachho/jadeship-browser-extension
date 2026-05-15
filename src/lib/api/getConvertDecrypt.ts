@@ -1,5 +1,6 @@
 import { Config } from '../../Config';
 import type { Agent, CnLink, Settings } from '../../models';
+import { cachedFetch } from './cachedFetch';
 
 /**
  * Convert and decrypt using the web API.
@@ -14,7 +15,7 @@ export async function getConvertDecrypt(
   const url = new URL(Config.endpoint.convertDecrypt);
   url.searchParams.set('url', itemHref);
   url.searchParams.set('targets', ['raw', ...targets].join(','));
-  const response = await fetch(url.href);
+  const response = await cachedFetch(url.href);
   if (!response.ok) {
     console.error('Failed to fetch convert-decrypt:', response.statusText);
     return null;

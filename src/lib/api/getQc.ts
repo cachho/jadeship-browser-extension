@@ -1,6 +1,7 @@
 import { Config } from '../../Config';
 import type { QcResponse } from '../../models';
 import type { Marketplace } from '../../models/Marketplace';
+import { cachedFetch } from './cachedFetch';
 
 /**
  * Get QC pictures
@@ -10,7 +11,7 @@ export async function getQc(
   marketplace: Marketplace
 ): Promise<QcResponse | null> {
   const url = new URL(`${Config.endpoint.qc}/${marketplace}/${id}`);
-  const response = await fetch(url.href);
+  const response = await cachedFetch(url.href);
   if (!response.ok) {
     console.error('Failed to fetch qc:', response.statusText);
     return null;

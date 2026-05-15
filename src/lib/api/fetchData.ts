@@ -1,6 +1,8 @@
+import { cachedFetch } from './cachedFetch';
+
 export async function fetchData(url: string, init?: RequestInit): Promise<any> {
   try {
-    const response = await fetch(url, init);
+    const response = await cachedFetch(url, init);
     if (!response.ok) {
       return null;
     }

@@ -1,6 +1,6 @@
-import { type Agent, agents } from 'cn-links';
-
+import { agents } from '../lib/cn-links';
 import { validateRegisterPage } from '../lib/validateRegisterPage';
+import type { Agent } from '../models';
 
 describe('validateRegisterPage', () => {
   test('should handle all agents', () => {

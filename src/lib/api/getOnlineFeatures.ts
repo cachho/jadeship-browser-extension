@@ -1,9 +1,7 @@
-import type { CnLink } from 'cn-links';
-
-import type { ApiResponse, QcResponse, Settings } from '../../models';
+import type { ApiResponse, CnLink, QcResponse, Settings } from '../../models';
 import type { Details } from '../../models/Details';
 import { getDetails } from './getDetails';
-import { getQcAvailable } from './getQcAvailable';
+import { getQc } from './getQc';
 
 /**
  * Parallel retrieval of online features from the details api and the qc api. Respects user settings.
@@ -19,7 +17,7 @@ export function getOnlineFeatures(settings: Settings, cnLink: CnLink) {
 
   const promiseQcAvailable: Promise<QcResponse | null> =
     settings.onlineFeatures && settings.onlineFeaturesQcPhotos
-      ? getQcAvailable(cnLink)
+      ? getQc(cnLink.id, cnLink.marketplace)
       : Promise.resolve(null);
 
   return { promiseDetails, promiseQcAvailable };

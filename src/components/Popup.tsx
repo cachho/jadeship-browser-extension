@@ -1,9 +1,10 @@
-import type { AgentWithRaw } from 'cn-links';
-import { agents, agentsWithRaw } from 'cn-links';
+/* eslint-disable no-return-assign */
 import React, { useEffect, useState } from 'react';
+
 import { Config } from '../Config';
+import { agents, agentsWithRaw } from '../lib/cn-links';
 import { getStorage, isChromeStorage } from '../lib/storage';
-import type { Settings } from '../models';
+import type { AgentWithRaw, Settings } from '../models';
 import { defaultSettings, settingNames } from '../models/Settings';
 
 const Popup = () => {
@@ -70,41 +71,52 @@ const Popup = () => {
   };
 
   return (
-    <div style={{
-      width: '420px',
-      minHeight: '600px',
-      backgroundColor: '#0a0a0a',
-      color: 'white',
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      padding: '0',
-      boxSizing: 'border-box',
-    }}>
+    <div
+      style={{
+        width: '420px',
+        minHeight: '600px',
+        backgroundColor: '#0a0a0a',
+        color: 'white',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        padding: '0',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Header */}
-      <div style={{
-        padding: '32px 24px 24px 24px',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1))',
-      }}>
-        <div style={{
-          textAlign: 'center',
-        }}>
-          <h1 style={{
-            margin: '0 0 8px 0',
-            fontSize: '28px',
-            fontWeight: '700',
-            background: 'linear-gradient(135deg, #10b981, #06b6d4)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}>
+      <div
+        style={{
+          padding: '32px 24px 24px 24px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          background:
+            'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1))',
+        }}
+      >
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <h1
+            style={{
+              margin: '0 0 8px 0',
+              fontSize: '28px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #10b981, #06b6d4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
             JadeShip
           </h1>
-          <p style={{
-            margin: '0',
-            fontSize: '14px',
-            color: 'rgba(255, 255, 255, 0.6)',
-            fontWeight: '400',
-          }}>
+          <p
+            style={{
+              margin: '0',
+              fontSize: '14px',
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontWeight: '400',
+            }}
+          >
             Shopping Agent Extension
           </p>
         </div>
@@ -112,19 +124,25 @@ const Popup = () => {
 
       <div style={{ padding: '24px' }}>
         {/* My Shopping Agent */}
-        <div style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '12px',
-          padding: '20px',
-          marginBottom: '20px',
-        }}>
-          <h2 style={{
-            margin: '0 0 16px 0',
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'rgba(255, 255, 255, 0.9)'
-          }}>My Shopping Agent</h2>
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '12px',
+            padding: '20px',
+            marginBottom: '20px',
+          }}
+        >
+          <h2
+            style={{
+              margin: '0 0 16px 0',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.9)',
+            }}
+          >
+            My Shopping Agent
+          </h2>
 
           <select
             onChange={handleChangeMyAgent}
@@ -139,20 +157,26 @@ const Popup = () => {
               fontSize: '14px',
               marginBottom: '12px',
               outline: 'none',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
             }}
             onFocus={(e) => {
               e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+              e.currentTarget.style.backgroundColor =
+                'rgba(255, 255, 255, 0.05)';
             }}
             onBlur={(e) => {
               e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+              e.currentTarget.style.backgroundColor =
+                'rgba(255, 255, 255, 0.03)';
             }}
           >
             {[...sortedAgents, 'raw'].map((agent) => (
-              <option value={agent} key={`my-agent-select-${agent}`} style={{ backgroundColor: '#1a1a1a' }}>
-                {agent.at(0)?.toUpperCase() + agent.substring(1)}
+              <option
+                value={agent}
+                key={`my-agent-select-${agent}`}
+                style={{ backgroundColor: '#1a1a1a' }}
+              >
+                {agent[0].toUpperCase() + agent.substring(1)}
               </option>
             ))}
           </select>
@@ -168,124 +192,174 @@ const Popup = () => {
               transition: 'color 0.2s ease',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '4px'
+              gap: '4px',
             }}
-            onMouseOver={(e) => e.currentTarget.style.color = '#059669'}
-            onMouseOut={(e) => e.currentTarget.style.color = '#10b981'}
+            onMouseOver={(e) => (e.currentTarget.style.color = '#059669')}
+            onMouseOut={(e) => (e.currentTarget.style.color = '#10b981')}
           >
             Find the best agent for you →
           </a>
         </div>
 
         {/* Settings */}
-        <div style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '12px',
-          padding: '20px',
-          marginBottom: '20px',
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '16px'
-          }}>
-            <h2 style={{
-              margin: '0',
-              fontSize: '16px',
-              fontWeight: '600',
-              color: 'rgba(255, 255, 255, 0.9)'
-            }}>Settings</h2>
-            <span style={{
-              fontSize: '11px',
-              color: 'rgba(255, 255, 255, 0.5)',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              padding: '4px 8px',
-              borderRadius: '4px'
-            }}>Reload required</span>
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '12px',
+            padding: '20px',
+            marginBottom: '20px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '16px',
+            }}
+          >
+            <h2
+              style={{
+                margin: '0',
+                fontSize: '16px',
+                fontWeight: '600',
+                color: 'rgba(255, 255, 255, 0.9)',
+              }}
+            >
+              Settings
+            </h2>
+            <span
+              style={{
+                fontSize: '11px',
+                color: 'rgba(255, 255, 255, 0.5)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                padding: '4px 8px',
+                borderRadius: '4px',
+              }}
+            >
+              Reload required
+            </span>
           </div>
 
           {/* Functionality Section */}
           <div style={{ marginBottom: '20px' }}>
-            <h3 style={{
-              fontSize: '14px',
-              fontWeight: '600',
-              margin: '0 0 12px 0',
-              color: 'rgba(255, 255, 255, 0.8)'
-            }}>Functionality</h3>
+            <h3
+              style={{
+                fontSize: '14px',
+                fontWeight: '600',
+                margin: '0 0 12px 0',
+                color: 'rgba(255, 255, 255, 0.8)',
+              }}
+            >
+              Functionality
+            </h3>
 
             {/* Scope */}
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '8px',
-              padding: '16px',
-              marginBottom: '16px'
-            }}>
-              <h4 style={{
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.7)'
-              }}>Link Types</h4>
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderRadius: '8px',
+                padding: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  margin: '0 0 12px 0',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Link Types
+              </h4>
 
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={!toggleAllAction}
                   onChange={() =>
                     toggleAllAction
                       ? setSettings({
-                        ...settings,
-                        taobaoLink: true,
-                        weidianLink: true,
-                        s1688Link: true,
-                        tmallLink: true,
-                        agentLink: true,
-                        thirdPartyLink: true,
-                      })
+                          ...settings,
+                          taobaoLink: true,
+                          weidianLink: true,
+                          s1688Link: true,
+                          tmallLink: true,
+                          agentLink: true,
+                          thirdPartyLink: true,
+                        })
                       : setSettings({
-                        ...settings,
-                        taobaoLink: false,
-                        weidianLink: false,
-                        s1688Link: false,
-                        tmallLink: false,
-                        agentLink: false,
-                        thirdPartyLink: false,
-                      })
+                          ...settings,
+                          taobaoLink: false,
+                          weidianLink: false,
+                          s1688Link: false,
+                          tmallLink: false,
+                          agentLink: false,
+                          thirdPartyLink: false,
+                        })
                   }
                   style={{
                     width: '16px',
                     height: '16px',
                     marginRight: '12px',
-                    accentColor: '#10b981'
+                    accentColor: '#10b981',
                   }}
                 />
-                <span style={{ fontSize: '13px', fontWeight: '500' }}>Enable All</span>
+                <span style={{ fontSize: '13px', fontWeight: '500' }}>
+                  Enable All
+                </span>
               </div>
 
-              <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)', margin: '12px 0' }}></div>
+              <div
+                style={{
+                  height: '1px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                  margin: '12px 0',
+                }}
+              ></div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '8px',
+                }}
+              >
                 {[
                   { key: 'taobaoLink', label: 'Taobao' },
                   { key: 'weidianLink', label: 'Weidian' },
                   { key: 's1688Link', label: '1688' },
                   { key: 'tmallLink', label: 'Tmall' },
                   { key: 'agentLink', label: 'Agents' },
-                  { key: 'thirdPartyLink', label: '3rd Party' }
+                  { key: 'thirdPartyLink', label: '3rd Party' },
                 ].map(({ key, label }) => (
-                  <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
+                  <div
+                    key={key}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
                     <input
                       type="checkbox"
                       checked={settings[key as keyof Settings] as boolean}
-                      onChange={() => setSettings({ ...settings, [key]: !settings[key as keyof Settings] })}
+                      onChange={() =>
+                        setSettings({
+                          ...settings,
+                          [key]: !settings[key as keyof Settings],
+                        })
+                      }
                       style={{
                         width: '14px',
                         height: '14px',
                         marginRight: '8px',
-                        accentColor: '#10b981'
+                        accentColor: '#10b981',
                       }}
                     />
                     <span style={{ fontSize: '13px' }}>{label}</span>
@@ -295,49 +369,73 @@ const Popup = () => {
             </div>
 
             {/* Toolbar */}
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '8px',
-              padding: '16px',
-              marginBottom: '16px'
-            }}>
-              <h4 style={{
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.7)'
-              }}>Toolbar</h4>
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderRadius: '8px',
+                padding: '16px',
+                marginBottom: '16px',
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  margin: '0 0 12px 0',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Toolbar
+              </h4>
 
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={settings.showToolbar}
                   onChange={() =>
-                    setSettings({ ...settings, showToolbar: !settings.showToolbar })
+                    setSettings({
+                      ...settings,
+                      showToolbar: !settings.showToolbar,
+                    })
                   }
                   style={{
                     width: '16px',
                     height: '16px',
                     marginRight: '12px',
-                    accentColor: '#10b981'
+                    accentColor: '#10b981',
                   }}
                 />
                 <span style={{ fontSize: '13px' }}>Show Toolbar</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={settings.stickyToolbar}
                   onChange={() =>
-                    setSettings({ ...settings, stickyToolbar: !settings.stickyToolbar })
+                    setSettings({
+                      ...settings,
+                      stickyToolbar: !settings.stickyToolbar,
+                    })
                   }
                   style={{
                     width: '16px',
                     height: '16px',
                     marginRight: '12px',
-                    accentColor: '#10b981'
+                    accentColor: '#10b981',
                   }}
                 />
                 <span style={{ fontSize: '13px' }}>Sticky Position</span>
@@ -345,14 +443,31 @@ const Popup = () => {
 
               {settings.showToolbar && (
                 <>
-                  <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)', margin: '12px 0' }}></div>
-                  <div style={{
-                    fontSize: '12px',
-                    color: 'rgba(255, 255, 255, 0.6)',
-                    marginBottom: '8px'
-                  }}>Include Agents:</div>
+                  <div
+                    style={{
+                      height: '1px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      margin: '12px 0',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      marginBottom: '8px',
+                    }}
+                  >
+                    Include Agents:
+                  </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6px', marginBottom: '8px' }}>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      gap: '6px',
+                      marginBottom: '8px',
+                    }}
+                  >
                     {sortedAgents.map((agent) => {
                       const checked = settings.agentsInToolbar.includes(agent);
                       const disabled = settings.myAgent === agent;
@@ -363,18 +478,30 @@ const Popup = () => {
                         } else {
                           newSet.add(agent);
                         }
-                        setSettings({ ...settings, agentsInToolbar: Array.from(newSet) });
+                        setSettings({
+                          ...settings,
+                          agentsInToolbar: Array.from(newSet),
+                        });
                       }
                       return (
-                        <div key={`toolbar-includes-${agent}`} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          padding: '6px 8px',
-                          backgroundColor: checked ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 255, 255, 0.02)',
-                          border: `1px solid ${checked ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 255, 255, 0.05)'}`,
-                          borderRadius: '6px',
-                          opacity: disabled ? 0.5 : 1
-                        }}>
+                        <div
+                          key={`toolbar-includes-${agent}`}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '6px 8px',
+                            backgroundColor: checked
+                              ? 'rgba(16, 185, 129, 0.1)'
+                              : 'rgba(255, 255, 255, 0.02)',
+                            border: `1px solid ${
+                              checked
+                                ? 'rgba(16, 185, 129, 0.2)'
+                                : 'rgba(255, 255, 255, 0.05)'
+                            }`,
+                            borderRadius: '6px',
+                            opacity: disabled ? 0.5 : 1,
+                          }}
+                        >
                           <input
                             type="checkbox"
                             checked={checked}
@@ -384,31 +511,39 @@ const Popup = () => {
                               width: '12px',
                               height: '12px',
                               marginRight: '6px',
-                              accentColor: '#10b981'
+                              accentColor: '#10b981',
                             }}
                           />
-                          <span style={{ fontSize: '11px', fontWeight: '500' }}>{agent}</span>
+                          <span style={{ fontSize: '11px', fontWeight: '500' }}>
+                            {agent}
+                          </span>
                         </div>
                       );
                     })}
                   </div>
 
                   {settings.agentsInToolbar.length > 6 && (
-                    <div style={{
-                      padding: '8px 10px',
-                      backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                      border: '1px solid rgba(239, 68, 68, 0.2)',
-                      borderRadius: '6px',
-                      marginTop: '8px'
-                    }}>
-                      <span style={{
-                        color: '#f87171',
-                        fontSize: '11px',
-                        display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: '6px'
-                      }}>
-                        <span style={{ color: '#ef4444', fontWeight: 'bold' }}>⚠️</span>
+                    <div
+                      style={{
+                        padding: '8px 10px',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                        borderRadius: '6px',
+                        marginTop: '8px',
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: '#f87171',
+                          fontSize: '11px',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '6px',
+                        }}
+                      >
+                        <span style={{ color: '#ef4444', fontWeight: 'bold' }}>
+                          ⚠️
+                        </span>
                         Too many agents may cause issues on Weidian
                       </span>
                     </div>
@@ -418,37 +553,58 @@ const Popup = () => {
             </div>
 
             {/* Online Features */}
-            <div style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '8px',
-              padding: '16px'
-            }}>
-              <h4 style={{
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.7)'
-              }}>Online Features</h4>
+            <div
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
+                borderRadius: '8px',
+                padding: '16px',
+              }}
+            >
+              <h4
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  margin: '0 0 12px 0',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                Online Features
+              </h4>
 
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '8px',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={settings.onlineFeatures}
                   onChange={() =>
-                    setSettings({ ...settings, onlineFeatures: !settings.onlineFeatures })
+                    setSettings({
+                      ...settings,
+                      onlineFeatures: !settings.onlineFeatures,
+                    })
                   }
                   style={{
                     width: '16px',
                     height: '16px',
                     marginRight: '12px',
-                    accentColor: '#10b981'
+                    accentColor: '#10b981',
                   }}
                 />
                 <span style={{ fontSize: '13px' }}>{Config.name} features</span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginBottom: '12px',
+                }}
+              >
                 <input
                   type="checkbox"
                   checked={settings.onlineFeaturesQcPhotos}
@@ -462,23 +618,26 @@ const Popup = () => {
                     width: '16px',
                     height: '16px',
                     marginRight: '12px',
-                    accentColor: '#10b981'
+                    accentColor: '#10b981',
                   }}
                 />
                 <span style={{ fontSize: '13px' }}>QC Photos features</span>
               </div>
 
-              <div style={{
-                padding: '10px',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                border: '1px solid rgba(59, 130, 246, 0.2)',
-                borderRadius: '6px',
-                fontSize: '11px',
-                lineHeight: '1.4',
-                color: 'rgba(147, 197, 253, 0.9)'
-              }}>
+              <div
+                style={{
+                  padding: '10px',
+                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                  border: '1px solid rgba(59, 130, 246, 0.2)',
+                  borderRadius: '6px',
+                  fontSize: '11px',
+                  lineHeight: '1.4',
+                  color: 'rgba(147, 197, 253, 0.9)',
+                }}
+              >
                 <p style={{ margin: '0 0 6px 0' }}>
-                  Online features connect to external services. By using them you agree to our{' '}
+                  Online features connect to external services. By using them
+                  you agree to our{' '}
                   <a
                     href={Config.legal.main.tos}
                     target="_blank"
@@ -495,7 +654,8 @@ const Popup = () => {
                     style={{ color: '#93c5fd', textDecoration: 'underline' }}
                   >
                     privacy policy
-                  </a>.
+                  </a>
+                  .
                 </p>
                 <p style={{ margin: '0' }}>
                   QC Photos has separate{' '}
@@ -515,7 +675,8 @@ const Popup = () => {
                     style={{ color: '#93c5fd', textDecoration: 'underline' }}
                   >
                     privacy policy
-                  </a>.
+                  </a>
+                  .
                 </p>
               </div>
             </div>
@@ -523,36 +684,54 @@ const Popup = () => {
         </div>
 
         {/* Display Settings */}
-        <div style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '12px',
-          padding: '20px',
-          marginBottom: '20px',
-        }}>
-          <h2 style={{
-            margin: '0 0 16px 0',
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'rgba(255, 255, 255, 0.9)'
-          }}>Display</h2>
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '12px',
+            padding: '20px',
+            marginBottom: '20px',
+          }}
+        >
+          <h2
+            style={{
+              margin: '0 0 16px 0',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.9)',
+            }}
+          >
+            Display
+          </h2>
 
           {/* Logo Settings */}
-          <div style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: '8px',
-            padding: '16px',
-            marginBottom: '16px'
-          }}>
-            <h4 style={{
-              fontSize: '13px',
-              fontWeight: '500',
-              margin: '0 0 12px 0',
-              color: 'rgba(255, 255, 255, 0.7)'
-            }}>Logos</h4>
+          <div
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              borderRadius: '8px',
+              padding: '16px',
+              marginBottom: '16px',
+            }}
+          >
+            <h4
+              style={{
+                fontSize: '13px',
+                fontWeight: '500',
+                margin: '0 0 12px 0',
+                color: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              Logos
+            </h4>
 
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '8px',
+              }}
+            >
               <input
                 type="checkbox"
                 checked={settings.logoAgent}
@@ -566,7 +745,7 @@ const Popup = () => {
                   width: '16px',
                   height: '16px',
                   marginRight: '12px',
-                  accentColor: '#10b981'
+                  accentColor: '#10b981',
                 }}
               />
               <span style={{ fontSize: '13px' }}>Show agent logos</span>
@@ -586,7 +765,7 @@ const Popup = () => {
                   width: '16px',
                   height: '16px',
                   marginRight: '12px',
-                  accentColor: '#10b981'
+                  accentColor: '#10b981',
                 }}
               />
               <span style={{ fontSize: '13px' }}>Show platform logos</span>
@@ -594,28 +773,44 @@ const Popup = () => {
           </div>
 
           {/* Content Settings */}
-          <div style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.02)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: '8px',
-            padding: '16px'
-          }}>
-            <h4 style={{
-              fontSize: '13px',
-              fontWeight: '500',
-              margin: '0 0 12px 0',
-              color: 'rgba(255, 255, 255, 0.7)'
-            }}>Content Elements</h4>
+          <div
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              borderRadius: '8px',
+              padding: '16px',
+            }}
+          >
+            <h4
+              style={{
+                fontSize: '13px',
+                fontWeight: '500',
+                margin: '0 0 12px 0',
+                color: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
+              Content Elements
+            </h4>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '12px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '8px',
+                marginBottom: '12px',
+              }}
+            >
               {[
                 { key: 'showThumbnail', label: 'Thumbnail' },
                 { key: 'showPrice', label: 'Price' },
                 { key: 'showAmountSold', label: 'Sales (30d)' },
                 { key: 'showPos', label: 'Ranking (30d)' },
-                { key: 'showTitle', label: 'Title' }
+                { key: 'showTitle', label: 'Title' },
               ].map(({ key, label }) => (
-                <div key={key} style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  key={key}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                >
                   <input
                     type="checkbox"
                     checked={settings[key as keyof Settings] as boolean}
@@ -629,7 +824,7 @@ const Popup = () => {
                       width: '14px',
                       height: '14px',
                       marginRight: '8px',
-                      accentColor: '#10b981'
+                      accentColor: '#10b981',
                     }}
                   />
                   <span style={{ fontSize: '12px' }}>{label}</span>
@@ -637,17 +832,35 @@ const Popup = () => {
               ))}
             </div>
 
-            <div style={{ height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)', margin: '12px 0' }}></div>
+            <div
+              style={{
+                height: '1px',
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                margin: '12px 0',
+              }}
+            ></div>
 
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '12px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '12px',
+              }}
+            >
               <div>
-                <span style={{ fontSize: '13px', fontWeight: '500' }}>Title Length</span>
-                <p style={{ fontSize: '11px', color: 'rgba(255, 255, 255, 0.5)', margin: '2px 0 0 0' }}>0 = no limit</p>
+                <span style={{ fontSize: '13px', fontWeight: '500' }}>
+                  Title Length
+                </span>
+                <p
+                  style={{
+                    fontSize: '11px',
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    margin: '2px 0 0 0',
+                  }}
+                >
+                  0 = no limit
+                </p>
               </div>
               <input
                 type="number"
@@ -668,7 +881,7 @@ const Popup = () => {
                   borderRadius: '6px',
                   padding: '6px 8px',
                   fontSize: '13px',
-                  outline: 'none'
+                  outline: 'none',
                 }}
               />
             </div>
@@ -687,7 +900,7 @@ const Popup = () => {
                   width: '16px',
                   height: '16px',
                   marginRight: '12px',
-                  accentColor: '#10b981'
+                  accentColor: '#10b981',
                 }}
               />
               <span style={{ fontSize: '13px' }}>Override link titles</span>
@@ -696,20 +909,32 @@ const Popup = () => {
         </div>
 
         {/* Affiliate Program */}
-        <div style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.03)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '12px',
-          padding: '20px',
-        }}>
-          <h2 style={{
-            margin: '0 0 16px 0',
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'rgba(255, 255, 255, 0.9)'
-          }}>Support</h2>
+        <div
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '12px',
+            padding: '20px',
+          }}
+        >
+          <h2
+            style={{
+              margin: '0 0 16px 0',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.9)',
+            }}
+          >
+            Support
+          </h2>
 
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginBottom: '12px',
+            }}
+          >
             <input
               type="checkbox"
               checked={settings.affiliateProgram}
@@ -723,25 +948,34 @@ const Popup = () => {
                 width: '16px',
                 height: '16px',
                 marginRight: '12px',
-                accentColor: '#10b981'
+                accentColor: '#10b981',
               }}
             />
-            <span style={{ fontSize: '14px', fontWeight: '500' }}>Enable affiliate program</span>
+            <span style={{ fontSize: '14px', fontWeight: '500' }}>
+              Enable affiliate program
+            </span>
           </div>
 
-          <div style={{
-            padding: '12px',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            border: '1px solid rgba(16, 185, 129, 0.2)',
-            borderRadius: '8px'
-          }}>
-            <p style={{
-              fontSize: '12px',
-              lineHeight: '1.4',
-              color: 'rgba(52, 211, 153, 0.9)',
-              margin: '0'
-            }}>
-              💚 <strong>Support free software:</strong> Affiliate links are automatically added to agent URLs at no cost to you. This supports transparency, freedom of choice, and competition between agents. You can opt out anytime.
+          <div
+            style={{
+              padding: '12px',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              border: '1px solid rgba(16, 185, 129, 0.2)',
+              borderRadius: '8px',
+            }}
+          >
+            <p
+              style={{
+                fontSize: '12px',
+                lineHeight: '1.4',
+                color: 'rgba(52, 211, 153, 0.9)',
+                margin: '0',
+              }}
+            >
+              💚 <strong>Support free software:</strong> Affiliate links are
+              automatically added to agent URLs at no cost to you. This supports
+              transparency, freedom of choice, and competition between agents.
+              You can opt out anytime.
             </p>
           </div>
         </div>

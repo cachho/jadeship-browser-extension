@@ -1,7 +1,6 @@
-import { agents } from 'cn-links';
-
 import manifest from '../../manifest.json';
 import manifestv2 from '../../manifest-v2.json';
+import { agents } from '../lib/cn-links';
 
 describe('Agents', () => {
   it('should include the agent in manifest v3', () => {

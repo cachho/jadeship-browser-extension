@@ -11,7 +11,7 @@ agents=$(sed -n '/export const agents = \[/,/\] as const;/p' "$AGENT_FILE" | gre
 echo "Agents found in $AGENT_FILE: $agents"
 
 # Get the list of logo files in the public/agent_logos directory
-logo_files=$(ls public/agent_logos | sed -E 's/_logo\.(png|jpg|jpeg|webp)$//g' | tr '\n' ' ')
+logo_files=$(ls public/agent_logos | sed -E 's/_logo\.(png)$//g' | tr '\n' ' ')
 
 # Check if all agents have corresponding logo files
 for agent in $agents; do

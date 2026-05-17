@@ -16,7 +16,7 @@
     "noEmit": true,
     "rootDir": ".",
     "jsx": "react-jsx",
-    "types": ["chrome", "firefox-webext-browser"]
+    "types": ["chrome", "firefox-webext-browser", "node"]
   },
   "include": ["src", "manifest.json", "manifest-v2.json"]
 }

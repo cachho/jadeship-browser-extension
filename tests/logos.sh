@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# Test that public/agent_logos contains all agents mentioned in node_modules/cn-links/dist/models/Agent.js
+# Test that public/agent_logos contains all agents listed in src/lib/cn-links/agents.ts
 
-# Path to the Agent.js file
-AGENT_FILE="node_modules/cn-links/dist/models/Agent.js"
+# Path to the internal agents source file
+AGENT_FILE="src/lib/cn-links/agents.ts"
 echo "Checking for missing logos..."
 
-# Extract the list of agents from the Agent.js file
-agents=$(grep -oP "(?<=')[^']+(?=')" "$AGENT_FILE" | tr '\n' ' ')
+# Extract the list of agents from the agents array only (exclude agentsWithRaw)
+agents=$(sed -n '/export const agents = \[/,/\] as const;/p' "$AGENT_FILE" | grep -oP "'[^']+'" | tr -d "'" | tr '\n' ' ')
+echo "Agents found in $AGENT_FILE: $agents"
 
 # Get the list of logo files in the public/agent_logos directory
-logo_files=$(ls public/agent_logos | sed 's/_logo\.png//g' | tr '\n' ' ')
+logo_files=$(ls public/agent_logos | sed -E 's/_logo\.(png)$//g' | tr '\n' ' ')
 
 # Check if all agents have corresponding logo files
 for agent in $agents; do

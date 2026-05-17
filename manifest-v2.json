@@ -54,6 +54,8 @@
         "*://*.usfans.com/*",
         "*://*.cnshopper.com/*",
         "*://*.hipobuy.com/*",
+        "*://*.gtbuy.com/*",
+        "*://*.fishgoo.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -100,6 +102,8 @@
     "*://*.usfans.com/*",
     "*://*.cnshopper.com/*",
     "*://*.hipobuy.com/*",
+    "*://*.gtbuy.com/*",
+    "*://*.fishgoo.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

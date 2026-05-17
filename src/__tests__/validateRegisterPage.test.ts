@@ -38,6 +38,8 @@ describe('validateRegisterPage', () => {
       usfans: 'https://usfans.com/register',
       cnshopper: 'https://cnshopper.com/login?type=register',
       hipobuy: 'https://hipobuy.com/register',
+      gtbuy: 'https://www.gtbuy.com/register',
+      fishgoo: 'https://www.fishgoo.com/#/login/login?redirect=/homePage',
     };
 
     agents.forEach((agent) => {

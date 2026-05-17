@@ -84,6 +84,8 @@ export function getTargetHrefs(settings: Settings) {
       'usfans.com/product',
       'cnshopper.com/goods/detail',
       'hipobuy.com/product',
+      'gtbuy.com/product',
+      'fishgoo.com/#/product',
     ]);
   }
 

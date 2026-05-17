@@ -28,11 +28,11 @@ export const agents = [
   'acbuy',
   'joyagoo',
   'itaobuy',
-  // 'usfans',
-  // 'cnshopper',
-  // 'hipobuy',
-  // 'gtbuy',
-  // 'fishgoo',
+  'usfans',
+  'cnshopper',
+  'hipobuy',
+  'gtbuy',
+  'fishgoo',
 ] as const;
 
 export const agentsWithRaw = [...agents, 'raw'] as const;

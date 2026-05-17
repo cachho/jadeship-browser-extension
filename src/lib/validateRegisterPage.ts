@@ -106,6 +106,16 @@ export function validateRegisterPage(
   if (agent === 'hipobuy') {
     return location.pathname.startsWith('/register');
   }
+  if (agent === 'gtbuy') {
+    return location.pathname.startsWith('/register');
+  }
+  if (agent === 'fishgoo') {
+    const newLocation = new URL(location.href.replace('/#/', '/'));
+    return (
+      newLocation.pathname.startsWith('/#/login/login') ||
+      newLocation.pathname.startsWith('/login/login')
+    );
+  }
 
   return false;
 }

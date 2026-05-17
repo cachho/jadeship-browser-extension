@@ -16,6 +16,6 @@ export async function getQc(
     console.error('Failed to fetch qc:', response.statusText);
     return null;
   }
-  const { data } = await response.json();
-  return data;
+  const json = await response.json() as { data?: QcResponse };
+  return json.data ?? null;
 }

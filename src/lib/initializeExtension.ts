@@ -1,8 +1,9 @@
-import { Config } from '../Config';
-import type { Settings } from '../models/Settings';
-import { defaultSettings } from '../models/Settings';
-import { fetchData } from './api/fetchData';
-import { isChromeStorage } from './storage';
+import { Config } from "../Config";
+import type { Settings } from "../models/Settings";
+import { defaultSettings } from "../models/Settings";
+import type { ApiResponse, AffiliateLinks } from "../models";
+import { fetchData } from "./api/fetchData";
+import { isChromeStorage } from "./storage";
 
 /**
  * This script initializes local storage with default values and from the api.
@@ -12,14 +13,16 @@ export async function initializeExtension(
   storage: typeof browser.storage | typeof chrome.storage | null
 ) {
   if (!storage) {
-    console.error('Storage is not available.');
+    console.error("Storage is not available.");
     return;
   }
   // Check if we're running in Chrome
   if (isChromeStorage(storage)) {
     Object.keys(defaultSettings).forEach((key) => {
       if (Object.hasOwn(defaultSettings, key)) {
-        const param: { [key: string]: any } = { [key]: null };
+        const param: { [key: string]: Settings[keyof Settings] } = {
+          [key]: null,
+        };
         storage.local.get(param, (result) => {
           // Only proceed if the previous local storage does not have the key
           if (
@@ -50,7 +53,7 @@ export async function initializeExtension(
   // Check if we're running in Firefox
   if (!isChromeStorage(storage)) {
     Object.keys(defaultSettings).forEach((key) => {
-      const params: { [key: string]: any } = {};
+      const params: { [key: string]: Settings[keyof Settings] } = {};
       params[key] = null;
       storage.local.get(params).then((result) => {
         if (!Object.hasOwn(result, key) || !result[key]) {
@@ -63,29 +66,29 @@ export async function initializeExtension(
 
   // Only get links if online features are enabled.
   if (isChromeStorage(storage)) {
-    storage.local.get('onlineFeatures', async (onlineFeatures) => {
+    storage.local.get("onlineFeatures", async (onlineFeatures: Record<string, unknown>) => {
       if (onlineFeatures.onlineFeatures) {
-        const response = await fetchData(Config.endpoint.affiliateLinks);
+        const response = await fetchData<ApiResponse<AffiliateLinks>>(Config.endpoint.affiliateLinks);
         if (response) {
           storage.local.set({ affiliate: response.data });
         } else {
-          console.error('Error retrieving data:', response);
+          console.error("Error retrieving data:", response);
         }
       }
     });
   } else {
     storage.local
       .get()
-      .then(async (onlineFeatures) => {
+      .then(async (onlineFeatures: Record<string, unknown>) => {
         if (onlineFeatures.onlineFeatures) {
-          const response = await fetchData(Config.endpoint.affiliateLinks);
+          const response = await fetchData<ApiResponse<AffiliateLinks>>(Config.endpoint.affiliateLinks);
           if (response) {
             storage.local.set({ affiliate: response.data });
           } else {
-            console.error('Error retrieving data:', response);
+            console.error("Error retrieving data:", response);
           }
         }
       })
-      .catch((error) => console.error('Error retrieving data:', error));
+      .catch((error: unknown) => console.error("Error retrieving data:", error));
   }
 }

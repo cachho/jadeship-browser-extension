@@ -157,6 +157,7 @@ const Popup = () => {
     storage?.local.set(settings);
   }
 
+  // biome-ignore lint: Dependency list is correct
   useEffect(() => {
     if (settings.isDefault === true) {
       loadFromLocalStorage();
@@ -261,6 +262,7 @@ const Popup = () => {
                   stroke="currentColor"
                   strokeWidth="2"
                 >
+                  <title>Arrow Down</title>
                   <path d="M6 9l6 6 6-6" />
                 </svg>
               </div>
@@ -448,6 +450,7 @@ const Popup = () => {
                       });
                     }
                     return (
+                      // biome-ignore lint: No need to have a keyboard action for this
                       <div
                         key={`toolbar-includes-${agent}`}
                         onClick={() => !disabled && swap()}

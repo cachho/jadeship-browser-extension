@@ -1,4 +1,4 @@
-import { convertableLinks } from '../data/convertableLinks';
+import { convertableLinks } from "../data/convertableLinks";
 
 export function isConvertableLink(url: URL): boolean {
   if (
@@ -8,12 +8,12 @@ export function isConvertableLink(url: URL): boolean {
   )
     return true;
   if (
-    (url.hostname === 'www.pandabuy.com' || url.hostname === 'pandabuy.com') &&
-    url.pathname === '/product' &&
-    url.searchParams.get('url')
+    (url.hostname === "www.pandabuy.com" || url.hostname === "pandabuy.com") &&
+    url.pathname === "/product" &&
+    url.searchParams.get("url")
   ) {
     const pattern = /^PI\d+$/;
-    return pattern.test(url.searchParams.get('url')!);
+    return pattern.test(url?.searchParams.get("url") || "");
   }
   return false;
 }

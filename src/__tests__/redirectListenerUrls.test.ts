@@ -1,8 +1,9 @@
-import { redirectListenerUrls } from '../data/redirectListenerUrls';
-import { agents } from '../lib/cn-links';
+import { describe, it, expect } from "bun:test";
+import { redirectListenerUrls } from "../data/redirectListenerUrls";
+import { agents } from "../lib/cn-links";
 
-describe('redirectListenerUrls', () => {
-  it('should redirect for all agents', () => {
+describe("redirectListenerUrls", () => {
+  it("should redirect for all agents", () => {
     const hosts = redirectListenerUrls.map((url) => url.hostSuffix);
     agents.forEach((agent) => {
       // Check if the agent is part of any of the host strings

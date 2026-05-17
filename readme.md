@@ -49,7 +49,7 @@ You can install the extension from the Chrome Web Store or Firefox Browser Add-O
 ### Side Loading
 
 
-Alternatively, to use pre-release versions you can clone the repository and build from source (`npm install` and `npm run build` commands are all you need). Then install the zip files.
+Alternatively, to use pre-release versions you can clone the repository and build from source (`bun install` and `npm run build` commands are all you need). Then install the zip files.
 
 If you don't want to build from source, you can check this repo's releases page to directly download the zip files, ready for installation.
 
@@ -57,7 +57,7 @@ If you don't want to build from source, you can check this repo's releases page 
 
 This extension uses one codebase for firefox and chromium browsers.
 
-Before you do anything else, clone the repository. Install the dependencies with `npm install`.
+Before you do anything else, clone the repository. Install Bun first (https://bun.sh/), then install the dependencies with `bun install`.
 
 ### Codebase
 
@@ -69,7 +69,7 @@ Virtually all dependencies are for the developer experience and code maintainabi
 
 ### Testing in the browser
 
-For testing on chromium and firefox you need to compile the typescript files. For this purpose you should have the typescript compiler installed globally (`npm install -g typescript`).
+For testing on chromium and firefox you need to compile the typescript files. For this purpose you should have the typescript compiler installed globally (`bun add -g typescript`).
 
 Webpack allows for hot reloads by running `npm run watch`.
 

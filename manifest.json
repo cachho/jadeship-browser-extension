@@ -48,6 +48,8 @@
         "*://*.usfans.com/*",
         "*://*.cnshopper.com/*",
         "*://*.hipobuy.com/*",
+        "*://*.gtbuy.com/*",
+        "*://*.fishgoo.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -95,6 +97,8 @@
         "*://*.usfans.com/*",
         "*://*.cnshopper.com/*",
         "*://*.hipobuy.com/*",
+        "*://*.gtbuy.com/*",
+        "*://*.fishgoo.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -139,7 +143,9 @@
     "*://*.itaobuy.com/*",
     "*://*.usfans.com/*",
     "*://*.cnshopper.com/*",
-    "*://*.hipobuy.com/*"
+    "*://*.hipobuy.com/*",
+    "*://*.gtbuy.com/*",
+    "*://*.fishgoo.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

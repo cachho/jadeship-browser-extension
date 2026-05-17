@@ -8,9 +8,9 @@ describe("getStatsUrl", () => {
     expect(getStatsUrl(null)).toBeNull();
   });
 
-  test("builds details stats url from cnLink data", () => {
+  test("builds stats page url from cnLink data", () => {
     expect(getStatsUrl({ id: "123", marketplace: "taobao" })).toBe(
-      "https://www.jadeship.com/api/quota-limited/extension/v2/details/taobao/123?r=extension"
+      "https://www.jadeship.com/taobao/123?r=extension"
     );
   });
 

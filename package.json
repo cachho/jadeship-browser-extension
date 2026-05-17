@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
+    "commitlint": "21.0.1",
     "html-webpack-plugin": "^5.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

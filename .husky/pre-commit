@@ -1,5 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# Disable concurent to run `check-types` after ESLint in lint-staged
+# Disable concurrent to run `check-types` after Biome in lint-staged
 npx lint-staged --concurrent false

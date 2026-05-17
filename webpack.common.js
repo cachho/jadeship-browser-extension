@@ -1,12 +1,12 @@
-const path = require('path');
-const HTMLPlugin = require('html-webpack-plugin');
+const path = require("node:path");
+const HTMLPlugin = require("html-webpack-plugin");
 // const CopyPlugin = require('copy-webpack-plugin');
 
 function getHtmlPlugins(chunks) {
   return chunks.map(
     (chunk) =>
       new HTMLPlugin({
-        title: 'React extension',
+        title: "React extension",
         filename: `${chunk}.html`,
         chunks: [chunk],
       })
@@ -15,31 +15,31 @@ function getHtmlPlugins(chunks) {
 
 module.exports = {
   entry: {
-    index: './src/index.tsx',
-    background: './src/background.ts',
-    content_script: './src/content_script.ts',
-    redirect: './src/redirect.ts',
-    toolbar: './src/toolbar.ts',
+    index: "./src/index.tsx",
+    background: "./src/background.ts",
+    content_script: "./src/content_script.ts",
+    redirect: "./src/redirect.ts",
+    toolbar: "./src/toolbar.ts",
   },
-  mode: 'production',
+  mode: "production",
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: "ts-loader",
             options: {
               compilerOptions: { noEmit: false },
             },
           },
         ],
-        exclude: /node_modules/,
+        exclude: /node_modules|__tests__/,
       },
       {
         exclude: /node_modules/,
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
     ],
   },
@@ -47,13 +47,13 @@ module.exports = {
     // new CopyPlugin({
     //   patterns: [{ from: 'manifest.json', to: '../manifest.json' }],
     // }),
-    ...getHtmlPlugins(['index']),
+    ...getHtmlPlugins(["index"]),
   ],
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
   },
   output: {
-    path: path.join(__dirname, 'build/js'),
-    filename: '[name].js',
+    path: path.join(__dirname, "build/js"),
+    filename: "[name].js",
   },
 };

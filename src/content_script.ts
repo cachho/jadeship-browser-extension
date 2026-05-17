@@ -1,23 +1,23 @@
 /* eslint-disable no-param-reassign */
 
-import { getConvertDecrypt } from './lib/api/getConvertDecrypt';
-import { getOnlineFeatures } from './lib/api/getOnlineFeatures';
-import { findLinksOnPage } from './lib/findLinksOnPage';
-import { findNestedLinksOnPage } from './lib/findNestedLinksOnPage';
-import { getTargetHrefs } from './lib/getTargetHrefs';
-import { getThirdPartyPage } from './lib/getThirdPartyPage';
-import { addHtmlOnlineElements } from './lib/html/addHtmlOnlineElements';
-import { addQcElement } from './lib/html/addQcElement';
-import { getImageAgent } from './lib/html/getImageAgent';
-import { getPlatformImage } from './lib/html/getPlatformImage';
-import { replaceTextContent } from './lib/html/replaceTextContent';
-import { initializeExtension } from './lib/initializeExtension';
-import { isBrokenRedditImageLink } from './lib/isBrokenRedditImageLink';
-import { loadSettings } from './lib/loadSettings';
-import { getStorage } from './lib/storage';
-import type { AgentWithRaw } from './models';
-import type { Settings } from './models/Settings';
-import { settingNames } from './models/Settings';
+import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
+import { getOnlineFeatures } from "./lib/api/getOnlineFeatures";
+import { findLinksOnPage } from "./lib/findLinksOnPage";
+import { findNestedLinksOnPage } from "./lib/findNestedLinksOnPage";
+import { getTargetHrefs } from "./lib/getTargetHrefs";
+import { getThirdPartyPage } from "./lib/getThirdPartyPage";
+import { addHtmlOnlineElements } from "./lib/html/addHtmlOnlineElements";
+import { addQcElement } from "./lib/html/addQcElement";
+import { getImageAgent } from "./lib/html/getImageAgent";
+import { getPlatformImage } from "./lib/html/getPlatformImage";
+import { replaceTextContent } from "./lib/html/replaceTextContent";
+import { initializeExtension } from "./lib/initializeExtension";
+import { isBrokenRedditImageLink } from "./lib/isBrokenRedditImageLink";
+import { loadSettings } from "./lib/loadSettings";
+import { getStorage } from "./lib/storage";
+import type { AgentWithRaw } from "./models";
+import type { Settings } from "./models/Settings";
+import { settingNames } from "./models/Settings";
 
 async function main(settings: Settings) {
   // console.log("🚀🚀🚀🚀 Content Script Running 🚀🚀🚀🚀");
@@ -28,10 +28,10 @@ async function main(settings: Settings) {
 
   // Excluded pages
   if (
-    currentUrl.hostname === 'www.reddit.com' &&
-    currentUrl.pathname.startsWith('/r/') &&
-    currentUrl.pathname.includes('/about/') &&
-    ['modqueue', 'reports', 'spam', 'edited', 'unmoderated'].some((path) =>
+    currentUrl.hostname === "www.reddit.com" &&
+    currentUrl.pathname.startsWith("/r/") &&
+    currentUrl.pathname.includes("/about/") &&
+    ["modqueue", "reports", "spam", "edited", "unmoderated"].some((path) =>
       currentUrl.pathname.endsWith(`/${path}`)
     )
   ) {
@@ -53,14 +53,14 @@ async function main(settings: Settings) {
   [...links, ...nestedLinks].forEach(async (elem) => {
     // This makes sure each link is only handled once.
     // TODO: Verify that this is the best way to deal with this.
-    elem.dataset.CnLinkExtension = 'true';
+    elem.dataset.CnLinkExtension = "true";
 
     const originalLink = new URL(elem.href);
 
     if (!originalLink) {
       console.error(
-        'RA Browser Extension:',
-        'No link object could be extracted from link: ',
+        "RA Browser Extension:",
+        "No link object could be extracted from link: ",
         elem.href
       );
       return false;
@@ -76,8 +76,8 @@ async function main(settings: Settings) {
 
     if (!converted) {
       console.error(
-        'JadeShip Browser Extension:',
-        'Could not process link:',
+        "JadeShip Browser Extension:",
+        "Could not process link:",
         originalLink.href
       );
       return false;
@@ -85,7 +85,7 @@ async function main(settings: Settings) {
 
     const link = converted.cnLink;
     const newHref =
-      selectedAgent === 'raw'
+      selectedAgent === "raw"
         ? originalLink.href
         : converted.data.find((item) => item.target === selectedAgent)?.url;
 
@@ -99,12 +99,12 @@ async function main(settings: Settings) {
     // Note: If raw images is selected, it defaults to platform images
     if (settings.logoPlatform) {
       elem.insertAdjacentHTML(
-        'beforebegin',
+        "beforebegin",
         getPlatformImage(link.marketplace)
       );
     }
-    if (settings.logoAgent && selectedAgent !== 'raw') {
-      elem.insertAdjacentHTML('beforebegin', getImageAgent(selectedAgent));
+    if (settings.logoAgent && selectedAgent !== "raw") {
+      elem.insertAdjacentHTML("beforebegin", getImageAgent(selectedAgent));
     }
 
     if (newHref) {
@@ -118,11 +118,11 @@ async function main(settings: Settings) {
       );
       if (
         settings.onlineFeatures &&
-        !isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
+        !isBrokenRedditImageLink(elem.textContent ?? "", link.marketplace)
       ) {
         try {
           const details = await promiseDetails;
-          if (details && details.data) {
+          if (details?.data) {
             addHtmlOnlineElements(
               settings,
               details.data,
@@ -149,8 +149,8 @@ async function main(settings: Settings) {
           );
         }
       } else if (
-        (elem.textContent && elem.textContent.startsWith('https://')) ||
-        isBrokenRedditImageLink(elem.textContent ?? '', link.marketplace)
+        elem.textContent?.startsWith("https://") ||
+        isBrokenRedditImageLink(elem.textContent ?? "", link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;
       }
@@ -177,15 +177,15 @@ const observer = new MutationObserver((mutations) => {
       if (settings && Object.keys(settings).length > 0) {
         main(settings as Settings);
       } else {
-        console.error('RA Browser Extension:', 'No settings found');
+        console.error("RA Browser Extension:", "No settings found");
         const storage = getStorage();
-        console.error('storage', JSON.stringify(storage));
+        console.error("storage", JSON.stringify(storage));
         initializeExtension(storage)
           .then(() => {
-            console.log('RA Browser Extension:', 'Initialized extension');
+            console.log("RA Browser Extension:", "Initialized extension");
           })
           .finally(() => {
-            console.log('RA Browser Extension:', 'Reloading settings');
+            console.log("RA Browser Extension:", "Reloading settings");
             loadSettings(settingNames).then((s) => {
               if (s && Object.keys(s).length > 0) {
                 main(s as Settings);
@@ -194,8 +194,8 @@ const observer = new MutationObserver((mutations) => {
           })
           .catch((error) => {
             console.error(
-              'RA Browser Extension:',
-              'Error initializing extension',
+              "RA Browser Extension:",
+              "Error initializing extension",
               error
             );
           });

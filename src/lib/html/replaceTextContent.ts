@@ -4,8 +4,8 @@ import type {
   Details,
   Platform,
   Settings,
-} from '../../models';
-import { isBrokenRedditImageLink } from '../isBrokenRedditImageLink';
+} from "../../models";
+import { isBrokenRedditImageLink } from "../isBrokenRedditImageLink";
 
 export function replaceTextContent(
   settings: Settings,
@@ -15,7 +15,7 @@ export function replaceTextContent(
   platform: Platform
 ): string {
   // If the overwrite title extra option is enabled, replace with the title from details
-  if (settings.displayOverwriteTitle && details && details.data) {
+  if (settings.displayOverwriteTitle && details?.data) {
     return settings.displayTitleLength &&
       parseInt(settings.displayTitleLength, 10) > 0
       ? details.data.item.goodsTitle.slice(
@@ -26,12 +26,12 @@ export function replaceTextContent(
   }
   // Regular handling: replace with agent link
   if (
-    (link.textContent && link.textContent.startsWith('https://')) ||
-    isBrokenRedditImageLink(link.textContent ?? '', platform)
+    link.textContent?.startsWith("https://") ||
+    isBrokenRedditImageLink(link.textContent ?? "", platform)
   ) {
     // For regular agents, use the agent name + link, if raw is selected use the target platform instead.
-    return `${selectedAgent !== 'raw' ? selectedAgent : platform} link`;
+    return `${selectedAgent !== "raw" ? selectedAgent : platform} link`;
   }
   // Else: don't change
-  return link.textContent ?? '';
+  return link.textContent ?? "";
 }

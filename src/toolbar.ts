@@ -1,111 +1,123 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import ReactDOM from 'react-dom/client';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import ReactDOM from "react-dom/client";
 
-import { Config } from './Config';
-import { getConvertDecrypt } from './lib/api/getConvertDecrypt';
-import { getQc } from './lib/api/getQc';
-import { detectMarketplace } from './lib/cn-links';
-import { detectAgent } from './lib/cn-links/detectAgent';
+import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
+import { getQc } from "./lib/api/getQc";
+import { detectMarketplace } from "./lib/cn-links";
+import { detectAgent } from "./lib/cn-links/detectAgent";
 import {
   addObserver,
   handleExceptionElements,
   undoExceptionElements,
-} from './lib/handleExceptionElements';
-import { getImageAgent } from './lib/html/getImageAgent';
-import { loadSettings } from './lib/loadSettings';
-import { placeToolbar } from './lib/placeToolbar';
-import type { Agent, CnLink, Settings } from './models';
+} from "./lib/handleExceptionElements";
+import { getImageAgent } from "./lib/html/getImageAgent";
+import { loadSettings } from "./lib/loadSettings";
+import { placeToolbar } from "./lib/placeToolbar";
+import type { Agent, CnLink, Settings } from "./models";
+
+const FLUID_SPRING = "cubic-bezier(0.25, 1, 0.3, 1)";
 
 const bodyStyle: React.CSSProperties = {
-  background: 'rgba(10, 10, 10, 0.95)',
-  backdropFilter: 'blur(20px)',
-  border: '1px solid rgba(255, 255, 255, 0.08)',
-  borderRadius: '24px',
-  width: '30vw',
-  maxWidth: '90vw',
-  height: '56px',
-  zIndex: 10000,
+  background: "rgba(6, 6, 9, 0.82)",
+  backdropFilter: "blur(24px)",
+  WebkitBackdropFilter: "blur(24px)",
+  border: "0.5px solid rgba(255, 255, 255, 0.08)",
+  borderRadius: "99px",
+  width: "fit-content",
+  height: "56px",
+  zIndex: 2147483647,
+  display: "flex",
   flexShrink: 0,
-  fontFamily: 'system-ui, -apple-system, sans-serif',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2)',
-  position: 'fixed',
-  top: '20px',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  margin: '0 auto',
+  fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif",
+  boxShadow:
+    "0 0 0 1px rgba(0, 0, 0, 0.4), 0 24px 48px -12px rgba(0, 0, 0, 0.6)",
+  position: "fixed",
+  top: "24px",
+  left: "50%",
+  transform: "translateX(-50%)",
+  transition: `transform 0.6s ${FLUID_SPRING}, opacity 0.6s ${FLUID_SPRING}, filter 0.6s ${FLUID_SPRING}`,
+  padding: "4px",
+  willChange: "transform, opacity",
 };
 
 const innerStyle: React.CSSProperties = {
-  height: '100%',
-  paddingLeft: '20px',
-  paddingRight: '20px',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  gap: '12px',
-  whiteSpace: 'nowrap',
-};
-
-const webLinksStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  flexShrink: 0,
-};
-
-const linksStyle: React.CSSProperties = {
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-  flexWrap: 'wrap',
-  justifyContent: 'center',
-  flex: 1,
-  minWidth: 0,
+  height: "100%",
+  width: "100%",
+  padding: "0 14px 0 16px",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "14px",
+  backgroundColor: "rgba(255, 255, 255, 0.015)",
+  borderRadius: "99px",
+  boxShadow: "inset 0 1px 0px rgba(255, 255, 255, 0.05)",
 };
 
 const closeStyle: React.CSSProperties = {
-  color: 'rgba(255, 255, 255, 0.7)',
-  background: 'rgba(255, 255, 255, 0.03)',
-  border: '1px solid rgba(255, 255, 255, 0.08)',
-  borderRadius: '10px',
-  cursor: 'pointer',
-  width: '28px',
-  height: '28px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontSize: '12px',
-  fontWeight: 500,
-  transition: 'all 0.2s ease',
+  color: "rgba(255, 255, 255, 0.35)",
+  background: "rgba(255, 255, 255, 0.04)",
+  border: "0.5px solid rgba(255, 255, 255, 0.08)",
+  borderRadius: "50%",
+  cursor: "pointer",
+  width: "26px",
+  height: "26px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "9px",
+  transition: `all 0.4s ${FLUID_SPRING}`,
   flexShrink: 0,
+  padding: 0,
+  outline: "none",
 };
 
 const buttonBaseStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '8px 10px',
-  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-  border: '1px solid rgba(255, 255, 255, 0.08)',
-  borderRadius: '12px',
-  color: 'white',
-  textDecoration: 'none',
-  fontSize: '12px',
-  fontWeight: 500,
-  transition: 'all 0.2s ease',
-  cursor: 'pointer',
-  whiteSpace: 'nowrap',
-  minHeight: '32px',
-  minWidth: '32px',
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "36px",
+  height: "36px",
+  backgroundColor: "transparent",
+  border: "1px solid transparent",
+  borderRadius: "50%",
+  transition: `all 0.5s ${FLUID_SPRING}`,
+  cursor: "pointer",
+  textDecoration: "none",
 };
 
-const webButtonBaseStyle: React.CSSProperties = {
-  ...buttonBaseStyle,
-  padding: '8px 14px',
-  fontSize: '14px',
-  minWidth: 'auto',
+const qcButtonStyle: React.CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  padding: "0 14px",
+  height: "32px",
+  borderRadius: "99px",
+  background: "rgba(16, 185, 129, 0.12)",
+  border: "0.5px solid rgba(16, 185, 129, 0.25)",
+  color: "#34d399",
+  fontSize: "12px",
+  fontWeight: 600,
+  letterSpacing: "-0.01em",
+  textDecoration: "none",
+  transition: `all 0.4s ${FLUID_SPRING}`,
+  boxShadow: "0 2px 8px rgba(16, 185, 129, 0.04)",
+};
+
+const indicatorStyle: React.CSSProperties = {
+  position: "fixed",
+  top: "16px",
+  left: "50%",
+  transform: "translateX(-50%)",
+  width: "48px",
+  height: "5px",
+  borderRadius: "99px",
+  backgroundColor: "rgba(255, 255, 255, 0.25)",
+  backdropFilter: "blur(8px)",
+  WebkitBackdropFilter: "blur(8px)",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+  cursor: "pointer",
+  zIndex: 2147483647,
+  transition: `all 0.5s ${FLUID_SPRING}`,
 };
 
 type ToolbarRootProps = {
@@ -116,47 +128,73 @@ type ToolbarRootProps = {
 
 function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   const [closed, setClosed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [cnLink, setCnLink] = useState<CnLink | null>(null);
   const [qcUrl, setQcUrl] = useState<string | null>(null);
   const [convertedLinks, setConvertedLinks] = useState<
     Partial<Record<Agent, string>>
   >({});
 
-  const sortedAgents = useMemo(() => {
-    const sortKeys = (a: string, b: string) => {
-      if (a === settings.myAgent) {
-        return 1;
+  const lastScrollY = useRef(window.scrollY);
+  const collapseTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const delta = Math.abs(currentScrollY - lastScrollY.current);
+
+          if (delta > 24 && currentScrollY > 50) {
+            setIsCollapsed(true);
+          }
+
+          lastScrollY.current = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-      if (b === settings.myAgent || a === 'raw') {
-        return -1;
-      }
-      return 0;
     };
 
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (collapseTimeout.current) clearTimeout(collapseTimeout.current);
+    setIsCollapsed(false);
+  };
+
+  const handleMouseLeave = () => {
+    collapseTimeout.current = setTimeout(() => {
+      setIsCollapsed(true);
+    }, 1500);
+  };
+
+  const sortedAgents = useMemo(() => {
+    const sortKeys = (a: string, b: string) => {
+      if (a === settings.myAgent) return 1;
+      if (b === settings.myAgent || a === "raw") return -1;
+      return 0;
+    };
     return [...settings.agentsInToolbar].sort(sortKeys);
   }, [settings]);
 
   useEffect(() => {
     let alive = true;
-
     getConvertDecrypt(href, settings.agentsInToolbar)
       .then((response) => {
-        if (!alive || !response) {
-          return;
-        }
-
+        if (!alive || !response) return;
         setCnLink(response.cnLink);
-
         const next: Partial<Record<Agent, string>> = {};
         response.data.forEach(({ target, url }) => {
           next[target] = url;
         });
         setConvertedLinks(next);
       })
-      .catch(() => {
-        // Keep toolbar visible even if conversion API fails.
-      });
-
+      .catch(() => {});
     return () => {
       alive = false;
     };
@@ -164,135 +202,161 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
   useEffect(() => {
     let alive = true;
-
-    if (!settings.onlineFeaturesQcPhotos || !cnLink) {
-      return () => {
-        alive = false;
-      };
-    }
-
+    if (!settings.onlineFeaturesQcPhotos || !cnLink) return;
     getQc(cnLink.id, cnLink.marketplace)
       .then((response) => {
-        if (!alive || !response || response.count <= 0) {
-          return;
-        }
+        if (!alive || !response || response.count <= 0) return;
         setQcUrl(response.fullPageUrl);
       })
-      .catch(() => {
-        // QC link is optional.
+      .catch(() => {})
+      .finally(() => {
+        alive = false;
       });
-
-    return () => {
-      alive = false;
-    };
   }, [cnLink, settings.onlineFeaturesQcPhotos]);
 
-  if (closed) {
-    return null;
-  }
+  if (closed) return null;
 
-  const statsUrl = cnLink
-    ? `${Config.endpoint.details}/${cnLink.marketplace}/${cnLink.id}`
-    : null;
+  const currentBodyStyle: React.CSSProperties = {
+    ...bodyStyle,
+    transform: isCollapsed
+      ? "translateX(-50%) translateY(-100px) scale(0.88)"
+      : "translateX(-50%) translateY(0) scale(1)",
+    opacity: isCollapsed ? 0 : 1,
+    filter: isCollapsed ? "blur(8px)" : "blur(0px)",
+    pointerEvents: isCollapsed ? "none" : "auto",
+  };
+
+  const currentIndicatorStyle: React.CSSProperties = {
+    ...indicatorStyle,
+    transform: isCollapsed
+      ? "translateX(-50%) translateY(0) scale(1)"
+      : "translateX(-50%) translateY(-40px) scale(0.5)",
+    opacity: isCollapsed ? 1 : 0,
+    pointerEvents: isCollapsed ? "auto" : "none",
+  };
 
   return React.createElement(
-    'div',
-    { className: 'ra-ext-toolbar', style: bodyStyle },
+    React.Fragment,
+    null,
+    React.createElement("div", {
+      style: currentIndicatorStyle,
+      onMouseEnter: handleMouseEnter,
+      title: "Reveal Toolbar Hub",
+    }),
+
     React.createElement(
-      'div',
-      { style: innerStyle },
+      "div",
+      {
+        className: "ra-ext-toolbar",
+        style: currentBodyStyle,
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+      },
       React.createElement(
-        'div',
-        { style: webLinksStyle },
+        "div",
+        { style: innerStyle },
         qcUrl
           ? React.createElement(
-              'a',
+              "a",
               {
                 href: qcUrl,
-                target: '_blank',
-                rel: 'noopener noreferrer',
-                style: {
-                  ...webButtonBaseStyle,
-                  background: 'linear-gradient(135deg, #10b981, #06b6d4)',
-                  borderColor: 'rgba(16, 185, 129, 0.3)',
+                target: "_blank",
+                rel: "noopener noreferrer",
+                style: qcButtonStyle,
+                onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "rgba(16, 185, 129, 0.20)";
+                  e.currentTarget.style.borderColor = "rgba(16, 185, 129, 0.4)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 16px rgba(16, 185, 129, 0.1)";
+                },
+                onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "rgba(16, 185, 129, 0.12)";
+                  e.currentTarget.style.borderColor =
+                    "rgba(16, 185, 129, 0.25)";
+                  e.currentTarget.style.boxShadow =
+                    "0 2px 8px rgba(16, 185, 129, 0.04)";
                 },
               },
               React.createElement(
-                'span',
-                { style: { marginRight: '6px' } },
-                '📷'
+                "span",
+                { style: { fontSize: "11px", marginTop: "-1px" } },
+                "📷"
               ),
-              'QC Pics'
+              "QC Photos"
             )
           : null,
-        statsUrl
-          ? React.createElement(
-              'a',
-              {
-                href: statsUrl,
-                target: '_blank',
-                rel: 'noopener noreferrer',
-                style: webButtonBaseStyle,
-              },
-              React.createElement(
-                'span',
-                { style: { marginRight: '6px' } },
-                '📊'
-              ),
-              'Stats'
-            )
-          : null
-      ),
-      React.createElement(
-        'div',
-        { style: linksStyle },
-        ...sortedAgents.map((agent) => {
-          const hrefValue = convertedLinks[agent];
-          const isMine = agent === settings.myAgent;
-          const isReady = Boolean(hrefValue);
 
-          return React.createElement('a', {
-            key: agent,
-            href: hrefValue ?? '#',
-            target: '_blank',
-            rel: 'noopener noreferrer',
-            title: isMine ? `${agent} (My Agent)` : agent,
-            onClick: (event) => {
-              if (!hrefValue) {
-                event.preventDefault();
-              }
+        React.createElement(
+          "div",
+          { style: { display: "flex", gap: "6px", alignItems: "center" } },
+          ...sortedAgents.map((agent) => {
+            const hrefValue = convertedLinks[agent];
+            const isMine = agent === settings.myAgent;
+            const isReady = Boolean(true);
+
+            return React.createElement("a", {
+              key: agent,
+              href: hrefValue ?? "#",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              title: isMine ? `${agent} (My Agent)` : agent,
+              onClick: (e) => {
+                if (!hrefValue) e.preventDefault();
+              },
+              style: {
+                ...buttonBaseStyle,
+                backgroundColor: isMine
+                  ? "rgba(255, 255, 255, 0.08)"
+                  : "transparent",
+                borderColor: isMine
+                  ? "rgba(255, 255, 255, 0.14)"
+                  : "transparent",
+                borderWidth: "0.5px",
+                opacity: isReady ? 1 : 0.22,
+                pointerEvents: isReady ? "auto" : "none",
+              },
+              onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                e.currentTarget.style.transform = "scale(1.1) translateY(-1px)";
+                e.currentTarget.style.backgroundColor =
+                  "rgba(255, 255, 255, 0.14)";
+              },
+              onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.backgroundColor = isMine
+                  ? "rgba(255, 255, 255, 0.08)"
+                  : "transparent";
+              },
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
+              dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
+            });
+          })
+        ),
+
+        // Close System Utility
+        React.createElement(
+          "button",
+          {
+            type: "button",
+            style: closeStyle,
+            onClick: () => {
+              setClosed(true);
+              undoExceptionElements(initialAgent);
             },
-            style: {
-              ...buttonBaseStyle,
-              ...(isMine
-                ? {
-                    background: 'rgba(16, 185, 129, 0.1)',
-                    borderColor: 'rgba(16, 185, 129, 0.2)',
-                  }
-                : null),
-              ...(isReady
-                ? null
-                : {
-                    pointerEvents: 'none',
-                    opacity: 0.55,
-                  }),
+            onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.backgroundColor =
+                "rgba(255, 255, 255, 0.12)";
+              e.currentTarget.style.transform = "rotate(90deg)";
             },
-            dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
-          });
-        })
-      ),
-      React.createElement(
-        'button',
-        {
-          className: 'ra-ext-close-btn',
-          type: 'button',
-          style: closeStyle,
-          onClick: () => {
-            setClosed(true);
-            undoExceptionElements(initialAgent);
+            onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+              e.currentTarget.style.color = "rgba(255, 255, 255, 0.35)";
+              e.currentTarget.style.backgroundColor =
+                "rgba(255, 255, 255, 0.04)";
+              e.currentTarget.style.transform = "rotate(0deg)";
+            },
           },
-        },
-        '✕'
+          "✕"
+        )
       )
     )
   );
@@ -300,22 +364,17 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
 async function toolbar() {
   const settings = await loadSettings();
+  if (!settings?.showToolbar) return false;
 
-  if (!settings?.showToolbar) {
-    return false;
-  }
-
-  const body = document.querySelector('body');
-  if (!body) {
-    return false;
-  }
+  const body = document.querySelector("body");
+  if (!body) return false;
 
   const currentAgent = detectAgent(window.location.href);
   const currentMarketplace = detectMarketplace(new URL(window.location.href));
 
   handleExceptionElements(currentAgent);
 
-  const rootElem = document.createElement('div');
+  const rootElem = document.createElement("div");
   placeToolbar(settings, body, rootElem, currentAgent);
 
   const root = ReactDOM.createRoot(rootElem);
@@ -329,10 +388,7 @@ async function toolbar() {
 
   const observer = addObserver(currentMarketplace);
   if (observer) {
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   return true;

@@ -1,8 +1,9 @@
-import type { Settings } from '../models/Settings';
-import { defaultSettings, settingNames } from '../models/Settings';
+import { describe, it, expect } from "bun:test";
+import type { Settings } from "../models/Settings";
+import { defaultSettings, settingNames } from "../models/Settings";
 
-describe('Settings type keys', () => {
-  it('should have all keys present in the settingNames array', () => {
+describe("Settings type keys", () => {
+  it("should have all keys present in the settingNames array", () => {
     // Extract keys
     const settingsKeys = Object.keys(defaultSettings);
 

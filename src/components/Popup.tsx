@@ -1,11 +1,132 @@
 /* eslint-disable no-return-assign */
-import React, { useEffect, useState } from 'react';
+import type React from "react";
+import { useEffect, useState } from "react";
 
-import { Config } from '../Config';
-import { agents, agentsWithRaw } from '../lib/cn-links';
-import { getStorage, isChromeStorage } from '../lib/storage';
-import type { AgentWithRaw, Settings } from '../models';
-import { defaultSettings, settingNames } from '../models/Settings';
+import { Config } from "../Config";
+import { agents, agentsWithRaw } from "../lib/cn-links";
+import { getStorage, isChromeStorage } from "../lib/storage";
+import type { AgentWithRaw, Settings } from "../models";
+import { defaultSettings, settingNames } from "../models/Settings";
+
+const GlassCard = ({
+  title,
+  children,
+  delay = "0ms",
+  badge,
+}: {
+  title?: string;
+  children: React.ReactNode;
+  delay?: string;
+  badge?: string;
+}) => (
+  <div
+    className="glass-card-outer animate-enter"
+    style={{ animationDelay: delay, marginBottom: "16px" }}
+  >
+    <div className="glass-card-inner">
+      {title && (
+        <div
+          className="glass-card-eyebrow"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "14px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+            <div className="glass-card-eyebrow-dot" />
+            <h3 className="glass-card-title" style={{ margin: 0 }}>
+              {title}
+            </h3>
+          </div>
+          {badge && (
+            <span
+              style={{
+                fontSize: "10px",
+                color: "rgba(255, 255, 255, 0.4)",
+                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                padding: "2px 6px",
+                borderRadius: "4px",
+                textTransform: "uppercase",
+                letterSpacing: "0.05em",
+              }}
+            >
+              {badge}
+            </span>
+          )}
+        </div>
+      )}
+      {children}
+    </div>
+  </div>
+);
+
+const HiddenToggle = ({
+  checked,
+  onChange,
+  label,
+  description,
+  disabled = false,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  label: string;
+  description?: string;
+  disabled?: boolean;
+}) => (
+  <label
+    className="haptic-toggle"
+    style={{
+      opacity: disabled ? 0.5 : 1,
+      pointerEvents: disabled ? "none" : "auto",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      cursor: "pointer",
+      width: "100%",
+      margin: "8px 0",
+    }}
+  >
+    <div
+      className="toggle-text-group"
+      style={{ display: "flex", flexDirection: "column", gap: "2px" }}
+    >
+      <span
+        className="toggle-label"
+        style={{
+          fontSize: "14px",
+          fontWeight: 500,
+          color: "rgba(255, 255, 255, 0.95)",
+        }}
+      >
+        {label}
+      </span>
+      {description && (
+        <span
+          className="toggle-desc"
+          style={{ fontSize: "11px", color: "rgba(255, 255, 255, 0.45)" }}
+        >
+          {description}
+        </span>
+      )}
+    </div>
+    <div
+      className="toggle-switch"
+      style={{ position: "relative", width: "44px", height: "24px" }}
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        style={{ opacity: 0, width: 0, height: 0 }}
+      />
+      <div className="toggle-track" />
+      <div className="toggle-knob" />
+    </div>
+  </label>
+);
 
 const Popup = () => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
@@ -36,6 +157,7 @@ const Popup = () => {
     storage?.local.set(settings);
   }
 
+  // biome-ignore lint: Dependency list is correct
   useEffect(() => {
     if (settings.isDefault === true) {
       loadFromLocalStorage();
@@ -56,11 +178,11 @@ const Popup = () => {
   const handleChangeMyAgent = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMyAgent = e.target.value as AgentWithRaw;
     if (!agentsWithRaw.includes(newMyAgent)) {
-      console.error('Invalid agent');
+      console.error("Invalid agent");
       return;
     }
     const newAgentsInToolbar = new Set(settings.agentsInToolbar);
-    if (newMyAgent !== 'raw' && !newAgentsInToolbar.has(newMyAgent)) {
+    if (newMyAgent !== "raw" && !newAgentsInToolbar.has(newMyAgent)) {
       newAgentsInToolbar.add(newMyAgent);
     }
     setSettings({
@@ -72,744 +194,162 @@ const Popup = () => {
 
   return (
     <div
+      className="popup"
       style={{
-        width: '420px',
-        minHeight: '600px',
-        backgroundColor: '#0a0a0a',
-        color: 'white',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        padding: '0',
-        boxSizing: 'border-box',
+        width: "420px",
+        maxHeight: "600px",
+        overflowY: "auto",
+        boxSizing: "border-box",
       }}
     >
       {/* Header */}
-      <div
-        style={{
-          padding: '32px 24px 24px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          background:
-            'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1))',
-        }}
+      <header
+        className="header animate-enter"
+        style={{ animationDelay: "0ms", padding: "20px 20px 10px 20px" }}
       >
-        <div
+        <h1
+          className="title"
           style={{
-            textAlign: 'center',
+            margin: "0 0 4px 0",
+            fontSize: "24px",
+            fontWeight: 800,
+            letterSpacing: "-0.03em",
           }}
         >
-          <h1
-            style={{
-              margin: '0 0 8px 0',
-              fontSize: '28px',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, #10b981, #06b6d4)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            JadeShip
-          </h1>
-          <p
-            style={{
-              margin: '0',
-              fontSize: '14px',
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontWeight: '400',
-            }}
-          >
-            Shopping Agent Extension
-          </p>
-        </div>
-      </div>
-
-      <div style={{ padding: '24px' }}>
-        {/* My Shopping Agent */}
-        <div
+          JadeShip
+        </h1>
+        <p
+          className="subtitle"
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '12px',
-            padding: '20px',
-            marginBottom: '20px',
+            margin: 0,
+            fontSize: "12px",
+            color: "rgba(255, 255, 255, 0.4)",
+            textTransform: "uppercase",
+            letterSpacing: "0.05em",
           }}
         >
-          <h2
-            style={{
-              margin: '0 0 16px 0',
-              fontSize: '16px',
-              fontWeight: '600',
-              color: 'rgba(255, 255, 255, 0.9)',
-            }}
-          >
-            My Shopping Agent
-          </h2>
+          Shopping Agent Extension
+        </p>
+      </header>
 
-          <select
-            onChange={handleChangeMyAgent}
-            value={settings.myAgent}
-            style={{
-              width: '100%',
-              backgroundColor: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              color: 'white',
-              borderRadius: '8px',
-              padding: '12px 16px',
-              fontSize: '14px',
-              marginBottom: '12px',
-              outline: 'none',
-              transition: 'all 0.2s ease',
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-              e.currentTarget.style.backgroundColor =
-                'rgba(255, 255, 255, 0.05)';
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.08)';
-              e.currentTarget.style.backgroundColor =
-                'rgba(255, 255, 255, 0.03)';
-            }}
-          >
-            {[...sortedAgents, 'raw'].map((agent) => (
-              <option
-                value={agent}
-                key={`my-agent-select-${agent}`}
-                style={{ backgroundColor: '#1a1a1a' }}
-              >
-                {agent[0].toUpperCase() + agent.substring(1)}
-              </option>
-            ))}
-          </select>
-
-          <a
-            href={Config.social.bestAgent}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: '#10b981',
-              textDecoration: 'none',
-              fontSize: '13px',
-              transition: 'color 0.2s ease',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.color = '#059669')}
-            onMouseOut={(e) => (e.currentTarget.style.color = '#10b981')}
-          >
-            Find the best agent for you →
-          </a>
-        </div>
-
-        {/* Settings */}
-        <div
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '12px',
-            padding: '20px',
-            marginBottom: '20px',
-          }}
-        >
+      <div className="content" style={{ padding: "0 20px 20px 20px" }}>
+        <GlassCard title="My Shopping Agent" delay="50ms">
           <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: '16px',
-            }}
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <h2
-              style={{
-                margin: '0',
-                fontSize: '16px',
-                fontWeight: '600',
-                color: 'rgba(255, 255, 255, 0.9)',
-              }}
-            >
-              Settings
-            </h2>
-            <span
-              style={{
-                fontSize: '11px',
-                color: 'rgba(255, 255, 255, 0.5)',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                padding: '4px 8px',
-                borderRadius: '4px',
-              }}
-            >
-              Reload required
-            </span>
-          </div>
-
-          {/* Functionality Section */}
-          <div style={{ marginBottom: '20px' }}>
-            <h3
-              style={{
-                fontSize: '14px',
-                fontWeight: '600',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.8)',
-              }}
-            >
-              Functionality
-            </h3>
-
-            {/* Scope */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                borderRadius: '8px',
-                padding: '16px',
-                marginBottom: '16px',
-              }}
-            >
-              <h4
-                style={{
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  margin: '0 0 12px 0',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
+            <div className="custom-select-wrapper">
+              <select
+                onChange={handleChangeMyAgent}
+                value={settings.myAgent}
+                className="custom-select"
               >
-                Link Types
-              </h4>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={!toggleAllAction}
-                  onChange={() =>
-                    toggleAllAction
-                      ? setSettings({
-                          ...settings,
-                          taobaoLink: true,
-                          weidianLink: true,
-                          s1688Link: true,
-                          tmallLink: true,
-                          agentLink: true,
-                          thirdPartyLink: true,
-                        })
-                      : setSettings({
-                          ...settings,
-                          taobaoLink: false,
-                          weidianLink: false,
-                          s1688Link: false,
-                          tmallLink: false,
-                          agentLink: false,
-                          thirdPartyLink: false,
-                        })
-                  }
-                  style={{
-                    width: '16px',
-                    height: '16px',
-                    marginRight: '12px',
-                    accentColor: '#10b981',
-                  }}
-                />
-                <span style={{ fontSize: '13px', fontWeight: '500' }}>
-                  Enable All
-                </span>
-              </div>
-
-              <div
-                style={{
-                  height: '1px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                  margin: '12px 0',
-                }}
-              ></div>
-
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '8px',
-                }}
-              >
-                {[
-                  { key: 'taobaoLink', label: 'Taobao' },
-                  { key: 'weidianLink', label: 'Weidian' },
-                  { key: 's1688Link', label: '1688' },
-                  { key: 'tmallLink', label: 'Tmall' },
-                  { key: 'agentLink', label: 'Agents' },
-                  { key: 'thirdPartyLink', label: '3rd Party' },
-                ].map(({ key, label }) => (
-                  <div
-                    key={key}
-                    style={{ display: 'flex', alignItems: 'center' }}
+                {[...sortedAgents, "raw"].map((agent) => (
+                  <option
+                    value={agent}
+                    key={`agent-${agent}`}
+                    style={{ backgroundColor: "#0a0a0c", color: "#fff" }}
                   >
-                    <input
-                      type="checkbox"
-                      checked={settings[key as keyof Settings] as boolean}
-                      onChange={() =>
-                        setSettings({
-                          ...settings,
-                          [key]: !settings[key as keyof Settings],
-                        })
-                      }
-                      style={{
-                        width: '14px',
-                        height: '14px',
-                        marginRight: '8px',
-                        accentColor: '#10b981',
-                      }}
-                    />
-                    <span style={{ fontSize: '13px' }}>{label}</span>
-                  </div>
+                    {agent[0].toUpperCase() + agent.substring(1)}
+                  </option>
                 ))}
+              </select>
+              <div className="custom-select-icon">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <title>Arrow Down</title>
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
               </div>
             </div>
 
-            {/* Toolbar */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                borderRadius: '8px',
-                padding: '16px',
-                marginBottom: '16px',
-              }}
-            >
-              <h4
+            <div style={{ paddingLeft: "2px" }}>
+              <a
+                href={Config.social.bestAgent}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  margin: '0 0 12px 0',
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: "#34d399",
+                  textDecoration: "none",
+                  fontSize: "12px",
+                  fontWeight: 500,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
                 }}
               >
-                Toolbar
-              </h4>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '8px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={settings.showToolbar}
-                  onChange={() =>
-                    setSettings({
-                      ...settings,
-                      showToolbar: !settings.showToolbar,
-                    })
-                  }
-                  style={{
-                    width: '16px',
-                    height: '16px',
-                    marginRight: '12px',
-                    accentColor: '#10b981',
-                  }}
-                />
-                <span style={{ fontSize: '13px' }}>Show Toolbar</span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={settings.stickyToolbar}
-                  onChange={() =>
-                    setSettings({
-                      ...settings,
-                      stickyToolbar: !settings.stickyToolbar,
-                    })
-                  }
-                  style={{
-                    width: '16px',
-                    height: '16px',
-                    marginRight: '12px',
-                    accentColor: '#10b981',
-                  }}
-                />
-                <span style={{ fontSize: '13px' }}>Sticky Position</span>
-              </div>
-
-              {settings.showToolbar && (
-                <>
-                  <div
-                    style={{
-                      height: '1px',
-                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                      margin: '12px 0',
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      fontSize: '12px',
-                      color: 'rgba(255, 255, 255, 0.6)',
-                      marginBottom: '8px',
-                    }}
-                  >
-                    Include Agents:
-                  </div>
-
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 1fr',
-                      gap: '6px',
-                      marginBottom: '8px',
-                    }}
-                  >
-                    {sortedAgents.map((agent) => {
-                      const checked = settings.agentsInToolbar.includes(agent);
-                      const disabled = settings.myAgent === agent;
-                      function swap() {
-                        const newSet = new Set(settings.agentsInToolbar);
-                        if (checked) {
-                          newSet.delete(agent);
-                        } else {
-                          newSet.add(agent);
-                        }
-                        setSettings({
-                          ...settings,
-                          agentsInToolbar: Array.from(newSet),
-                        });
-                      }
-                      return (
-                        <div
-                          key={`toolbar-includes-${agent}`}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '6px 8px',
-                            backgroundColor: checked
-                              ? 'rgba(16, 185, 129, 0.1)'
-                              : 'rgba(255, 255, 255, 0.02)',
-                            border: `1px solid ${
-                              checked
-                                ? 'rgba(16, 185, 129, 0.2)'
-                                : 'rgba(255, 255, 255, 0.05)'
-                            }`,
-                            borderRadius: '6px',
-                            opacity: disabled ? 0.5 : 1,
-                          }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={checked}
-                            disabled={disabled}
-                            onChange={() => !disabled && swap()}
-                            style={{
-                              width: '12px',
-                              height: '12px',
-                              marginRight: '6px',
-                              accentColor: '#10b981',
-                            }}
-                          />
-                          <span style={{ fontSize: '11px', fontWeight: '500' }}>
-                            {agent}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {settings.agentsInToolbar.length > 6 && (
-                    <div
-                      style={{
-                        padding: '8px 10px',
-                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                        border: '1px solid rgba(239, 68, 68, 0.2)',
-                        borderRadius: '6px',
-                        marginTop: '8px',
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: '#f87171',
-                          fontSize: '11px',
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '6px',
-                        }}
-                      >
-                        <span style={{ color: '#ef4444', fontWeight: 'bold' }}>
-                          ⚠️
-                        </span>
-                        Too many agents may cause issues on Weidian
-                      </span>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-
-            {/* Online Features */}
-            <div
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                borderRadius: '8px',
-                padding: '16px',
-              }}
-            >
-              <h4
-                style={{
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  margin: '0 0 12px 0',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                Online Features
-              </h4>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '8px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={settings.onlineFeatures}
-                  onChange={() =>
-                    setSettings({
-                      ...settings,
-                      onlineFeatures: !settings.onlineFeatures,
-                    })
-                  }
-                  style={{
-                    width: '16px',
-                    height: '16px',
-                    marginRight: '12px',
-                    accentColor: '#10b981',
-                  }}
-                />
-                <span style={{ fontSize: '13px' }}>{Config.name} features</span>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: '12px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={settings.onlineFeaturesQcPhotos}
-                  onChange={() =>
-                    setSettings({
-                      ...settings,
-                      onlineFeaturesQcPhotos: !settings.onlineFeaturesQcPhotos,
-                    })
-                  }
-                  style={{
-                    width: '16px',
-                    height: '16px',
-                    marginRight: '12px',
-                    accentColor: '#10b981',
-                  }}
-                />
-                <span style={{ fontSize: '13px' }}>QC Photos features</span>
-              </div>
-
-              <div
-                style={{
-                  padding: '10px',
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                  border: '1px solid rgba(59, 130, 246, 0.2)',
-                  borderRadius: '6px',
-                  fontSize: '11px',
-                  lineHeight: '1.4',
-                  color: 'rgba(147, 197, 253, 0.9)',
-                }}
-              >
-                <p style={{ margin: '0 0 6px 0' }}>
-                  Online features connect to external services. By using them
-                  you agree to our{' '}
-                  <a
-                    href={Config.legal.main.tos}
-                    target="_blank"
-                    rel="noreferrer noopener nofollow"
-                    style={{ color: '#93c5fd', textDecoration: 'underline' }}
-                  >
-                    terms
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href={Config.legal.main.privacy}
-                    target="_blank"
-                    rel="noreferrer noopener nofollow"
-                    style={{ color: '#93c5fd', textDecoration: 'underline' }}
-                  >
-                    privacy policy
-                  </a>
-                  .
-                </p>
-                <p style={{ margin: '0' }}>
-                  QC Photos has separate{' '}
-                  <a
-                    href={Config.legal.qc.tos}
-                    target="_blank"
-                    rel="noreferrer noopener nofollow"
-                    style={{ color: '#93c5fd', textDecoration: 'underline' }}
-                  >
-                    terms
-                  </a>{' '}
-                  and{' '}
-                  <a
-                    href={Config.legal.qc.privacy}
-                    target="_blank"
-                    rel="noreferrer noopener nofollow"
-                    style={{ color: '#93c5fd', textDecoration: 'underline' }}
-                  >
-                    privacy policy
-                  </a>
-                  .
-                </p>
-              </div>
+                Find the best agent for you →
+              </a>
             </div>
           </div>
-        </div>
+        </GlassCard>
 
-        {/* Display Settings */}
-        <div
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '12px',
-            padding: '20px',
-            marginBottom: '20px',
-          }}
-        >
-          <h2
-            style={{
-              margin: '0 0 16px 0',
-              fontSize: '16px',
-              fontWeight: '600',
-              color: 'rgba(255, 255, 255, 0.9)',
-            }}
-          >
-            Display
-          </h2>
-
-          {/* Logo Settings */}
+        <GlassCard title="Settings" delay="100ms" badge="Scope">
           <div
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '8px',
-              padding: '16px',
-              marginBottom: '16px',
-            }}
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
-            <h4
-              style={{
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              Logos
-            </h4>
+            <HiddenToggle
+              label="Toggle all links conversion"
+              checked={!toggleAllAction}
+              onChange={() =>
+                toggleAllAction
+                  ? setSettings({
+                      ...settings,
+                      taobaoLink: true,
+                      weidianLink: true,
+                      s1688Link: true,
+                      tmallLink: true,
+                      agentLink: true,
+                      thirdPartyLink: true,
+                    })
+                  : setSettings({
+                      ...settings,
+                      taobaoLink: false,
+                      weidianLink: false,
+                      s1688Link: false,
+                      tmallLink: false,
+                      agentLink: false,
+                      thirdPartyLink: false,
+                    })
+              }
+            />
 
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '8px',
+                height: "1px",
+                backgroundColor: "rgba(255, 255, 255, 0.06)",
+                margin: "4px 0",
               }}
-            >
-              <input
-                type="checkbox"
-                checked={settings.logoAgent}
-                onChange={() =>
-                  setSettings({
-                    ...settings,
-                    logoAgent: !settings.logoAgent,
-                  })
-                }
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  marginRight: '12px',
-                  accentColor: '#10b981',
-                }}
-              />
-              <span style={{ fontSize: '13px' }}>Show agent logos</span>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <input
-                type="checkbox"
-                checked={settings.logoPlatform}
-                onChange={() =>
-                  setSettings({
-                    ...settings,
-                    logoPlatform: !settings.logoPlatform,
-                  })
-                }
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  marginRight: '12px',
-                  accentColor: '#10b981',
-                }}
-              />
-              <span style={{ fontSize: '13px' }}>Show platform logos</span>
-            </div>
-          </div>
-
-          {/* Content Settings */}
-          <div
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
-              borderRadius: '8px',
-              padding: '16px',
-            }}
-          >
-            <h4
-              style={{
-                fontSize: '13px',
-                fontWeight: '500',
-                margin: '0 0 12px 0',
-                color: 'rgba(255, 255, 255, 0.7)',
-              }}
-            >
-              Content Elements
-            </h4>
+            />
 
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '8px',
-                marginBottom: '12px',
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "12px 16px",
               }}
             >
               {[
-                { key: 'showThumbnail', label: 'Thumbnail' },
-                { key: 'showPrice', label: 'Price' },
-                { key: 'showAmountSold', label: 'Sales (30d)' },
-                { key: 'showPos', label: 'Ranking (30d)' },
-                { key: 'showTitle', label: 'Title' },
+                { key: "taobaoLink", label: "Taobao Links" },
+                { key: "weidianLink", label: "Weidian Links" },
+                { key: "s1688Link", label: "1688 Links" },
+                { key: "tmallLink", label: "Tmall Links" },
+                { key: "agentLink", label: "Agent Links" },
+                { key: "thirdPartyLink", label: "Third Party Links" },
               ].map(({ key, label }) => (
-                <div
+                <label
                   key={key}
-                  style={{ display: 'flex', alignItems: 'center' }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    cursor: "pointer",
+                  }}
                 >
                   <input
                     type="checkbox"
@@ -821,51 +361,378 @@ const Popup = () => {
                       })
                     }
                     style={{
-                      width: '14px',
-                      height: '14px',
-                      marginRight: '8px',
-                      accentColor: '#10b981',
+                      accentColor: "#10b981",
+                      width: "14px",
+                      height: "14px",
+                      cursor: "pointer",
                     }}
                   />
-                  <span style={{ fontSize: '12px' }}>{label}</span>
-                </div>
+                  <span
+                    style={{ fontSize: "13px", color: "rgba(255,255,255,0.8)" }}
+                  >
+                    {label}
+                  </span>
+                </label>
               ))}
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard
+          title="Toolbar Configuration"
+          delay="150ms"
+          badge="Requires Reload"
+        >
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <HiddenToggle
+              label="Show toolbar"
+              description="Floating toolbar with all your shopping agents"
+              checked={settings.showToolbar}
+              onChange={() =>
+                setSettings({ ...settings, showToolbar: !settings.showToolbar })
+              }
+            />
+
+            <HiddenToggle
+              label="Sticky toolbar position"
+              checked={settings.stickyToolbar}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  stickyToolbar: !settings.stickyToolbar,
+                })
+              }
+            />
+
+            {settings.showToolbar && (
+              <>
+                <div
+                  style={{
+                    height: "1px",
+                    backgroundColor: "rgba(255, 255, 255, 0.06)",
+                    margin: "4px 0",
+                  }}
+                />
+                <div
+                  style={{
+                    fontSize: "12px",
+                    color: "rgba(255, 255, 255, 0.4)",
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.03em",
+                  }}
+                >
+                  Agents in toolbar:
+                </div>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "6px",
+                  }}
+                >
+                  {sortedAgents.map((agent) => {
+                    const checked = settings.agentsInToolbar.includes(agent);
+                    const disabled = settings.myAgent === agent;
+                    function swap() {
+                      const newSet = new Set(settings.agentsInToolbar);
+                      if (checked) {
+                        newSet.delete(agent);
+                      } else {
+                        newSet.add(agent);
+                      }
+                      setSettings({
+                        ...settings,
+                        agentsInToolbar: Array.from(newSet),
+                      });
+                    }
+                    return (
+                      // biome-ignore lint: No need to have a keyboard action for this
+                      <div
+                        key={`toolbar-includes-${agent}`}
+                        onClick={() => !disabled && swap()}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          padding: "8px 10px",
+                          backgroundColor: checked
+                            ? "rgba(16, 185, 129, 0.06)"
+                            : "rgba(255, 255, 255, 0.01)",
+                          border: `0.5px solid ${
+                            checked
+                              ? "rgba(16, 185, 129, 0.25)"
+                              : "rgba(255, 255, 255, 0.06)"
+                          }`,
+                          borderRadius: "8px",
+                          opacity: disabled ? 0.4 : 1,
+                          cursor: disabled ? "not-allowed" : "pointer",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          disabled={disabled}
+                          readOnly
+                          style={{
+                            width: "12px",
+                            height: "12px",
+                            accentColor: "#10b981",
+                            pointerEvents: "none",
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: "500",
+                            color: checked
+                              ? "#a7f3d0"
+                              : "rgba(255,255,255,0.7)",
+                          }}
+                        >
+                          {agent[0].toUpperCase() + agent.substring(1)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {settings.agentsInToolbar.length > 6 && (
+                  <div
+                    style={{
+                      padding: "8px 12px",
+                      backgroundColor: "rgba(239, 68, 68, 0.08)",
+                      border: "0.5px solid rgba(239, 68, 68, 0.2)",
+                      borderRadius: "8px",
+                      fontSize: "11px",
+                      color: "#f87171",
+                    }}
+                  >
+                    ⚠️ Selecting too many agents might cause visibility issues
+                    on smaller screens.
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </GlassCard>
+
+        <GlassCard title="Online Operational Features" delay="200ms">
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <HiddenToggle
+              label="Enable QC Photos"
+              description="Fetch quality check data dynamically"
+              checked={settings.onlineFeaturesQcPhotos}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  onlineFeaturesQcPhotos: !settings.onlineFeaturesQcPhotos,
+                })
+              }
+            />
+            <HiddenToggle
+              label="Online Features"
+              checked={settings.onlineFeatures}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  onlineFeatures: !settings.onlineFeatures,
+                })
+              }
+            />
+
+            <div
+              style={{
+                padding: "10px 12px",
+                backgroundColor: "rgba(59, 130, 246, 0.06)",
+                border: "0.5px solid rgba(59, 130, 246, 0.15)",
+                borderRadius: "8px",
+                fontSize: "11px",
+                lineHeight: "1.4",
+                color: "rgba(147, 197, 253, 0.85)",
+              }}
+            >
+              <p style={{ margin: "0 0 4px 0" }}>
+                Online and QC features are powered by {Config.name} and
+                partners. By enabling you agree to the{" "}
+                <a
+                  href={Config.legal.main.tos}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "#60a5fa", textDecoration: "none" }}
+                >
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href={Config.legal.main.privacy}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: "#60a5fa", textDecoration: "none" }}
+                >
+                  Privacy Policy
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+        </GlassCard>
+
+        <GlassCard title="Display" delay="250ms">
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+          >
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "4px" }}
+            >
+              <div
+                style={{
+                  fontSize: "11px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  color: "rgba(255,255,255,0.4)",
+                  fontWeight: 600,
+                  paddingBottom: "2px",
+                }}
+              >
+                Logos Controls
+              </div>
+              <HiddenToggle
+                label="Show agent logo"
+                checked={settings.logoAgent}
+                onChange={() =>
+                  setSettings({ ...settings, logoAgent: !settings.logoAgent })
+                }
+              />
+              <HiddenToggle
+                label="Show platform logo"
+                checked={settings.logoPlatform}
+                onChange={() =>
+                  setSettings({
+                    ...settings,
+                    logoPlatform: !settings.logoPlatform,
+                  })
+                }
+              />
             </div>
 
             <div
               style={{
-                height: '1px',
-                backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                margin: '12px 0',
+                height: "1px",
+                backgroundColor: "rgba(255, 255, 255, 0.06)",
               }}
-            ></div>
+            />
+
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "6px" }}
+            >
+              <div
+                style={{
+                  fontSize: "11px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                  color: "rgba(255,255,255,0.4)",
+                  fontWeight: 600,
+                  paddingBottom: "4px",
+                }}
+              >
+                Content Elements
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "10px 14px",
+                }}
+              >
+                {[
+                  { key: "showThumbnail", label: "Show thumbnail" },
+                  { key: "showPrice", label: "Show price" },
+                  { key: "showAmountSold", label: "Show sales amount" },
+                  { key: "showPos", label: "Show position" },
+                  { key: "showTitle", label: "Show title" },
+                ].map(({ key, label }) => (
+                  <label
+                    key={key}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={settings[key as keyof Settings] as boolean}
+                      onChange={() =>
+                        setSettings({
+                          ...settings,
+                          [key]: !settings[key as keyof Settings],
+                        })
+                      }
+                      style={{
+                        accentColor: "#10b981",
+                        width: "14px",
+                        height: "14px",
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "rgba(255,255,255,0.75)",
+                      }}
+                    >
+                      {label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
 
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: '12px',
+                height: "1px",
+                backgroundColor: "rgba(255, 255, 255, 0.06)",
+              }}
+            />
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "4px 0",
               }}
             >
-              <div>
-                <span style={{ fontSize: '13px', fontWeight: '500' }}>
-                  Title Length
-                </span>
-                <p
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span
                   style={{
-                    fontSize: '11px',
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    margin: '2px 0 0 0',
+                    fontSize: "13px",
+                    fontWeight: "500",
+                    color: "rgba(255,255,255,0.95)",
                   }}
                 >
-                  0 = no limit
-                </p>
+                  Max title length
+                </span>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    color: "rgba(255, 255, 255, 0.4)",
+                    marginTop: "1px",
+                  }}
+                >
+                  Set to 0 for unlimited length
+                </span>
               </div>
               <input
                 type="number"
                 min="0"
-                value={parseInt(settings.displayTitleLength, 10)}
+                value={parseInt(settings.displayTitleLength, 10) || 0}
                 onChange={(e) =>
                   setSettings({
                     ...settings,
@@ -873,70 +740,38 @@ const Popup = () => {
                   })
                 }
                 style={{
-                  width: '70px',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  color: 'white',
-                  textAlign: 'center',
-                  borderRadius: '6px',
-                  padding: '6px 8px',
-                  fontSize: '13px',
-                  outline: 'none',
+                  width: "64px",
+                  backgroundColor: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid rgba(255, 255, 255, 0.08)",
+                  color: "white",
+                  textAlign: "center",
+                  borderRadius: "6px",
+                  padding: "6px 8px",
+                  fontSize: "13px",
+                  outline: "none",
                 }}
               />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <input
-                type="checkbox"
-                checked={settings.displayOverwriteTitle}
-                onChange={() =>
-                  setSettings({
-                    ...settings,
-                    displayOverwriteTitle: !settings.displayOverwriteTitle,
-                  })
-                }
-                style={{
-                  width: '16px',
-                  height: '16px',
-                  marginRight: '12px',
-                  accentColor: '#10b981',
-                }}
-              />
-              <span style={{ fontSize: '13px' }}>Override link titles</span>
-            </div>
+            <HiddenToggle
+              label="Overwrite title"
+              checked={settings.displayOverwriteTitle}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  displayOverwriteTitle: !settings.displayOverwriteTitle,
+                })
+              }
+            />
           </div>
-        </div>
+        </GlassCard>
 
-        {/* Affiliate Program */}
-        <div
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '12px',
-            padding: '20px',
-          }}
-        >
-          <h2
-            style={{
-              margin: '0 0 16px 0',
-              fontSize: '16px',
-              fontWeight: '600',
-              color: 'rgba(255, 255, 255, 0.9)',
-            }}
-          >
-            Support
-          </h2>
-
+        <GlassCard title="Support" delay="300ms">
           <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '12px',
-            }}
+            style={{ display: "flex", flexDirection: "column", gap: "12px" }}
           >
-            <input
-              type="checkbox"
+            <HiddenToggle
+              label="Enable affiliate program"
               checked={settings.affiliateProgram}
               onChange={() =>
                 setSettings({
@@ -944,41 +779,26 @@ const Popup = () => {
                   affiliateProgram: !settings.affiliateProgram,
                 })
               }
-              style={{
-                width: '16px',
-                height: '16px',
-                marginRight: '12px',
-                accentColor: '#10b981',
-              }}
             />
-            <span style={{ fontSize: '14px', fontWeight: '500' }}>
-              Enable affiliate program
-            </span>
-          </div>
 
-          <div
-            style={{
-              padding: '12px',
-              backgroundColor: 'rgba(16, 185, 129, 0.1)',
-              border: '1px solid rgba(16, 185, 129, 0.2)',
-              borderRadius: '8px',
-            }}
-          >
-            <p
+            <div
               style={{
-                fontSize: '12px',
-                lineHeight: '1.4',
-                color: 'rgba(52, 211, 153, 0.9)',
-                margin: '0',
+                padding: "12px",
+                backgroundColor: "rgba(16, 185, 129, 0.05)",
+                border: "0.5px solid rgba(16, 185, 129, 0.15)",
+                borderRadius: "8px",
+                fontSize: "12px",
+                lineHeight: "1.4",
+                color: "rgba(52, 211, 153, 0.9)",
               }}
             >
               💚 <strong>Support free software:</strong> Affiliate links are
               automatically added to agent URLs at no cost to you. This supports
               transparency, freedom of choice, and competition between agents.
               You can opt out anytime.
-            </p>
+            </div>
           </div>
-        </div>
+        </GlassCard>
       </div>
     </div>
   );

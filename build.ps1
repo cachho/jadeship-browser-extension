@@ -20,13 +20,6 @@ Copy-Item "manifest.json" "temp-manifest.json"
 Copy-Item "manifest-v2.json" "temp-manifest-v2.json"
 
 #######################################
-# Modify Manifest
-#######################################
-# Replace all 'build/' with './' in both manifest files
-npx json -I -f temp-manifest-firefox.json -e 'this.background.scripts=["./js/background.js"]; delete this.service_worker;'
-npx json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
-
-#######################################
 # Create a modifiable manifest copy
 #######################################
 Copy-Item "temp-manifest.json" "temp-manifest-chromium.json"
@@ -35,13 +28,15 @@ Copy-Item "temp-manifest-v2.json" "temp-manifest-firefox.json"
 #######################################
 # For Chromium exclusively
 #######################################
-npx json -I -f temp-manifest-chromium.json -e 'delete this.browser_specific_settings;'
+npx json -I -f temp-manifest-chromium.json -e "delete this.browser_specific_settings;"
 
 #######################################
 # For Firefox exclusively
 #######################################
-npx json -I -f temp-manifest-firefox.json -e 'this.background.scripts = ["./js/background.js"]; delete this.service_worker;'
-npx json -I -f temp-manifest-firefox.json -e 'delete this.background.service_worker;'
+$ffManifest = Get-Content "temp-manifest-firefox.json" -Raw | ConvertFrom-Json
+$ffManifest.background.scripts = @("./js/background.js")
+$ffManifest.PSObject.Properties.Remove('service_worker')
+$ffManifest | ConvertTo-Json -Depth 10 | Set-Content "temp-manifest-firefox.json"
 
 #######################################
 # Build package .zip

@@ -9,7 +9,7 @@ export function addImageElement(
   const imageContainer = document.createElement("a");
   imageContainer.href = src;
   imageContainer.target = "_blank";
-  imageContainer.rel = "norefferer noopener";
+  imageContainer.rel = "noopener noreferrer";
 
   const imageElement = document.createElement("img");
   imageElement.src = platform === "taobao" ? `${src}_16x16.jpg` : src;

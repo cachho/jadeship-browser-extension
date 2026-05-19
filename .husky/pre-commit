@@ -8,11 +8,13 @@ git update-index --again
 # Always run type-check to prevent commits while TypeScript errors exist
 npm run check-types
 
-# Type-check staged test files with Bun typings enabled
+# Type-check staged and unstaged test files with Bun typings enabled
 staged_test_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^src/__tests__/.*\.(ts|tsx)$' || true)
+unstaged_test_files=$(git diff --name-only --diff-filter=ACMR | grep -E '^src/__tests__/.*\.(ts|tsx)$' || true)
+test_files=$(printf "%s\n%s\n" "$staged_test_files" "$unstaged_test_files" | sed '/^$/d' | sort -u)
 
-if [ -n "$staged_test_files" ]; then
-  echo "$staged_test_files" | xargs npm exec -- tsc --noEmit --pretty \
+if [ -n "$test_files" ]; then
+  echo "$test_files" | xargs npm exec -- tsc --noEmit --pretty \
     --target es6 \
     --lib dom,dom.iterable,esnext \
     --allowJs true \

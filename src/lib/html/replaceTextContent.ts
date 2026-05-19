@@ -31,6 +31,7 @@ export function replaceTextContent(
   details: ApiResponse<Details> | null,
   selectedAgent: AgentWithRaw,
   platform: Platform,
+  forceReplace = false,
 ): string {
   // If the overwrite title extra option is enabled, replace with the title from details
   if (settings.displayOverwriteTitle && details?.data) {
@@ -43,7 +44,7 @@ export function replaceTextContent(
       : details.data.item.goodsTitle;
   }
   // Regular handling: replace with agent link
-  if (shouldReplaceLinkText(link.textContent ?? "", platform)) {
+  if (forceReplace || shouldReplaceLinkText(link.textContent ?? "", platform)) {
     // For regular agents, use the agent name + link, if raw is selected use the target platform instead.
     return `${selectedAgent !== "raw" ? selectedAgent : platform} link`;
   }

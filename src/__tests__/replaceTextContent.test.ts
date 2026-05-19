@@ -26,4 +26,14 @@ describe("replaceTextContent", () => {
       replaceTextContent(defaultSettings, link, null, "cnfans", "taobao"),
     ).toBe("cnfans link");
   });
+
+  test("can force replacement for descriptive Reddit link labels", () => {
+    const link = {
+      textContent: "seller album",
+    } as HTMLAnchorElement;
+
+    expect(
+      replaceTextContent(defaultSettings, link, null, "cnfans", "taobao", true),
+    ).toBe("cnfans link");
+  });
 });

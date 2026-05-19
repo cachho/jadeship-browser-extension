@@ -28,6 +28,7 @@ async function main(settings: Settings) {
   const selectedAgent: AgentWithRaw = settings.myAgent;
 
   const currentUrl = new URL(window.location.href);
+  const shouldForceReplaceLinkText = currentUrl.hostname === "www.reddit.com";
 
   // Excluded pages
   if (
@@ -140,6 +141,7 @@ async function main(settings: Settings) {
             details,
             selectedAgent,
             link.marketplace,
+            shouldForceReplaceLinkText,
           );
         } catch (detailsError) {
           console.error(detailsError);
@@ -149,9 +151,11 @@ async function main(settings: Settings) {
             null,
             selectedAgent,
             link.marketplace,
+            shouldForceReplaceLinkText,
           );
         }
       } else if (
+        shouldForceReplaceLinkText ||
         shouldReplaceLinkText(elem.textContent ?? "", link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;

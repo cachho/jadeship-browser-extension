@@ -12,7 +12,7 @@ export type RateLimit = {
 export function getRateLimitFromHeaders(headers: Headers): RateLimit | null {
   const remainingHeader = headers.get(RateLimitHeadersEnum.Remaining);
   const limitHeader = headers.get(RateLimitHeadersEnum.Limit);
-  if (!remainingHeader || !limitHeader) {
+  if (remainingHeader === null || limitHeader === null) {
     return null;
   }
   const remaining = Number.parseInt(remainingHeader, 10);

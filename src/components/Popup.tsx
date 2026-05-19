@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 import type React from "react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Config } from "../Config";
 import { agents, agentsWithRaw } from "../lib/cn-links";
@@ -146,25 +146,29 @@ const Popup = () => {
     }));
   }
 
+  const setRateLimitFromStorageValue = useCallback((rateLimitData: unknown) => {
+    const storedRateLimit = rateLimitData as
+      | { remaining?: number; limit?: number }
+      | undefined;
+    if (
+      typeof storedRateLimit?.remaining === "number" &&
+      typeof storedRateLimit?.limit === "number"
+    ) {
+      setRateLimit({
+        remaining: storedRateLimit.remaining,
+        limit: storedRateLimit.limit,
+      });
+    } else {
+      setRateLimit(null);
+    }
+  }, []);
+
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
       storage.local.get([...settingNames, RATE_LIMIT_STORAGE_KEY], (data) => {
         const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
           data;
-        const storedRateLimit = rateLimitData as
-          | { remaining?: number; limit?: number }
-          | undefined;
-        if (
-          typeof storedRateLimit?.remaining === "number" &&
-          typeof storedRateLimit?.limit === "number"
-        ) {
-          setRateLimit({
-            remaining: storedRateLimit.remaining,
-            limit: storedRateLimit.limit,
-          });
-        } else {
-          setRateLimit(null);
-        }
+        setRateLimitFromStorageValue(rateLimitData);
         setValues(storedSettings as Partial<Settings>);
       });
     } else if (storage && !isChromeStorage(storage)) {
@@ -173,20 +177,7 @@ const Popup = () => {
         .then((data) => {
           const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
             data;
-          const storedRateLimit = rateLimitData as
-            | { remaining?: number; limit?: number }
-            | undefined;
-          if (
-            typeof storedRateLimit?.remaining === "number" &&
-            typeof storedRateLimit?.limit === "number"
-          ) {
-            setRateLimit({
-              remaining: storedRateLimit.remaining,
-              limit: storedRateLimit.limit,
-            });
-          } else {
-            setRateLimit(null);
-          }
+          setRateLimitFromStorageValue(rateLimitData);
           setValues(storedSettings as Partial<Settings>);
         });
     }
@@ -205,6 +196,30 @@ const Popup = () => {
       saveToLocalStorage();
     }
   }, [settings]);
+
+  useEffect(() => {
+    if (!storage?.onChanged) {
+      return;
+    }
+    const listener = (
+      changes: Record<
+        string,
+        chrome.storage.StorageChange | browser.storage.StorageChange
+      >,
+      areaName: string,
+    ) => {
+      if (areaName !== "local") {
+        return;
+      }
+      const rateLimitChange = changes[RATE_LIMIT_STORAGE_KEY];
+      if (!rateLimitChange) {
+        return;
+      }
+      setRateLimitFromStorageValue(rateLimitChange.newValue);
+    };
+    storage.onChanged.addListener(listener as never);
+    return () => storage.onChanged.removeListener(listener as never);
+  }, [storage, setRateLimitFromStorageValue]);
 
   const toggleAllAction =
     !settings.taobaoLink ||
@@ -276,7 +291,7 @@ const Popup = () => {
 
       <div className="content" style={{ padding: "0 20px 20px 20px" }}>
         <GlassCard title="API Rate Limit" delay="25ms" badge="Daily">
-          {rateLimit ? (
+          {rateLimit !== null ? (
             <div
               style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >

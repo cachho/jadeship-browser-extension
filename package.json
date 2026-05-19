@@ -37,6 +37,6 @@
     "json": "^11.0.0",
     "prettier": "^2.7.1",
     "ts-loader": "^9.4.2",
-    "typescript": "^4.9.4"
+    "typescript": "^5.9.3"
   }
 }

@@ -3,10 +3,10 @@
     "build": "sh build.sh",
     "build:win": "powershell ./build.ps1",
     "check-types": "tsc --noEmit --pretty",
-    "dev": "webpack --config webpack.dev.js",
+    "dev": "bun run build.ts --mode=development",
     "prepare": "husky install",
     "test": "bun test",
-    "watch": "webpack -w --config webpack.dev.js",
+    "watch": "bun run build.ts --mode=development --watch",
     "lint": "biome lint",
     "lint:safe": "biome lint --write",
     "lint:unsafe": "biome lint --write --unsafe"

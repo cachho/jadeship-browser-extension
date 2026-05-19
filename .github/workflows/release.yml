@@ -15,16 +15,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Cache node modules
         id: cache-node-modules
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/bun.lock', '**/package.json') }}
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install
+        run: bun install --frozen-lockfile
 
       - name: Update manifest versions
         id: update_manifests
@@ -53,10 +58,10 @@ jobs:
         run: ./build.sh
 
       - name: Inspect build
-        run: ./inspect-build.sh
+        run: sh ./inspect-build.sh
 
       - name: Post Build
-        run: ./post-build.sh
+        run: sh ./post-build.sh
 
       - name: Upload Chromium zip as artifact
         uses: actions/upload-artifact@v4

@@ -69,9 +69,9 @@ Virtually all dependencies are for the developer experience and code maintainabi
 
 ### Testing in the browser
 
-For testing on chromium and firefox you need to compile the typescript files. For this purpose you should have the typescript compiler installed globally (`bun add -g typescript`).
+For testing on chromium and firefox you need to compile the typescript files.
 
-Webpack allows for hot reloads by running `npm run watch`.
+The extension is built with Bun. Use `npm run watch` for watch mode.
 
 If you change anything, you always have to reload the extension in the browser. Because chrome can load unpacked files, it's quicker and recommended for developing, however both browsers must remain compatible.
 

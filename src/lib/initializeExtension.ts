@@ -5,6 +5,20 @@ import { defaultSettings } from "../models/Settings";
 import { fetchData } from "./api/fetchData";
 import { isChromeStorage } from "./storage";
 
+export function isStoredValueEqual(
+  value: Settings[keyof Settings] | undefined,
+  defaultValue: Settings[keyof Settings],
+) {
+  if (Array.isArray(value) && Array.isArray(defaultValue)) {
+    return (
+      value.length === defaultValue.length &&
+      value.every((item, index) => item === defaultValue[index])
+    );
+  }
+
+  return value === defaultValue;
+}
+
 /**
  * This script initializes local storage with default values and from the api.
  * @returns void
@@ -36,7 +50,7 @@ export async function initializeExtension(
             );
             storage.local.set({ [key]: defaultVal });
             storage.local.get(param, (r) => {
-              if (r[key] !== defaultVal) {
+              if (!isStoredValueEqual(r[key], defaultVal)) {
                 console.error(`Setting unsuccessful: ${r[key]} ${defaultVal}`);
               }
             });

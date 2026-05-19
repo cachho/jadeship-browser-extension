@@ -1,5 +1,11 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# Disable concurent to run `check-types` after ESLint in lint-staged
-npx lint-staged --concurrent false
+# Run Biome on staged files only
+npm exec -- biome check --write --staged --no-errors-on-unmatched
+git update-index --again
+
+# Run type-check only if TypeScript files are staged
+if git diff --cached --name-only --diff-filter=ACMR | grep -E '\.tsx?$' >/dev/null; then
+  npm run check-types
+fi

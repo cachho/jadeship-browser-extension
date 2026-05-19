@@ -9,7 +9,7 @@ export const Config = {
     details: "https://www.jadeship.com/api/quota-limited/extension/v2/details",
     defaults: {
       agent:
-        "https://www.jadeship.com/api/quota-limited/extension/v2/default/agent",
+        "https://www.jadeship.com/api/quota-limited/extension/v2/default/agents",
     },
   },
   social: {

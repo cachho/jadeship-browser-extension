@@ -1,6 +1,10 @@
 import { describe, expect, test } from "bun:test";
 
-import { isStoredValueEqual } from "../lib/initializeExtension";
+import { Config } from "../Config";
+import {
+  getDefaultAgentSettings,
+  isStoredValueEqual,
+} from "../lib/initializeExtension";
 import { defaultSettings } from "../models/Settings";
 
 describe("isStoredValueEqual", () => {
@@ -26,5 +30,53 @@ describe("isStoredValueEqual", () => {
         defaultSettings.agentsInToolbar,
       ),
     ).toBe(false);
+  });
+});
+
+describe("getDefaultAgentSettings", () => {
+  test("uses the api order for my agent and toolbar defaults", () => {
+    expect(
+      getDefaultAgentSettings([
+        "lovegobuy",
+        "joyagoo",
+        "kakobuy",
+        "hipobuy",
+        "acbuy",
+        "mulebuy",
+        "ponybuy",
+      ]),
+    ).toEqual({
+      myAgent: "lovegobuy",
+      agentsInToolbar: [
+        "joyagoo",
+        "kakobuy",
+        "hipobuy",
+        "acbuy",
+        "mulebuy",
+      ].slice(0, Config.defaultToolbarAgentsCount),
+    });
+  });
+
+  test("filters unknown and duplicate agents before applying defaults", () => {
+    expect(
+      getDefaultAgentSettings([
+        "not-an-agent",
+        "joyagoo",
+        "joyagoo",
+        "kakobuy",
+        "unknown",
+        "hipobuy",
+      ]),
+    ).toEqual({
+      myAgent: "joyagoo",
+      agentsInToolbar: ["kakobuy", "hipobuy"],
+    });
+  });
+
+  test("falls back to local defaults when api data is missing", () => {
+    expect(getDefaultAgentSettings()).toEqual({
+      myAgent: defaultSettings.myAgent,
+      agentsInToolbar: defaultSettings.agentsInToolbar,
+    });
   });
 });

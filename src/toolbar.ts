@@ -300,6 +300,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               "a",
               {
                 href: statsUrl,
+                id: `ra-ext-stats-link-${cnLink?.marketplace}-${cnLink?.id}`,
                 target: "_blank",
                 rel: "noopener noreferrer",
                 style: statsButtonStyle,

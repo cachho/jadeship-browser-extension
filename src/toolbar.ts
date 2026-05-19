@@ -262,7 +262,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
       ? "translateX(-50%) translateY(-100px) scale(0.88)"
       : "translateX(-50%) translateY(0) scale(1)",
     opacity: isCollapsed ? 0 : 1,
-    filter: isCollapsed ? "blur(8px)" : "blur(0px)",
+    filter: isCollapsed ? "blur(8px)" : "none",
     pointerEvents: isCollapsed ? "none" : "auto",
   };
 

@@ -36,10 +36,11 @@ describe("validateRegisterPage", () => {
       kakobuy: "https://www.kakobuy.com/register",
       acbuy: "https://acbuy.com/login?loginStatus=register",
       itaobuy: "https://www.itaobuy.com/register",
-
-      // usfans: 'https://usfans.com/register',
-      // cnshopper: 'https://cnshopper.com/login?type=register',
-      // hipobuy: 'https://hipobuy.com/register',
+      usfans: "https://usfans.com/register",
+      cnshopper: "https://cnshopper.com/login?type=register",
+      hipobuy: "https://hipobuy.com/register",
+      gtbuy: "https://www.gtbuy.com/register",
+      fishgoo: "https://www.fishgoo.com/#/login/login?redirect=/homePage",
     };
 
     agents.forEach((agent) => {

@@ -1,3 +1,4 @@
+import { saveRateLimitToStorage } from "../rateLimit";
 import { getStorage } from "../storage";
 
 const ONE_DAY_MS = 86_400_000;
@@ -47,6 +48,7 @@ export async function cachedFetch(
   }
 
   const response = await fetch(url, init);
+  await saveRateLimitToStorage(response.headers);
 
   if (response.ok) {
     const data = await response.json();

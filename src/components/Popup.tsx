@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { Config } from "../Config";
 import { agents, agentsWithRaw } from "../lib/cn-links";
+import { RATE_LIMIT_STORAGE_KEY } from "../lib/rateLimit";
 import { getStorage, isChromeStorage } from "../lib/storage";
 import type { AgentWithRaw, Settings } from "../models";
 import { defaultSettings, settingNames } from "../models/Settings";
@@ -130,6 +131,10 @@ const HiddenToggle = ({
 
 const Popup = () => {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
+  const [rateLimit, setRateLimit] = useState<{
+    remaining: number;
+    limit: number;
+  } | null>(null);
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
 
@@ -143,13 +148,47 @@ const Popup = () => {
 
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
-      storage.local.get(settingNames, (data) => {
-        setValues(data as Partial<Settings>);
+      storage.local.get([...settingNames, RATE_LIMIT_STORAGE_KEY], (data) => {
+        const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
+          data;
+        const storedRateLimit = rateLimitData as
+          | { remaining?: number; limit?: number }
+          | undefined;
+        if (
+          typeof storedRateLimit?.remaining === "number" &&
+          typeof storedRateLimit?.limit === "number"
+        ) {
+          setRateLimit({
+            remaining: storedRateLimit.remaining,
+            limit: storedRateLimit.limit,
+          });
+        } else {
+          setRateLimit(null);
+        }
+        setValues(storedSettings as Partial<Settings>);
       });
     } else if (storage && !isChromeStorage(storage)) {
-      storage.local.get(settingNames).then((data) => {
-        setValues(data as Partial<Settings>);
-      });
+      storage.local
+        .get([...settingNames, RATE_LIMIT_STORAGE_KEY])
+        .then((data) => {
+          const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
+            data;
+          const storedRateLimit = rateLimitData as
+            | { remaining?: number; limit?: number }
+            | undefined;
+          if (
+            typeof storedRateLimit?.remaining === "number" &&
+            typeof storedRateLimit?.limit === "number"
+          ) {
+            setRateLimit({
+              remaining: storedRateLimit.remaining,
+              limit: storedRateLimit.limit,
+            });
+          } else {
+            setRateLimit(null);
+          }
+          setValues(storedSettings as Partial<Settings>);
+        });
     }
   }
 
@@ -174,6 +213,9 @@ const Popup = () => {
     !settings.tmallLink ||
     !settings.agentLink ||
     !settings.thirdPartyLink;
+  const rateLimitPercent = rateLimit
+    ? Math.max(0, Math.min(100, (rateLimit.remaining / rateLimit.limit) * 100))
+    : 0;
 
   const handleChangeMyAgent = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newMyAgent = e.target.value as AgentWithRaw;
@@ -233,6 +275,52 @@ const Popup = () => {
       </header>
 
       <div className="content" style={{ padding: "0 20px 20px 20px" }}>
+        <GlassCard title="API Rate Limit" delay="25ms" badge="Daily">
+          {rateLimit ? (
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.8)",
+                }}
+              >
+                <span>Remaining: {rateLimit.remaining}</span>
+                <span>Limit: {rateLimit.limit}</span>
+              </div>
+              <div
+                style={{
+                  width: "100%",
+                  height: "10px",
+                  borderRadius: "999px",
+                  backgroundColor: "rgba(255,255,255,0.08)",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    width: `${rateLimitPercent}%`,
+                    height: "100%",
+                    borderRadius: "999px",
+                    background:
+                      "linear-gradient(90deg, #34d399 0%, #10b981 60%, #059669 100%)",
+                    transition: "width 220ms ease",
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div
+              style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.5)" }}
+            >
+              Rate limit data will appear after the next API request.
+            </div>
+          )}
+        </GlassCard>
+
         <GlassCard title="My Shopping Agent" delay="50ms">
           <div
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}

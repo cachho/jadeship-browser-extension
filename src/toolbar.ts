@@ -13,6 +13,7 @@ import {
 import { getImageAgent } from "./lib/html/getImageAgent";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
+import { getToolbarDisplayState } from "./lib/toolbar/getToolbarDisplayState";
 import type { Agent, CnLink, Settings } from "./models";
 
 const FLUID_SPRING = "cubic-bezier(0.25, 1, 0.3, 1)";
@@ -120,6 +121,14 @@ const indicatorStyle: React.CSSProperties = {
   transition: `all 0.5s ${FLUID_SPRING}`,
 };
 
+const errorMessageStyle: React.CSSProperties = {
+  color: "rgba(255, 255, 255, 0.72)",
+  fontSize: "12px",
+  fontWeight: 500,
+  letterSpacing: "-0.01em",
+  whiteSpace: "nowrap",
+};
+
 type ToolbarRootProps = {
   settings: Settings;
   href: string;
@@ -131,6 +140,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [cnLink, setCnLink] = useState<CnLink | null>(null);
   const [qcUrl, setQcUrl] = useState<string | null>(null);
+  const [convertError, setConvertError] = useState<string | null>(null);
   const [convertedLinks, setConvertedLinks] = useState<
     Partial<Record<Agent, string>>
   >({});
@@ -186,7 +196,16 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
     let alive = true;
     getConvertDecrypt(href, settings.agentsInToolbar)
       .then((response) => {
-        if (!alive || !response) return;
+        if (!alive) return;
+        if (!response) {
+          setConvertError("Failed to fetch convert-decrypt.");
+          setConvertedLinks({});
+          setCnLink(null);
+          setQcUrl(null);
+          setIsCollapsed(true);
+          return;
+        }
+        setConvertError(null);
         setCnLink(response.cnLink);
         const next: Partial<Record<Agent, string>> = {};
         response.data.forEach(({ target, url }) => {
@@ -194,7 +213,14 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         });
         setConvertedLinks(next);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!alive) return;
+        setConvertError("Failed to fetch convert-decrypt.");
+        setConvertedLinks({});
+        setCnLink(null);
+        setQcUrl(null);
+        setIsCollapsed(true);
+      });
     return () => {
       alive = false;
     };
@@ -215,24 +241,31 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   }, [cnLink, settings.onlineFeaturesQcPhotos]);
 
   if (closed) return null;
+  const { isErrorState, isBodyHidden } = getToolbarDisplayState(
+    isCollapsed,
+    convertError
+  );
 
   const currentBodyStyle: React.CSSProperties = {
     ...bodyStyle,
-    transform: isCollapsed
+    height: isErrorState ? "44px" : bodyStyle.height,
+    transform: isBodyHidden
       ? "translateX(-50%) translateY(-100px) scale(0.88)"
+      : isErrorState
+        ? "translateX(-50%) translateY(0) scale(0.92)"
       : "translateX(-50%) translateY(0) scale(1)",
-    opacity: isCollapsed ? 0 : 1,
-    filter: isCollapsed ? "blur(8px)" : "blur(0px)",
-    pointerEvents: isCollapsed ? "none" : "auto",
+    opacity: isBodyHidden ? 0 : 1,
+    filter: isBodyHidden ? "blur(8px)" : "blur(0px)",
+    pointerEvents: isBodyHidden ? "none" : "auto",
   };
 
   const currentIndicatorStyle: React.CSSProperties = {
     ...indicatorStyle,
-    transform: isCollapsed
+    transform: isBodyHidden
       ? "translateX(-50%) translateY(0) scale(1)"
       : "translateX(-50%) translateY(-40px) scale(0.5)",
-    opacity: isCollapsed ? 1 : 0,
-    pointerEvents: isCollapsed ? "auto" : "none",
+    opacity: isBodyHidden ? 1 : 0,
+    pointerEvents: isBodyHidden ? "auto" : "none",
   };
 
   return React.createElement(
@@ -255,7 +288,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
       React.createElement(
         "div",
         { style: innerStyle },
-        qcUrl
+        !isErrorState && qcUrl
           ? React.createElement(
               "a",
               {
@@ -289,10 +322,11 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         React.createElement(
           "div",
           { style: { display: "flex", gap: "6px", alignItems: "center" } },
-          ...sortedAgents.map((agent) => {
+          ...(!isErrorState
+            ? sortedAgents.map((agent) => {
             const hrefValue = convertedLinks[agent];
             const isMine = agent === settings.myAgent;
-            const isReady = Boolean(true);
+            const isReady = Boolean(hrefValue);
 
             return React.createElement("a", {
               key: agent,
@@ -330,6 +364,13 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
             });
           })
+            : [
+                React.createElement(
+                  "div",
+                  { key: "convert-error", style: errorMessageStyle },
+                  convertError
+                ),
+              ])
         ),
 
         // Close System Utility

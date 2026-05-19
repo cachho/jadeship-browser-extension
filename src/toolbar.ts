@@ -14,7 +14,10 @@ import {
 import { getImageAgent } from "./lib/html/getImageAgent";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
-import { getToolbarDisplayState } from "./lib/toolbar/getToolbarDisplayState";
+import {
+	getConvertErrorMessage,
+	getToolbarDisplayState,
+} from "./lib/toolbar/getToolbarDisplayState";
 import type { Agent, CnLink, Settings } from "./models";
 
 const FLUID_SPRING = "cubic-bezier(0.25, 1, 0.3, 1)";
@@ -149,7 +152,10 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [cnLink, setCnLink] = useState<CnLink | null>(null);
 	const [qcUrl, setQcUrl] = useState<string | null>(null);
-	const [convertError, setConvertError] = useState<string | null>(null);
+	const [convertError, setConvertError] = useState<{
+		statusCode: number;
+		statusName: string;
+	} | null>(null);
 	const [convertedLinks, setConvertedLinks] = useState<
 		Partial<Record<Agent, string>>
 	>({});
@@ -187,9 +193,10 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 	};
 
 	const handleMouseLeave = () => {
+		const collapseDelay = convertError ? 1000 : 1500;
 		collapseTimeout.current = setTimeout(() => {
 			setIsCollapsed(true);
-		}, 1500);
+		}, collapseDelay);
 	};
 
 	const sortedAgents = useMemo(() => {
@@ -206,8 +213,8 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 		getConvertDecrypt(href, settings.agentsInToolbar)
 			.then((response) => {
 				if (!alive) return;
-				if (!response) {
-					setConvertError("Failed to fetch convert-decrypt.");
+				if ("error" in response) {
+					setConvertError(response.error);
 					setConvertedLinks({});
 					setCnLink(null);
 					setQcUrl(null);
@@ -224,7 +231,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 			})
 			.catch(() => {
 				if (!alive) return;
-				setConvertError("Failed to fetch convert-decrypt.");
+				setConvertError({ statusCode: 0, statusName: "Network Error" });
 				setConvertedLinks({});
 				setCnLink(null);
 				setQcUrl(null);
@@ -250,10 +257,8 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 	}, [cnLink, settings.onlineFeaturesQcPhotos]);
 
 	if (closed) return null;
-	const { isErrorState, isBodyHidden } = getToolbarDisplayState(
-		isCollapsed,
-		convertError,
-	);
+	const { isBodyHidden } = getToolbarDisplayState(isCollapsed);
+	const isErrorState = Boolean(convertError);
 	const statsUrl = getStatsUrl(cnLink);
 
 	const currentBodyStyle: React.CSSProperties = {
@@ -410,7 +415,12 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 								React.createElement(
 									"div",
 									{ key: "convert-error", style: errorMessageStyle },
-									convertError,
+									convertError
+										? getConvertErrorMessage(
+												convertError.statusCode,
+												convertError.statusName,
+											)
+										: null,
 								),
 							]),
 				),

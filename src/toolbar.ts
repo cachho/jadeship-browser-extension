@@ -5,6 +5,7 @@ import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
 import { getQc } from "./lib/api/getQc";
 import { detectMarketplace } from "./lib/cn-links";
 import { detectAgent } from "./lib/cn-links/detectAgent";
+import { getStatsUrl } from "./lib/getStatsUrl";
 import {
   addObserver,
   handleExceptionElements,
@@ -101,6 +102,14 @@ const qcButtonStyle: React.CSSProperties = {
   textDecoration: "none",
   transition: `all 0.4s ${FLUID_SPRING}`,
   boxShadow: "0 2px 8px rgba(16, 185, 129, 0.04)",
+};
+
+const statsButtonStyle: React.CSSProperties = {
+  ...qcButtonStyle,
+  background: "rgba(59, 130, 246, 0.12)",
+  border: "0.5px solid rgba(59, 130, 246, 0.25)",
+  color: "#93c5fd",
+  boxShadow: "0 2px 8px rgba(59, 130, 246, 0.04)",
 };
 
 const indicatorStyle: React.CSSProperties = {
@@ -215,6 +224,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   }, [cnLink, settings.onlineFeaturesQcPhotos]);
 
   if (closed) return null;
+  const statsUrl = getStatsUrl(cnLink);
 
   const currentBodyStyle: React.CSSProperties = {
     ...bodyStyle,
@@ -283,6 +293,37 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
                 "📷"
               ),
               "QC Photos"
+            )
+          : null,
+        statsUrl
+          ? React.createElement(
+              "a",
+              {
+                href: statsUrl,
+                id: `ra-ext-stats-link-${cnLink?.marketplace}-${cnLink?.id}`,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                style: statsButtonStyle,
+                onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "rgba(59, 130, 246, 0.20)";
+                  e.currentTarget.style.borderColor = "rgba(59, 130, 246, 0.4)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 16px rgba(59, 130, 246, 0.1)";
+                },
+                onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                  e.currentTarget.style.background = "rgba(59, 130, 246, 0.12)";
+                  e.currentTarget.style.borderColor =
+                    "rgba(59, 130, 246, 0.25)";
+                  e.currentTarget.style.boxShadow =
+                    "0 2px 8px rgba(59, 130, 246, 0.04)";
+                },
+              },
+              React.createElement(
+                "span",
+                { style: { fontSize: "11px", marginTop: "-1px" } },
+                "📊"
+              ),
+              "Stats"
             )
           : null,
 

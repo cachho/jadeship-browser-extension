@@ -1,5 +1,6 @@
 import type { ApiResponse, CnLink, QcResponse, Settings } from "../../models";
 import type { Details } from "../../models/Details";
+import { isValidCnLink } from "../isValidCnLink";
 import { getDetails } from "./getDetails";
 import { getQc } from "./getQc";
 
@@ -10,6 +11,13 @@ import { getQc } from "./getQc";
  * @returns {{ detailsPromise: Promise<ApiResponse<Details> | null>, qcAvailablePromise: Promise<QcAvailable | null> }} - An object containing two separate promises: detailsPromise that resolves to ApiResponse<Details> or null, and qcAvailablePromise that resolves to QcAvailable or null.
  */
 export function getOnlineFeatures(settings: Settings, cnLink: CnLink) {
+  if (!isValidCnLink(cnLink)) {
+    return {
+      promiseDetails: Promise.resolve(null),
+      promiseQcAvailable: Promise.resolve(null),
+    };
+  }
+
   const promiseDetails: Promise<ApiResponse<Details> | null> =
     settings.onlineFeatures ? getDetails(cnLink) : Promise.resolve(null);
 

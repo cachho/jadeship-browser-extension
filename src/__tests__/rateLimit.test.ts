@@ -43,6 +43,19 @@ describe("getRateLimitFromHeaders", () => {
     expect(rateLimit?.limit).toBe(50);
   });
 
+  test("supports alternate rate-limit header names", () => {
+    const headers = new Headers({
+      "ratelimit-remaining": "3",
+      "ratelimit-limit": "50",
+    });
+
+    const rateLimit = getRateLimitFromHeaders(headers);
+
+    expect(rateLimit).not.toBeNull();
+    expect(rateLimit?.remaining).toBe(3);
+    expect(rateLimit?.limit).toBe(50);
+  });
+
   test("returns null for missing or invalid headers", () => {
     expect(getRateLimitFromHeaders(new Headers())).toBeNull();
     expect(

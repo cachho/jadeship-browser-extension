@@ -1,4 +1,4 @@
-import { saveRateLimitToStorage } from "../rateLimit";
+import { RATE_LIMIT_STORAGE_KEY, saveRateLimitToStorage } from "../rateLimit";
 import { getStorage } from "../storage";
 
 const ONE_DAY_MS = 86_400_000;
@@ -48,7 +48,28 @@ export async function cachedFetch(
   }
 
   const response = await fetch(url, init);
-  await saveRateLimitToStorage(response.headers);
+  const savedRateLimit = await saveRateLimitToStorage(response.headers);
+  if (!savedRateLimit && response.status === 429) {
+    const storage = getStorage();
+    if (storage) {
+      const result = await storage.local.get(RATE_LIMIT_STORAGE_KEY);
+      const previousRateLimit = result[RATE_LIMIT_STORAGE_KEY] as
+        | { limit?: number }
+        | undefined;
+      if (
+        typeof previousRateLimit?.limit === "number" &&
+        previousRateLimit.limit > 0
+      ) {
+        await storage.local.set({
+          [RATE_LIMIT_STORAGE_KEY]: {
+            remaining: 0,
+            limit: previousRateLimit.limit,
+            updatedAt: Date.now(),
+          },
+        });
+      }
+    }
+  }
 
   if (response.ok) {
     const data = await response.json();

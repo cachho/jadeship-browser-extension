@@ -4,6 +4,7 @@ import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
 import { getOnlineFeatures } from "./lib/api/getOnlineFeatures";
 import { findLinksOnPage } from "./lib/findLinksOnPage";
 import { findNestedLinksOnPage } from "./lib/findNestedLinksOnPage";
+import { getConvertTargets } from "./lib/getConvertTargets";
 import { getTargetHrefs } from "./lib/getTargetHrefs";
 import { getThirdPartyPage } from "./lib/getThirdPartyPage";
 import { addHtmlOnlineElements } from "./lib/html/addHtmlOnlineElements";
@@ -29,6 +30,10 @@ async function main(settings: Settings) {
 
   const currentUrl = new URL(window.location.href);
   const shouldForceReplaceLinkText = currentUrl.hostname === "www.reddit.com";
+  const convertTargets = getConvertTargets(
+    selectedAgent,
+    settings.agentsInToolbar,
+  );
 
   // Excluded pages
   if (
@@ -75,7 +80,7 @@ async function main(settings: Settings) {
 
     const converted = await getConvertDecrypt(
       originalLink.href,
-      settings.agentsInToolbar,
+      convertTargets,
     );
 
     if (!converted) {

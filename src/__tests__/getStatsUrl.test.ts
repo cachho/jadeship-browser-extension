@@ -10,7 +10,7 @@ describe("getStatsUrl", () => {
 
   test("builds stats page url from cnLink data", () => {
     expect(getStatsUrl({ id: "123", marketplace: "taobao" })).toBe(
-      "https://www.jadeship.com/taobao/123?r=extension"
+      "https://www.jadeship.com/item/taobao/123?r=extension"
     );
   });
 

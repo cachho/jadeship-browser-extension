@@ -1,18 +1,7 @@
 import { Config } from "../Config";
-import { agents as libAgents } from "../lib/cn-links/agents";
+import { agents } from "../lib/cn-links/agents";
 import type { AffiliateLinks } from ".";
 import type { Agent, AgentWithRaw } from "./Agents";
-
-const fallbackAgentIds = new Set<Agent>([
-  "cnfans",
-  "mulebuy",
-  "allchinabuy",
-  "hoobuy",
-  "sugargoo",
-  "acbuy",
-]);
-
-const agents = libAgents.filter((agent) => fallbackAgentIds.has(agent));
 
 export const settingNames: (keyof Settings)[] = [
   "taobaoLink",

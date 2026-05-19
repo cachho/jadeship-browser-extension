@@ -25,24 +25,13 @@ describe("Settings type keys", () => {
 
 describe("default agent settings", () => {
   it("should derive fallback defaults from the shared agents list", () => {
-    const fallbackAgents = agents.filter((agent) =>
-      [
-        "cnfans",
-        "mulebuy",
-        "allchinabuy",
-        "hoobuy",
-        "sugargoo",
-        "acbuy",
-      ].includes(agent),
-    );
-
     expect(defaultAgentSettings).toEqual({
-      myAgent: fallbackAgents[0],
+      myAgent: agents[0],
       agentsInToolbar: [
-        ...fallbackAgents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+        ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
       ],
     });
-    expect(defaultSettings.myAgent).toBe(fallbackAgents[0]);
+    expect(defaultSettings.myAgent).toBe(agents[0]);
     expect(defaultSettings.agentsInToolbar).toEqual(
       defaultAgentSettings.agentsInToolbar,
     );

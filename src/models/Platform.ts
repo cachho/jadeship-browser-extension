@@ -1,1 +1,1 @@
-export type Platform = 'weidian' | 'taobao' | '1688' | 'tmall';
+export type Platform = "weidian" | "taobao" | "1688" | "tmall";

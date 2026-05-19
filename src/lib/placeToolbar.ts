@@ -1,18 +1,18 @@
-import type { Agent, Settings } from '../models';
-import { addPadding } from './addPadding';
-import { waitForElement } from './waitForElement';
+import type { Agent, Settings } from "../models";
+import { addPadding } from "./addPadding";
+import { waitForElement } from "./waitForElement";
 
-export const agentsWhereStickyIsNotAStyle: Agent[] = ['hagobuy'];
+export const agentsWhereStickyIsNotAStyle: Agent[] = ["hagobuy"];
 
 export function placeToolbar(
   settings: Settings,
   body: HTMLBodyElement,
   elem: HTMLElement,
-  agent?: Agent
+  agent?: Agent,
 ) {
-  if (agent === 'hagobuy') {
+  if (agent === "hagobuy") {
     // Select the target element with the class 'home-fixed'
-    const query = 'header';
+    const query = "header";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -23,12 +23,12 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
-    waitForElement('.item-page', (targetElement) => {
+    waitForElement(".item-page", (targetElement) => {
       addPadding(targetElement);
     });
-  } else if (agent === 'pandabuy' && settings.stickyToolbar) {
+  } else if (agent === "pandabuy" && settings.stickyToolbar) {
     // Select the target element with the class 'home-fixed'
-    const query = '.global-content';
+    const query = ".global-content";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -39,9 +39,9 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
-  } else if (agent === 'cssbuy' && settings.stickyToolbar) {
+  } else if (agent === "cssbuy" && settings.stickyToolbar) {
     // Select the target element with the class 'home-fixed'
-    const query = '#menuBar';
+    const query = "#menuBar";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -52,8 +52,8 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
-  } else if (agent === 'panglobalbuy') {
-    const query = '.header_warp';
+  } else if (agent === "panglobalbuy") {
+    const query = ".header_warp";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -63,10 +63,10 @@ export function placeToolbar(
         // If there is no first child, append the element to the target element
         targetElement.appendChild(elem);
       }
-      addPadding(targetElement, '60px');
+      addPadding(targetElement, "60px");
     });
-  } else if (agent === 'hegobuy') {
-    const query = '.home-fixed';
+  } else if (agent === "hegobuy") {
+    const query = ".home-fixed";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -77,8 +77,8 @@ export function placeToolbar(
         targetElement.appendChild(elem);
       }
     });
-  } else if (agent === 'loongbuy') {
-    const query = '.good-step';
+  } else if (agent === "loongbuy") {
+    const query = ".good-step";
     waitForElement(query, (targetElement) => {
       // Check if the target element has a first child
       if (targetElement.firstChild) {
@@ -90,6 +90,6 @@ export function placeToolbar(
       }
     });
   } else {
-    body.insertAdjacentElement('afterbegin', elem);
+    body.insertAdjacentElement("afterbegin", elem);
   }
 }

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { redirectListenerUrls } from "../data/redirectListenerUrls";
 import { agents } from "../lib/cn-links";
 

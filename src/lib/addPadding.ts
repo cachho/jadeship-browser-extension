@@ -1,6 +1,6 @@
-export function addPadding(targetElement: Element, height = '48px') {
-  const padding = document.createElement('div');
-  padding.className = 'ra-ext-padding';
+export function addPadding(targetElement: Element, height = "48px") {
+  const padding = document.createElement("div");
+  padding.className = "ra-ext-padding";
   padding.style.height = height;
   // Insert padding as the first child of targetElement
   if (targetElement.firstChild) {

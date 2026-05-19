@@ -1,5 +1,5 @@
-import { thirdParties } from '../models/3rdParty';
-import { getDomain } from './getDomain';
+import { thirdParties } from "../models/3rdParty";
+import { getDomain } from "./getDomain";
 
 const getThirdPartyPage = (link: URL) => {
   const domain = getDomain(link);

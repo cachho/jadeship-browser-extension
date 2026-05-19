@@ -32,7 +32,7 @@ async function main(settings: Settings) {
     currentUrl.pathname.startsWith("/r/") &&
     currentUrl.pathname.includes("/about/") &&
     ["modqueue", "reports", "spam", "edited", "unmoderated"].some((path) =>
-      currentUrl.pathname.endsWith(`/${path}`)
+      currentUrl.pathname.endsWith(`/${path}`),
     )
   ) {
     return;
@@ -61,7 +61,7 @@ async function main(settings: Settings) {
       console.error(
         "RA Browser Extension:",
         "No link object could be extracted from link: ",
-        elem.href
+        elem.href,
       );
       return false;
     }
@@ -71,14 +71,14 @@ async function main(settings: Settings) {
 
     const converted = await getConvertDecrypt(
       originalLink.href,
-      settings.agentsInToolbar
+      settings.agentsInToolbar,
     );
 
     if (!converted) {
       console.error(
         "JadeShip Browser Extension:",
         "Could not process link:",
-        originalLink.href
+        originalLink.href,
       );
       return false;
     }
@@ -100,7 +100,7 @@ async function main(settings: Settings) {
     if (settings.logoPlatform) {
       elem.insertAdjacentHTML(
         "beforebegin",
-        getPlatformImage(link.marketplace)
+        getPlatformImage(link.marketplace),
       );
     }
     if (settings.logoAgent && selectedAgent !== "raw") {
@@ -114,7 +114,7 @@ async function main(settings: Settings) {
       // Add details
       const { promiseDetails, promiseQcAvailable } = getOnlineFeatures(
         settings,
-        link
+        link,
       );
       if (
         settings.onlineFeatures &&
@@ -127,7 +127,7 @@ async function main(settings: Settings) {
               settings,
               details.data,
               elem,
-              link.marketplace
+              link.marketplace,
             );
             elem.title = details.data.item.goodsTitle;
           }
@@ -136,7 +136,7 @@ async function main(settings: Settings) {
             elem,
             details,
             selectedAgent,
-            link.marketplace
+            link.marketplace,
           );
         } catch (detailsError) {
           console.error(detailsError);
@@ -145,7 +145,7 @@ async function main(settings: Settings) {
             elem,
             null,
             selectedAgent,
-            link.marketplace
+            link.marketplace,
           );
         }
       } else if (
@@ -196,7 +196,7 @@ const observer = new MutationObserver((mutations) => {
             console.error(
               "RA Browser Extension:",
               "Error initializing extension",
-              error
+              error,
             );
           });
       }

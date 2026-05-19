@@ -1,11 +1,11 @@
 export const Button = (href: string, newTab?: boolean) => {
-  const button = document.createElement('a');
+  const button = document.createElement("a");
 
-  button.className = 'btn';
+  button.className = "btn";
 
   if (newTab) {
-    button.target = '_blank';
-    button.rel = 'noreferrer';
+    button.target = "_blank";
+    button.rel = "noreferrer";
   }
   button.href = href;
 

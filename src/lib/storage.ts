@@ -17,7 +17,7 @@ export function getStorage():
 }
 
 export function isChromeStorage(
-  storage: typeof browser.storage | typeof chrome.storage | null
+  storage: typeof browser.storage | typeof chrome.storage | null,
 ): storage is typeof chrome.storage {
   return (
     typeof chrome !== "undefined" &&

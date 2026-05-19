@@ -1,6 +1,6 @@
-import { describe, it, expect } from "bun:test";
-import { detectAgent } from "../lib/cn-links/detectAgent";
+import { describe, expect, it } from "bun:test";
 import { agents } from "../lib/cn-links";
+import { detectAgent } from "../lib/cn-links/detectAgent";
 
 describe("detectAgent", () => {
   it("should detect every agent from its hostname", () => {

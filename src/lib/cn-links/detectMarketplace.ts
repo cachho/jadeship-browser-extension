@@ -1,5 +1,5 @@
-import type { Marketplace, MarketplaceWithTld } from '../../models/Marketplace';
-import { getDomainFromHostname } from './getDomainFromHostname';
+import type { Marketplace, MarketplaceWithTld } from "../../models/Marketplace";
+import { getDomainFromHostname } from "./getDomainFromHostname";
 
 /**
  * Detects the marketplace based on the provided URL or string.
@@ -12,17 +12,17 @@ export function detectMarketplace(href: string | URL): Marketplace | undefined {
 
   const domain = getDomainFromHostname(hostname) as MarketplaceWithTld;
 
-  if (domain === 'weidian.com') {
-    return 'weidian';
+  if (domain === "weidian.com") {
+    return "weidian";
   }
-  if (domain === 'taobao.com') {
-    return 'taobao';
+  if (domain === "taobao.com") {
+    return "taobao";
   }
-  if (domain === '1688.com') {
-    return '1688';
+  if (domain === "1688.com") {
+    return "1688";
   }
-  if (domain === 'tmall.com') {
-    return 'tmall';
+  if (domain === "tmall.com") {
+    return "tmall";
   }
 
   return undefined;

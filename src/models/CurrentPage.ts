@@ -1,6 +1,6 @@
-import type { Agent } from './Agents';
-import type { CnLink } from './CnLink';
-import type { Marketplace } from './Marketplace';
+import type { Agent } from "./Agents";
+import type { CnLink } from "./CnLink";
+import type { Marketplace } from "./Marketplace";
 
 export type CurrentPage = {
   link: CnLink;

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { agents } from "../lib/cn-links";
 import { getTargetHrefs } from "../lib/getTargetHrefs";
 import { defaultSettings } from "../models/Settings";

@@ -2,7 +2,7 @@ import { cachedFetch } from "./cachedFetch";
 
 export async function fetchData<T>(
   url: string,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<T | null> {
   try {
     const response = await cachedFetch(url, init);

@@ -1,7 +1,7 @@
-import type { ApiResponse, CnLink, QcResponse, Settings } from '../../models';
-import type { Details } from '../../models/Details';
-import { getDetails } from './getDetails';
-import { getQc } from './getQc';
+import type { ApiResponse, CnLink, QcResponse, Settings } from "../../models";
+import type { Details } from "../../models/Details";
+import { getDetails } from "./getDetails";
+import { getQc } from "./getQc";
 
 /**
  * Parallel retrieval of online features from the details api and the qc api. Respects user settings.

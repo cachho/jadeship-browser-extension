@@ -12,7 +12,7 @@ export function replaceTextContent(
   link: HTMLAnchorElement,
   details: ApiResponse<Details> | null,
   selectedAgent: AgentWithRaw,
-  platform: Platform
+  platform: Platform,
 ): string {
   // If the overwrite title extra option is enabled, replace with the title from details
   if (settings.displayOverwriteTitle && details?.data) {
@@ -20,7 +20,7 @@ export function replaceTextContent(
       parseInt(settings.displayTitleLength, 10) > 0
       ? details.data.item.goodsTitle.slice(
           0,
-          parseInt(settings.displayTitleLength, 10)
+          parseInt(settings.displayTitleLength, 10),
         )
       : details.data.item.goodsTitle;
   }

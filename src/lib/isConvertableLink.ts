@@ -3,7 +3,7 @@ import { convertableLinks } from "../data/convertableLinks";
 export function isConvertableLink(url: URL): boolean {
   if (
     convertableLinks.some((convertableLink) =>
-      url.hostname.includes(convertableLink)
+      url.hostname.includes(convertableLink),
     )
   )
     return true;

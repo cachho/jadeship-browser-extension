@@ -1,6 +1,6 @@
 export function waitForElement(
   selector: string,
-  callback: (element: Element) => void
+  callback: (element: Element) => void,
 ): void {
   const interval: number = 100; // Interval in milliseconds
   const maxAttempts: number = 50; // Maximum number of attempts
@@ -14,7 +14,7 @@ export function waitForElement(
       // eslint-disable-next-line no-plusplus
     } else if (++attempts >= maxAttempts) {
       clearInterval(intervalId);
-      console.error('Element not found within max attempts:', selector);
+      console.error("Element not found within max attempts:", selector);
     }
   }, interval);
 }

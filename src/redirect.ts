@@ -1,6 +1,6 @@
-import { detectAgent } from './lib/cn-links';
-import { getAffiliates } from './lib/getAffiliates';
-import { validateRegisterPage } from './lib/validateRegisterPage';
+import { detectAgent } from "./lib/cn-links";
+import { getAffiliates } from "./lib/getAffiliates";
+import { validateRegisterPage } from "./lib/validateRegisterPage";
 
 /**
  * Redirect can run as a content script or be injected through a browser api listener.
@@ -27,8 +27,8 @@ function redirect() {
 
       const url = new URL(window.location.href);
 
-      if (agent === 'sugargoo') {
-        url.hash = '';
+      if (agent === "sugargoo") {
+        url.hash = "";
       }
 
       if (!validateRegisterPage(agent, url)) {

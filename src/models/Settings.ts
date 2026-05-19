@@ -1,3 +1,5 @@
+import { Config } from "../Config";
+import { agents } from "../lib/cn-links/agents";
 import type { AffiliateLinks } from ".";
 import type { Agent, AgentWithRaw } from "./Agents";
 
@@ -57,6 +59,16 @@ export type Settings = {
   agentsInToolbar: Agent[];
 };
 
+export const defaultAgentSettings: Pick<
+  Settings,
+  "myAgent" | "agentsInToolbar"
+> = {
+  myAgent: agents[0],
+  agentsInToolbar: [
+    ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+  ] as Agent[],
+};
+
 export const defaultSettings: Settings = {
   agentLink: true,
   thirdPartyLink: true,
@@ -64,7 +76,6 @@ export const defaultSettings: Settings = {
   affiliateAppend: false,
   logoAgent: false,
   logoPlatform: true,
-  myAgent: "cnfans",
   taobaoLink: true,
   weidianLink: true,
   s1688Link: true,
@@ -81,5 +92,5 @@ export const defaultSettings: Settings = {
   showToolbar: true,
   stickyToolbar: true,
   isDefault: true,
-  agentsInToolbar: ["mulebuy", "allchinabuy", "hoobuy", "sugargoo", "acbuy"],
+  ...defaultAgentSettings,
 };

@@ -1,7 +1,7 @@
 import { Config } from "../Config";
 import type { AffiliateLinks, Agent, ApiResponse } from "../models";
 import type { Settings } from "../models/Settings";
-import { defaultSettings } from "../models/Settings";
+import { defaultAgentSettings, defaultSettings } from "../models/Settings";
 import { fetchData } from "./api/fetchData";
 import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
@@ -22,6 +22,7 @@ export function isStoredValueEqual(
 
 export function getDefaultAgentSettings(
   defaultAgents?: string[],
+  onError: (...args: unknown[]) => void = console.error,
 ): Pick<Settings, "myAgent" | "agentsInToolbar"> {
   const knownAgents = new Set<string>(agents);
   const validDefaultAgents = Array.from(
@@ -33,9 +34,15 @@ export function getDefaultAgentSettings(
   );
 
   if (validDefaultAgents.length === 0) {
+    onError(
+      "Error retrieving default agents:",
+      Array.isArray(defaultAgents) && defaultAgents.length > 0
+        ? "No valid default agents found in API response."
+        : "No default agents response received.",
+    );
     return {
-      myAgent: defaultSettings.myAgent,
-      agentsInToolbar: defaultSettings.agentsInToolbar,
+      myAgent: defaultAgentSettings.myAgent,
+      agentsInToolbar: defaultAgentSettings.agentsInToolbar,
     };
   }
 
@@ -60,7 +67,7 @@ export async function initializeExtension(
     return;
   }
   const defaultAgentResponse = await fetchData<ApiResponse<string[]>>(
-    Config.endpoint.defaults.agent,
+    Config.endpoint.defaultAgents,
   );
   const effectiveDefaults: Settings = {
     ...defaultSettings,

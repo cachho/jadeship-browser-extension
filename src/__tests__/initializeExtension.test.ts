@@ -5,7 +5,7 @@ import {
   getDefaultAgentSettings,
   isStoredValueEqual,
 } from "../lib/initializeExtension";
-import { defaultSettings } from "../models/Settings";
+import { defaultAgentSettings, defaultSettings } from "../models/Settings";
 
 describe("isStoredValueEqual", () => {
   test("matches primitive settings values", () => {
@@ -74,9 +74,34 @@ describe("getDefaultAgentSettings", () => {
   });
 
   test("falls back to local defaults when api data is missing", () => {
-    expect(getDefaultAgentSettings()).toEqual({
-      myAgent: defaultSettings.myAgent,
-      agentsInToolbar: defaultSettings.agentsInToolbar,
-    });
+    const errors: unknown[][] = [];
+
+    expect(
+      getDefaultAgentSettings(undefined, (...args: unknown[]) => {
+        errors.push(args);
+      }),
+    ).toEqual(defaultAgentSettings);
+    expect(errors).toEqual([
+      [
+        "Error retrieving default agents:",
+        "No default agents response received.",
+      ],
+    ]);
+  });
+
+  test("falls back to lib agent defaults and logs when api data is unusable", () => {
+    const errors: unknown[][] = [];
+
+    expect(
+      getDefaultAgentSettings(["not-an-agent"], (...args: unknown[]) => {
+        errors.push(args);
+      }),
+    ).toEqual(defaultAgentSettings);
+    expect(errors).toEqual([
+      [
+        "Error retrieving default agents:",
+        "No valid default agents found in API response.",
+      ],
+    ]);
   });
 });

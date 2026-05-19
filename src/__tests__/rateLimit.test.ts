@@ -56,6 +56,19 @@ describe("getRateLimitFromHeaders", () => {
     expect(rateLimit?.limit).toBe(50);
   });
 
+  test("parses numeric values wrapped in quotes or policy suffixes", () => {
+    const headers = new Headers({
+      [RateLimitHeadersEnum.Remaining]: '"23"',
+      [RateLimitHeadersEnum.Limit]: '"50";w=86400',
+    });
+
+    const rateLimit = getRateLimitFromHeaders(headers);
+
+    expect(rateLimit).not.toBeNull();
+    expect(rateLimit?.remaining).toBe(23);
+    expect(rateLimit?.limit).toBe(50);
+  });
+
   test("returns null for missing or invalid headers", () => {
     expect(getRateLimitFromHeaders(new Headers())).toBeNull();
     expect(

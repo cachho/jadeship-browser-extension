@@ -36,6 +36,18 @@ function getHeaderValue(headers: Headers, names: string[]): string | null {
   return null;
 }
 
+function parseHeaderInteger(value: string): number | null {
+  const match = value.match(/-?\d+/);
+  if (!match) {
+    return null;
+  }
+  const parsed = Number.parseInt(match[0], 10);
+  if (!Number.isFinite(parsed)) {
+    return null;
+  }
+  return parsed;
+}
+
 export function getRateLimitFromHeaders(headers: Headers): RateLimit | null {
   const remainingHeader = getHeaderValue(headers, [
     RateLimitHeadersEnum.Remaining,
@@ -48,9 +60,9 @@ export function getRateLimitFromHeaders(headers: Headers): RateLimit | null {
   if (remainingHeader === null || limitHeader === null) {
     return null;
   }
-  const remaining = Number.parseInt(remainingHeader, 10);
-  const limit = Number.parseInt(limitHeader, 10);
-  if (!Number.isFinite(remaining) || !Number.isFinite(limit)) {
+  const remaining = parseHeaderInteger(remainingHeader);
+  const limit = parseHeaderInteger(limitHeader);
+  if (remaining === null || limit === null) {
     return null;
   }
   if (remaining < 0 || limit <= 0) {

@@ -6,17 +6,17 @@ import { fetchData } from "./api/fetchData";
 import { isChromeStorage } from "./storage";
 
 export function isStoredValueEqual(
-	value: Settings[keyof Settings] | undefined,
-	defaultValue: Settings[keyof Settings],
+  value: Settings[keyof Settings] | undefined,
+  defaultValue: Settings[keyof Settings],
 ) {
-	if (Array.isArray(value) && Array.isArray(defaultValue)) {
-		return (
-			value.length === defaultValue.length &&
-			value.every((item, index) => item === defaultValue[index])
-		);
-	}
+  if (Array.isArray(value) && Array.isArray(defaultValue)) {
+    return (
+      value.length === defaultValue.length &&
+      value.every((item, index) => item === defaultValue[index])
+    );
+  }
 
-	return value === defaultValue;
+  return value === defaultValue;
 }
 
 /**
@@ -24,94 +24,94 @@ export function isStoredValueEqual(
  * @returns void
  */
 export async function initializeExtension(
-	storage: typeof browser.storage | typeof chrome.storage | null,
+  storage: typeof browser.storage | typeof chrome.storage | null,
 ) {
-	if (!storage) {
-		console.error("Storage is not available.");
-		return;
-	}
-	// Check if we're running in Chrome
-	if (isChromeStorage(storage)) {
-		Object.keys(defaultSettings).forEach((key) => {
-			if (Object.hasOwn(defaultSettings, key)) {
-				const param: { [key: string]: Settings[keyof Settings] } = {
-					[key]: null,
-				};
-				storage.local.get(param, (result) => {
-					// Only proceed if the previous local storage does not have the key
-					if (
-						!Object.hasOwn(result, key) ||
-						result[key] === undefined ||
-						result[key] === null
-					) {
-						const defaultVal = defaultSettings[key as keyof Settings];
-						console.debug(
-							`Key does not exist. Creating key '${key}' with value: ${defaultVal}`,
-						);
-						storage.local.set({ [key]: defaultVal });
-						storage.local.get(param, (r) => {
-							if (!isStoredValueEqual(r[key], defaultVal)) {
-								console.error(`Setting unsuccessful: ${r[key]} ${defaultVal}`);
-							}
-						});
-					} else {
-						console.debug(
-							`Key '${key}' already exists with value: ${result[key]}`,
-						);
-					}
-				});
-			}
-		});
-	}
+  if (!storage) {
+    console.error("Storage is not available.");
+    return;
+  }
+  // Check if we're running in Chrome
+  if (isChromeStorage(storage)) {
+    Object.keys(defaultSettings).forEach((key) => {
+      if (Object.hasOwn(defaultSettings, key)) {
+        const param: { [key: string]: Settings[keyof Settings] } = {
+          [key]: null,
+        };
+        storage.local.get(param, (result) => {
+          // Only proceed if the previous local storage does not have the key
+          if (
+            !Object.hasOwn(result, key) ||
+            result[key] === undefined ||
+            result[key] === null
+          ) {
+            const defaultVal = defaultSettings[key as keyof Settings];
+            console.debug(
+              `Key does not exist. Creating key '${key}' with value: ${defaultVal}`,
+            );
+            storage.local.set({ [key]: defaultVal });
+            storage.local.get(param, (r) => {
+              if (!isStoredValueEqual(r[key], defaultVal)) {
+                console.error(`Setting unsuccessful: ${r[key]} ${defaultVal}`);
+              }
+            });
+          } else {
+            console.debug(
+              `Key '${key}' already exists with value: ${result[key]}`,
+            );
+          }
+        });
+      }
+    });
+  }
 
-	// Check if we're running in Firefox
-	if (!isChromeStorage(storage)) {
-		Object.keys(defaultSettings).forEach((key) => {
-			const params: { [key: string]: Settings[keyof Settings] } = {};
-			params[key] = null;
-			storage.local.get(params).then((result) => {
-				if (!Object.hasOwn(result, key) || !result[key]) {
-					const defaultVal = defaultSettings[key as keyof Settings];
-					storage.local.set({ [key]: defaultVal });
-				}
-			});
-		});
-	}
+  // Check if we're running in Firefox
+  if (!isChromeStorage(storage)) {
+    Object.keys(defaultSettings).forEach((key) => {
+      const params: { [key: string]: Settings[keyof Settings] } = {};
+      params[key] = null;
+      storage.local.get(params).then((result) => {
+        if (!Object.hasOwn(result, key) || !result[key]) {
+          const defaultVal = defaultSettings[key as keyof Settings];
+          storage.local.set({ [key]: defaultVal });
+        }
+      });
+    });
+  }
 
-	// Only get links if online features are enabled.
-	if (isChromeStorage(storage)) {
-		storage.local.get(
-			"onlineFeatures",
-			async (onlineFeatures: Record<string, unknown>) => {
-				if (onlineFeatures.onlineFeatures) {
-					const response = await fetchData<ApiResponse<AffiliateLinks>>(
-						Config.endpoint.affiliateLinks,
-					);
-					if (response) {
-						storage.local.set({ affiliate: response.data });
-					} else {
-						console.error("Error retrieving data:", response);
-					}
-				}
-			},
-		);
-	} else {
-		storage.local
-			.get()
-			.then(async (onlineFeatures: Record<string, unknown>) => {
-				if (onlineFeatures.onlineFeatures) {
-					const response = await fetchData<ApiResponse<AffiliateLinks>>(
-						Config.endpoint.affiliateLinks,
-					);
-					if (response) {
-						storage.local.set({ affiliate: response.data });
-					} else {
-						console.error("Error retrieving data:", response);
-					}
-				}
-			})
-			.catch((error: unknown) =>
-				console.error("Error retrieving data:", error),
-			);
-	}
+  // Only get links if online features are enabled.
+  if (isChromeStorage(storage)) {
+    storage.local.get(
+      "onlineFeatures",
+      async (onlineFeatures: Record<string, unknown>) => {
+        if (onlineFeatures.onlineFeatures) {
+          const response = await fetchData<ApiResponse<AffiliateLinks>>(
+            Config.endpoint.affiliateLinks,
+          );
+          if (response) {
+            storage.local.set({ affiliate: response.data });
+          } else {
+            console.error("Error retrieving data:", response);
+          }
+        }
+      },
+    );
+  } else {
+    storage.local
+      .get()
+      .then(async (onlineFeatures: Record<string, unknown>) => {
+        if (onlineFeatures.onlineFeatures) {
+          const response = await fetchData<ApiResponse<AffiliateLinks>>(
+            Config.endpoint.affiliateLinks,
+          );
+          if (response) {
+            storage.local.set({ affiliate: response.data });
+          } else {
+            console.error("Error retrieving data:", response);
+          }
+        }
+      })
+      .catch((error: unknown) =>
+        console.error("Error retrieving data:", error),
+      );
+  }
 }

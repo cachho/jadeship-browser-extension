@@ -3,13 +3,12 @@
     "build": "sh build.sh",
     "build:win": "powershell ./build.ps1",
     "check-types": "tsc --noEmit --pretty",
-    "dev": "webpack --config webpack.dev.js",
+    "dev": "bun run build.ts --mode=development",
     "prepare": "husky install",
     "test": "bun test",
-    "watch": "webpack -w --config webpack.dev.js",
-    "lint": "biome lint",
-    "lint:safe": "biome lint --write",
-    "lint:unsafe": "biome lint --write --unsafe"
+    "watch": "bun run build.ts --mode=development --watch",
+    "lint": "biome check --write",
+    "lint:unsafe": "biome check --write --unsafe"
   },
   "dependencies": {
     "html-webpack-plugin": "^5.5.0",

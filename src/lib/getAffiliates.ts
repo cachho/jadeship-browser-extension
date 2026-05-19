@@ -1,6 +1,6 @@
-import type { AffiliateLinks } from '../models';
-import { isRedirectAllowed } from './isRedirectAllowed';
-import { getStorage, isChromeStorage } from './storage';
+import type { AffiliateLinks } from "../models";
+import { isRedirectAllowed } from "./isRedirectAllowed";
+import { getStorage, isChromeStorage } from "./storage";
 
 export async function getAffiliates(): Promise<AffiliateLinks | null> {
   const storage = getStorage();
@@ -13,18 +13,18 @@ export async function getAffiliates(): Promise<AffiliateLinks | null> {
   return new Promise((resolve) => {
     if (storage) {
       if (isChromeStorage(storage)) {
-        storage.local.get('affiliate', (aff) => {
+        storage.local.get("affiliate", (aff) => {
           const { affiliate } = aff;
           resolve(affiliate);
         });
       } else {
-        storage.local.get('affiliate').then((aff) => {
+        storage.local.get("affiliate").then((aff) => {
           const { affiliate } = aff;
           resolve(affiliate);
         });
       }
     } else {
-      console.error('No storage available');
+      console.error("No storage available");
       resolve(null);
     }
   });

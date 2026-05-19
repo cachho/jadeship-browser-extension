@@ -4,8 +4,8 @@
 #######################################
 # Compile to TypeScript Code
 #######################################
-Write-Host "> Running Webpack (production)..."
-npx webpack --config webpack.prod.js
+Write-Host "> Running Bun build (production)..."
+npx bun run build.ts --mode=production
 Write-Host ""
 
 #######################################

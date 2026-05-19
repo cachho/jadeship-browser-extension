@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import manifest from "../../manifest.json";
 import manifestv2 from "../../manifest-v2.json";
 import { agents } from "../lib/cn-links";

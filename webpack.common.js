@@ -9,7 +9,7 @@ function getHtmlPlugins(chunks) {
         title: "React extension",
         filename: `${chunk}.html`,
         chunks: [chunk],
-      })
+      }),
   );
 }
 

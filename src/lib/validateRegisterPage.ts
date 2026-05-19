@@ -1,119 +1,119 @@
-import type { Agent } from '../models';
+import type { Agent } from "../models";
 
 export function validateRegisterPage(
   agent: Agent,
-  location: Location | URL
+  location: Location | URL,
 ): boolean {
-  if (agent === 'pandabuy') {
-    return location.pathname.startsWith('/login');
+  if (agent === "pandabuy") {
+    return location.pathname.startsWith("/login");
   }
-  if (agent === 'superbuy' || agent === 'wegobuy' || agent === 'allchinabuy') {
+  if (agent === "superbuy" || agent === "wegobuy" || agent === "allchinabuy") {
     const params = new URLSearchParams(location.search);
     return (
-      (location.pathname.startsWith('/en/page/login') ||
-        location.pathname.startsWith('/cn/page/login')) &&
-      params.get('type') === 'register'
+      (location.pathname.startsWith("/en/page/login") ||
+        location.pathname.startsWith("/cn/page/login")) &&
+      params.get("type") === "register"
     );
   }
-  if (agent === 'cssbuy') {
+  if (agent === "cssbuy") {
     const params = new URLSearchParams(location.search);
-    return location.pathname === '/' && params.get('action') === 'register';
+    return location.pathname === "/" && params.get("action") === "register";
   }
-  if (agent === 'sugargoo') {
-    const newLocation = new URL(location.href.replace('/#/', '/'));
+  if (agent === "sugargoo") {
+    const newLocation = new URL(location.href.replace("/#/", "/"));
     return (
-      newLocation.pathname.startsWith('/#/login/login') ||
-      newLocation.pathname.startsWith('/login/login') ||
-      newLocation.pathname.startsWith('/index/user/register')
+      newLocation.pathname.startsWith("/#/login/login") ||
+      newLocation.pathname.startsWith("/login/login") ||
+      newLocation.pathname.startsWith("/index/user/register")
     );
   }
-  if (agent === 'hagobuy' || agent === 'hegobuy' || agent === 'kakobuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "hagobuy" || agent === "hegobuy" || agent === "kakobuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'kameymall') {
-    return location.pathname.startsWith('/login');
+  if (agent === "kameymall") {
+    return location.pathname.startsWith("/login");
   }
-  if (agent === 'cnfans') {
-    return location.pathname.startsWith('/register');
+  if (agent === "cnfans") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'ezbuycn') {
-    return location.pathname.startsWith('/reg.aspx');
+  if (agent === "ezbuycn") {
+    return location.pathname.startsWith("/reg.aspx");
   }
-  if (agent === 'hoobuy') {
-    return location.pathname.startsWith('/signUp');
+  if (agent === "hoobuy") {
+    return location.pathname.startsWith("/signUp");
   }
-  if (agent === 'basetao') {
+  if (agent === "basetao") {
     return false;
   }
-  if (agent === 'mulebuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "mulebuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'eastmallbuy') {
-    return location.pathname.startsWith('/index/user/register');
+  if (agent === "eastmallbuy") {
+    return location.pathname.startsWith("/index/user/register");
   }
-  if (agent === 'hubbuycn') {
-    return location.pathname.startsWith('/index/user/register');
+  if (agent === "hubbuycn") {
+    return location.pathname.startsWith("/index/user/register");
   }
-  if (agent === 'joyabuy' || agent === 'joyagoo') {
-    return location.pathname.startsWith('/register');
+  if (agent === "joyabuy" || agent === "joyagoo") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'orientdig') {
-    return location.pathname.startsWith('/register');
+  if (agent === "orientdig") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'oopbuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "oopbuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'lovegobuy') {
-    return location.pathname.startsWith('/login/signup');
+  if (agent === "lovegobuy") {
+    return location.pathname.startsWith("/login/signup");
   }
-  if (agent === 'blikbuy') {
+  if (agent === "blikbuy") {
     const params = new URLSearchParams(location.search);
-    return location.pathname === '/' && params.get('action') === 'register';
+    return location.pathname === "/" && params.get("action") === "register";
   }
-  if (agent === 'ponybuy') {
-    return location.pathname.includes('/register');
+  if (agent === "ponybuy") {
+    return location.pathname.includes("/register");
   }
-  if (agent === 'panglobalbuy') {
-    return location.href.includes('/register');
+  if (agent === "panglobalbuy") {
+    return location.href.includes("/register");
   }
-  if (agent === 'sifubuy') {
+  if (agent === "sifubuy") {
     return (
-      location.pathname.startsWith('/login') &&
-      location.search.includes('type=register')
+      location.pathname.startsWith("/login") &&
+      location.search.includes("type=register")
     );
   }
-  if (agent === 'loongbuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "loongbuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'acbuy') {
+  if (agent === "acbuy") {
     return (
-      location.pathname.startsWith('/login') &&
-      location.search.includes('loginStatus=register')
+      location.pathname.startsWith("/login") &&
+      location.search.includes("loginStatus=register")
     );
   }
-  if (agent === 'itaobuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "itaobuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'usfans') {
-    return location.pathname.startsWith('/register');
+  if (agent === "usfans") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'cnshopper') {
+  if (agent === "cnshopper") {
     return (
-      location.pathname.startsWith('/login') &&
-      location.search.includes('type=register')
+      location.pathname.startsWith("/login") &&
+      location.search.includes("type=register")
     );
   }
-  if (agent === 'hipobuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "hipobuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'gtbuy') {
-    return location.pathname.startsWith('/register');
+  if (agent === "gtbuy") {
+    return location.pathname.startsWith("/register");
   }
-  if (agent === 'fishgoo') {
-    const newLocation = new URL(location.href.replace('/#/', '/'));
+  if (agent === "fishgoo") {
+    const newLocation = new URL(location.href.replace("/#/", "/"));
     return (
-      newLocation.pathname.startsWith('/#/login/login') ||
-      newLocation.pathname.startsWith('/login/login')
+      newLocation.pathname.startsWith("/#/login/login") ||
+      newLocation.pathname.startsWith("/login/login")
     );
   }
 

@@ -1,4 +1,4 @@
-import { describe, test, expect } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { agents } from "../lib/cn-links";
 import { validateRegisterPage } from "../lib/validateRegisterPage";
 import type { Agent } from "../models";

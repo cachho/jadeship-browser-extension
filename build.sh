@@ -3,8 +3,8 @@
 #######################################
 # Compile to TypeScript Code
 #######################################
-echo "> Running Webpack (production)..."
-npx webpack --config webpack.prod.js
+echo "> Running Bun build (production)..."
+npx bun run build.ts --mode=production
 echo ""
 
 #######################################

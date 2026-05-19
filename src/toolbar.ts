@@ -290,9 +290,9 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               React.createElement(
                 "span",
                 { style: { fontSize: "11px", marginTop: "-1px" } },
-                "📷"
+                "📷",
               ),
-              "QC Photos"
+              "QC Photos",
             )
           : null,
         statsUrl
@@ -321,9 +321,9 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               React.createElement(
                 "span",
                 { style: { fontSize: "11px", marginTop: "-1px" } },
-                "📊"
+                "📊",
               ),
-              "Stats"
+              "Stats",
             )
           : null,
 
@@ -370,7 +370,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
               dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
             });
-          })
+          }),
         ),
 
         // Close System Utility
@@ -396,10 +396,10 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
               e.currentTarget.style.transform = "rotate(0deg)";
             },
           },
-          "✕"
-        )
-      )
-    )
+          "✕",
+        ),
+      ),
+    ),
   );
 }
 
@@ -424,7 +424,7 @@ async function toolbar() {
       settings,
       href: window.location.href,
       initialAgent: currentAgent,
-    })
+    }),
   );
 
   const observer = addObserver(currentMarketplace);

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import type { Settings } from "../models/Settings";
 import { defaultSettings, settingNames } from "../models/Settings";
 
@@ -9,7 +9,7 @@ describe("Settings type keys", () => {
 
     // Find missing keys
     const missingKeys = settingsKeys.filter(
-      (key) => !settingNames.includes(key as keyof Settings)
+      (key) => !settingNames.includes(key as keyof Settings),
     );
 
     // Check if there are no missing keys

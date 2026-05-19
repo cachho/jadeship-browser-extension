@@ -511,8 +511,8 @@ const Popup = () => {
                       color: "#f87171",
                     }}
                   >
-                    ⚠️ Selecting too many agents might cause visibility issues
-                    on smaller screens.
+                    ⚠️ Selecting too many agents might cause visibility issues on
+                    smaller screens.
                   </div>
                 )}
               </>

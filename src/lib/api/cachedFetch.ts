@@ -1,4 +1,8 @@
-import { RATE_LIMIT_STORAGE_KEY, saveRateLimitToStorage } from "../rateLimit";
+import {
+  RATE_LIMIT_STORAGE_KEY,
+  saveRateLimitFromResponseBodyToStorage,
+  saveRateLimitToStorage,
+} from "../rateLimit";
 import { getStorage } from "../storage";
 
 const ONE_DAY_MS = 86_400_000;
@@ -73,6 +77,9 @@ export async function cachedFetch(
 
   if (response.ok) {
     const data = await response.json();
+    if (!savedRateLimit) {
+      await saveRateLimitFromResponseBodyToStorage(data);
+    }
     await cacheSet(key, { data, expires: now + ONE_DAY_MS });
     return new Response(JSON.stringify(data), {
       status: response.status,

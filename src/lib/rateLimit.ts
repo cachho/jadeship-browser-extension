@@ -48,6 +48,21 @@ function parseHeaderInteger(value: string): number | null {
   return parsed;
 }
 
+function getRateLimitFromValues(
+  remainingValue: string,
+  limitValue: string,
+): RateLimit | null {
+  const remaining = parseHeaderInteger(remainingValue);
+  const limit = parseHeaderInteger(limitValue);
+  if (remaining === null || limit === null) {
+    return null;
+  }
+  if (remaining < 0 || limit <= 0) {
+    return null;
+  }
+  return { remaining, limit, updatedAt: Date.now() };
+}
+
 export function getRateLimitFromHeaders(headers: Headers): RateLimit | null {
   const remainingHeader = getHeaderValue(headers, [
     RateLimitHeadersEnum.Remaining,
@@ -60,21 +75,53 @@ export function getRateLimitFromHeaders(headers: Headers): RateLimit | null {
   if (remainingHeader === null || limitHeader === null) {
     return null;
   }
-  const remaining = parseHeaderInteger(remainingHeader);
-  const limit = parseHeaderInteger(limitHeader);
-  if (remaining === null || limit === null) {
+  return getRateLimitFromValues(remainingHeader, limitHeader);
+}
+
+export function getRateLimitFromResponseBody(data: unknown): RateLimit | null {
+  const metaRateLimit = (
+    data as {
+      meta?: {
+        rateLimit?: {
+          remaining?: string | number;
+          limit?: string | number;
+        };
+      };
+    }
+  )?.meta?.rateLimit;
+  if (!metaRateLimit) {
     return null;
   }
-  if (remaining < 0 || limit <= 0) {
+  const remaining = metaRateLimit.remaining;
+  const limit = metaRateLimit.limit;
+  if (
+    (typeof remaining !== "string" && typeof remaining !== "number") ||
+    (typeof limit !== "string" && typeof limit !== "number")
+  ) {
     return null;
   }
-  return { remaining, limit, updatedAt: Date.now() };
+  return getRateLimitFromValues(String(remaining), String(limit));
 }
 
 export async function saveRateLimitToStorage(
   headers: Headers,
 ): Promise<RateLimit | null> {
   const rateLimit = getRateLimitFromHeaders(headers);
+  if (!rateLimit) {
+    return null;
+  }
+  const storage = getStorage();
+  if (!storage) {
+    return null;
+  }
+  await storage.local.set({ [RATE_LIMIT_STORAGE_KEY]: rateLimit });
+  return rateLimit;
+}
+
+export async function saveRateLimitFromResponseBodyToStorage(
+  data: unknown,
+): Promise<RateLimit | null> {
+  const rateLimit = getRateLimitFromResponseBody(data);
   if (!rateLimit) {
     return null;
   }

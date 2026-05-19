@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { Config } from "../Config";
-import { agents } from "../lib/cn-links/agents";
+import { agents, regularAgents } from "../lib/cn-links/agents";
 import type { Settings } from "../models/Settings";
 import {
   defaultAgentSettings,
@@ -24,14 +24,15 @@ describe("Settings type keys", () => {
 });
 
 describe("default agent settings", () => {
-  it("should derive fallback defaults from the shared agents list", () => {
+  it("should derive fallback defaults from the shared regular agents list", () => {
+    expect(regularAgents.every((agent) => agents.includes(agent))).toBe(true);
     expect(defaultAgentSettings).toEqual({
-      myAgent: agents[0],
+      myAgent: regularAgents[0],
       agentsInToolbar: [
-        ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+        ...regularAgents.slice(1, 1 + Config.defaultToolbarAgentsCount),
       ],
     });
-    expect(defaultSettings.myAgent).toBe(agents[0]);
+    expect(defaultSettings.myAgent).toBe(regularAgents[0]);
     expect(defaultSettings.agentsInToolbar).toEqual(
       defaultAgentSettings.agentsInToolbar,
     );

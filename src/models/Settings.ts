@@ -1,5 +1,5 @@
 import { Config } from "../Config";
-import { agents } from "../lib/cn-links/agents";
+import { regularAgents } from "../lib/cn-links/agents";
 import type { AffiliateLinks } from ".";
 import type { Agent, AgentWithRaw } from "./Agents";
 
@@ -63,9 +63,9 @@ export const defaultAgentSettings: Pick<
   Settings,
   "myAgent" | "agentsInToolbar"
 > = {
-  myAgent: agents[0],
+  myAgent: regularAgents[0],
   agentsInToolbar: [
-    ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+    ...regularAgents.slice(1, 1 + Config.defaultToolbarAgentsCount),
   ] as Agent[],
 };
 

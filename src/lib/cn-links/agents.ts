@@ -35,4 +35,13 @@ export const agents = [
   "fishgoo",
 ] as const;
 
+export const regularAgents = [
+  "cnfans",
+  "mulebuy",
+  "allchinabuy",
+  "hoobuy",
+  "sugargoo",
+  "acbuy",
+] as const;
+
 export const agentsWithRaw = [...agents, "raw"] as const;

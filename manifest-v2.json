@@ -1,119 +1,119 @@
 {
-  "manifest_version": 2,
-  "name": "JadeShip.com Extension",
-  "version": "0.0.0",
-  "description": "(formerly RepArchive Ext) Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich pages with price info and QC pics.",
-  "icons": {
-    "48": "public/icon.png"
-  },
-  "background": {
-    "scripts": ["build/js/background.js"],
-    "persistent": true
-  },
-  "browser_action": {
-    "default_icon": "public/icon.png",
-    "default_popup": "build/js/index.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["*://*.reddit.com/*", "*://*.x.yupoo.com/*"],
-      "js": ["build/js/content_script.js"],
-      "run_at": "document_end"
-    },
-    {
-      "matches": [
-        "*://*.wegobuy.com/*",
-        "*://*.superbuy.com/*",
-        "*://*.sugargoo.com/*",
-        "*://*.cssbuy.com/*",
-        "*://*.pandabuy.com/*",
-        "*://*.hagobuy.com/*",
-        "*://*.hegobuy.com/*",
-        "*://*.kameymall.com/*",
-        "*://*.ezbuycn.com/*",
-        "*://*.cnfans.com/*",
-        "*://*.hoobuy.com/*",
-        "*://*.allchinabuy.com/*",
-        "*://*.acbuy.com/*",
-        "*://*.mulebuy.com/*",
-        "*://*.eastmallbuy.com/*",
-        "*://*.hubbuycn.com/*",
-        "*://*.joyabuy.com/*",
-        "*://*.joyagoo.com/*",
-        "*://*.orientdig.com/*",
-        "*://*.oopbuy.com/*",
-        "*://*.lovegobuy.com/*",
-        "*://*.blikbuy.com/*",
-        "*://*.ponybuy.com/*",
-        "*://*.panglobalbuy.com/*",
-        "*://*.sifubuy.com/*",
-        "*://*.loongbuy.com/*",
-        "*://*.kakobuy.com/*",
-        "*://*.basetao.com/*",
-        "*://*.itaobuy.com/*",
-        "*://*.usfans.com/*",
-        "*://*.cnshopper.com/*",
-        "*://*.hipobuy.com/*",
-        "*://*.gtbuy.com/*",
-        "*://*.fishgoo.com/*",
-        "*://*.taobao.com/*",
-        "*://*.weidian.com/*",
-        "*://*.1688.com/*",
-        "*://*.tmall.com/*"
-      ],
-      "js": ["build/js/toolbar.js"],
-      "run_at": "document_end"
-    }
-  ],
-  "permissions": [
-    "storage",
-    "webNavigation",
-    "*://*.reddit.com/*",
-    "*://*.x.yupoo.com/*",
-    "*://*.wegobuy.com/*",
-    "*://*.superbuy.com/*",
-    "*://*.sugargoo.com/*",
-    "*://*.hagobuy.com/*",
-    "*://*.hegobuy.com/*",
-    "*://*.cssbuy.com/*",
-    "*://*.pandabuy.com/*",
-    "*://*.kameymall.com/*",
-    "*://*.ezbuycn.com/*",
-    "*://*.cnfans.com/*",
-    "*://*.hoobuy.com/*",
-    "*://*.basetao.com/*",
-    "*://*.allchinabuy.com/*",
-    "*://*.acbuy.com/*",
-    "*://*.mulebuy.com/*",
-    "*://*.eastmallbuy.com/*",
-    "*://*.hubbuycn.com/*",
-    "*://*.joyabuy.com/*",
-    "*://*.joyagoo.com/*",
-    "*://*.orientdig.com/*",
-    "*://*.oopbuy.com/*",
-    "*://*.lovegobuy.com/*",
-    "*://*.blikbuy.com/*",
-    "*://*.ponybuy.com/*",
-    "*://*.panglobalbuy.com/*",
-    "*://*.sifubuy.com/*",
-    "*://*.loongbuy.com/*",
-    "*://*.kakobuy.com/*",
-    "*://*.itaobuy.com/*",
-    "*://*.usfans.com/*",
-    "*://*.cnshopper.com/*",
-    "*://*.hipobuy.com/*",
-    "*://*.gtbuy.com/*",
-    "*://*.fishgoo.com/*",
-    "https://*.reparchive.com/*",
-    "https://*.jadeship.com/*"
-  ],
-  "web_accessible_resources": [
-    "public/agent_logos/*",
-    "public/platform_logos/*"
-  ],
-  "applications": {
-    "gecko": {
-      "id": "reparchive-browser-extension@ch-webdev.com"
-    }
-  }
+	"manifest_version": 2,
+	"name": "JadeShip.com Extension",
+	"version": "0.0.0",
+	"description": "(formerly RepArchive Ext) Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich pages with price info and QC pics.",
+	"icons": {
+		"48": "public/icon.png"
+	},
+	"background": {
+		"scripts": ["build/js/background.js"],
+		"persistent": true
+	},
+	"browser_action": {
+		"default_icon": "public/icon.png",
+		"default_popup": "build/js/index.html"
+	},
+	"content_scripts": [
+		{
+			"matches": ["*://*.reddit.com/*", "*://*.x.yupoo.com/*"],
+			"js": ["build/js/content_script.js"],
+			"run_at": "document_end"
+		},
+		{
+			"matches": [
+				"*://*.wegobuy.com/*",
+				"*://*.superbuy.com/*",
+				"*://*.sugargoo.com/*",
+				"*://*.cssbuy.com/*",
+				"*://*.pandabuy.com/*",
+				"*://*.hagobuy.com/*",
+				"*://*.hegobuy.com/*",
+				"*://*.kameymall.com/*",
+				"*://*.ezbuycn.com/*",
+				"*://*.cnfans.com/*",
+				"*://*.hoobuy.com/*",
+				"*://*.allchinabuy.com/*",
+				"*://*.acbuy.com/*",
+				"*://*.mulebuy.com/*",
+				"*://*.eastmallbuy.com/*",
+				"*://*.hubbuycn.com/*",
+				"*://*.joyabuy.com/*",
+				"*://*.joyagoo.com/*",
+				"*://*.orientdig.com/*",
+				"*://*.oopbuy.com/*",
+				"*://*.lovegobuy.com/*",
+				"*://*.blikbuy.com/*",
+				"*://*.ponybuy.com/*",
+				"*://*.panglobalbuy.com/*",
+				"*://*.sifubuy.com/*",
+				"*://*.loongbuy.com/*",
+				"*://*.kakobuy.com/*",
+				"*://*.basetao.com/*",
+				"*://*.itaobuy.com/*",
+				"*://*.usfans.com/*",
+				"*://*.cnshopper.com/*",
+				"*://*.hipobuy.com/*",
+				"*://*.gtbuy.com/*",
+				"*://*.fishgoo.com/*",
+				"*://*.taobao.com/*",
+				"*://*.weidian.com/*",
+				"*://*.1688.com/*",
+				"*://*.tmall.com/*"
+			],
+			"js": ["build/js/toolbar.js"],
+			"run_at": "document_end"
+		}
+	],
+	"permissions": [
+		"storage",
+		"webNavigation",
+		"*://*.reddit.com/*",
+		"*://*.x.yupoo.com/*",
+		"*://*.wegobuy.com/*",
+		"*://*.superbuy.com/*",
+		"*://*.sugargoo.com/*",
+		"*://*.hagobuy.com/*",
+		"*://*.hegobuy.com/*",
+		"*://*.cssbuy.com/*",
+		"*://*.pandabuy.com/*",
+		"*://*.kameymall.com/*",
+		"*://*.ezbuycn.com/*",
+		"*://*.cnfans.com/*",
+		"*://*.hoobuy.com/*",
+		"*://*.basetao.com/*",
+		"*://*.allchinabuy.com/*",
+		"*://*.acbuy.com/*",
+		"*://*.mulebuy.com/*",
+		"*://*.eastmallbuy.com/*",
+		"*://*.hubbuycn.com/*",
+		"*://*.joyabuy.com/*",
+		"*://*.joyagoo.com/*",
+		"*://*.orientdig.com/*",
+		"*://*.oopbuy.com/*",
+		"*://*.lovegobuy.com/*",
+		"*://*.blikbuy.com/*",
+		"*://*.ponybuy.com/*",
+		"*://*.panglobalbuy.com/*",
+		"*://*.sifubuy.com/*",
+		"*://*.loongbuy.com/*",
+		"*://*.kakobuy.com/*",
+		"*://*.itaobuy.com/*",
+		"*://*.usfans.com/*",
+		"*://*.cnshopper.com/*",
+		"*://*.hipobuy.com/*",
+		"*://*.gtbuy.com/*",
+		"*://*.fishgoo.com/*",
+		"https://*.reparchive.com/*",
+		"https://*.jadeship.com/*"
+	],
+	"web_accessible_resources": [
+		"public/agent_logos/*",
+		"public/platform_logos/*"
+	],
+	"applications": {
+		"gecko": {
+			"id": "reparchive-browser-extension@ch-webdev.com"
+		}
+	}
 }

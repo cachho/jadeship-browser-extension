@@ -10,13 +10,13 @@
  * console.log(getDomain(url)); // Outputs: example.com
  */
 function getDomain(parsedUrl: URL): string {
-  const domainParts = parsedUrl.hostname.split('.');
+	const domainParts = parsedUrl.hostname.split(".");
 
-  // If there are at least two parts (like example.com), take the last two. Otherwise, return the full domain (e.g., "localhost").
-  if (domainParts.length > 1) {
-    return domainParts.slice(-2).join('.');
-  }
-  return parsedUrl.hostname;
+	// If there are at least two parts (like example.com), take the last two. Otherwise, return the full domain (e.g., "localhost").
+	if (domainParts.length > 1) {
+		return domainParts.slice(-2).join(".");
+	}
+	return parsedUrl.hostname;
 }
 
 export { getDomain };

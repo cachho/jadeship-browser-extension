@@ -1,5 +1,5 @@
-import type { Agent } from '../../models';
-import { agents } from './agents';
+import type { Agent } from "../../models";
+import { agents } from "./agents";
 
 /**
  * Detects the agent based on the provided URL.
@@ -8,19 +8,19 @@ import { agents } from './agents';
  * @returns {Agent | undefined} The detected agent, or undefined if no agent is detected.
  */
 export function detectAgent(href: URL | string): Agent | undefined {
-  const link = typeof href === 'string' ? new URL(href) : href;
+	const link = typeof href === "string" ? new URL(href) : href;
 
-  // Find agent in hostname
-  const agent = agents.find((a) => {
-    if (link.hostname.includes(a)) {
-      return true;
-    }
-    return false;
-  });
+	// Find agent in hostname
+	const agent = agents.find((a) => {
+		if (link.hostname.includes(a)) {
+			return true;
+		}
+		return false;
+	});
 
-  if (agent) {
-    return agent;
-  }
+	if (agent) {
+		return agent;
+	}
 
-  return undefined;
+	return undefined;
 }

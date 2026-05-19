@@ -1,6 +1,6 @@
-import type { Marketplace } from './Marketplace';
+import type { Marketplace } from "./Marketplace";
 
 export type CnLink = {
-  marketplace: Marketplace;
-  id: string;
+	marketplace: Marketplace;
+	id: string;
 };

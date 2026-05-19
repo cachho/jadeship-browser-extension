@@ -1,15 +1,15 @@
 export const Button = (href: string, newTab?: boolean) => {
-  const button = document.createElement('a');
+	const button = document.createElement("a");
 
-  button.className = 'btn';
+	button.className = "btn";
 
-  if (newTab) {
-    button.target = '_blank';
-    button.rel = 'noreferrer';
-  }
-  button.href = href;
+	if (newTab) {
+		button.target = "_blank";
+		button.rel = "noreferrer";
+	}
+	button.href = href;
 
-  button.innerHTML = `
+	button.innerHTML = `
     <span class="btn-text">Action Link</span>
     <div class="btn-icon">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -19,5 +19,5 @@ export const Button = (href: string, newTab?: boolean) => {
     </div>
   `;
 
-  return button;
+	return button;
 };

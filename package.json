@@ -7,9 +7,9 @@
 		"prepare": "husky install",
 		"test": "bun test",
 		"watch": "bun run build.ts --mode=development --watch",
-		"lint": "biome check --assist-enabled=false --javascript-formatter-enabled=false --json-formatter-enabled=false --css-formatter-enabled=false",
-		"lint:safe": "biome check --write --assist-enabled=false --javascript-formatter-enabled=false --json-formatter-enabled=false --css-formatter-enabled=false",
-		"lint:unsafe": "biome check --write --unsafe --assist-enabled=false --javascript-formatter-enabled=false --json-formatter-enabled=false --css-formatter-enabled=false"
+		"lint": "biome check",
+		"lint:safe": "biome check --write",
+		"lint:unsafe": "biome check --write --unsafe"
 	},
 	"dependencies": {
 		"html-webpack-plugin": "^5.5.0",

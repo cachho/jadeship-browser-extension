@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 
-import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
+import {
+  type ConvertDecryptFetchError,
+  getConvertDecrypt,
+} from "./lib/api/getConvertDecrypt";
 import { getQc } from "./lib/api/getQc";
 import { detectMarketplace } from "./lib/cn-links";
 import { detectAgent } from "./lib/cn-links/detectAgent";
@@ -140,6 +143,9 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [cnLink, setCnLink] = useState<CnLink | null>(null);
   const [qcUrl, setQcUrl] = useState<string | null>(null);
+  const [convertErrorMessage, setConvertErrorMessage] = useState<string | null>(
+    null,
+  );
   const [convertedLinks, setConvertedLinks] = useState<
     Partial<Record<Agent, string>>
   >({});
@@ -177,9 +183,12 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   };
 
   const handleMouseLeave = () => {
-    collapseTimeout.current = setTimeout(() => {
-      setIsCollapsed(true);
-    }, 1500);
+    collapseTimeout.current = setTimeout(
+      () => {
+        setIsCollapsed(true);
+      },
+      convertErrorMessage ? 900 : 1500,
+    );
   };
 
   const sortedAgents = useMemo(() => {
@@ -193,9 +202,21 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
   useEffect(() => {
     let alive = true;
-    getConvertDecrypt(href, settings.agentsInToolbar)
+    setConvertErrorMessage(null);
+    const handleConvertFetchError = (error: ConvertDecryptFetchError) => {
+      if (!alive) return;
+      setConvertedLinks({});
+      setCnLink(null);
+      setQcUrl(null);
+      setIsCollapsed(true);
+      setConvertErrorMessage(
+        `Failed to get converted links (Error ${error.status}: ${error.statusText}).`,
+      );
+    };
+    getConvertDecrypt(href, settings.agentsInToolbar, handleConvertFetchError)
       .then((response) => {
         if (!alive || !response) return;
+        setConvertErrorMessage(null);
         setCnLink(response.cnLink);
         const next: Partial<Record<Agent, string>> = {};
         response.data.forEach(({ target, url }) => {
@@ -203,7 +224,16 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         });
         setConvertedLinks(next);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (!alive) return;
+        setConvertedLinks({});
+        setCnLink(null);
+        setQcUrl(null);
+        setIsCollapsed(true);
+        setConvertErrorMessage(
+          "Failed to get converted links (Error 0: Unknown Error).",
+        );
+      });
     return () => {
       alive = false;
     };
@@ -330,47 +360,62 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         React.createElement(
           "div",
           { style: { display: "flex", gap: "6px", alignItems: "center" } },
-          ...sortedAgents.map((agent) => {
-            const hrefValue = convertedLinks[agent];
-            const isMine = agent === settings.myAgent;
-            const isReady = Boolean(true);
+          convertErrorMessage
+            ? React.createElement(
+                "span",
+                {
+                  style: {
+                    fontSize: "12px",
+                    color: "rgba(248, 113, 113, 0.95)",
+                    fontWeight: 600,
+                    letterSpacing: "-0.01em",
+                    maxWidth: "360px",
+                  },
+                },
+                convertErrorMessage,
+              )
+            : sortedAgents.map((agent) => {
+                const hrefValue = convertedLinks[agent];
+                const isMine = agent === settings.myAgent;
+                const isReady = Boolean(true);
 
-            return React.createElement("a", {
-              key: agent,
-              href: hrefValue ?? "#",
-              target: "_blank",
-              rel: "noopener noreferrer",
-              title: isMine ? `${agent} (My Agent)` : agent,
-              onClick: (e) => {
-                if (!hrefValue) e.preventDefault();
-              },
-              style: {
-                ...buttonBaseStyle,
-                backgroundColor: isMine
-                  ? "rgba(255, 255, 255, 0.08)"
-                  : "transparent",
-                borderColor: isMine
-                  ? "rgba(255, 255, 255, 0.14)"
-                  : "transparent",
-                borderWidth: "0.5px",
-                opacity: isReady ? 1 : 0.22,
-                pointerEvents: isReady ? "auto" : "none",
-              },
-              onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-                e.currentTarget.style.transform = "scale(1.1) translateY(-1px)";
-                e.currentTarget.style.backgroundColor =
-                  "rgba(255, 255, 255, 0.14)";
-              },
-              onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-                e.currentTarget.style.transform = "scale(1)";
-                e.currentTarget.style.backgroundColor = isMine
-                  ? "rgba(255, 255, 255, 0.08)"
-                  : "transparent";
-              },
-              // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
-              dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
-            });
-          }),
+                return React.createElement("a", {
+                  key: agent,
+                  href: hrefValue ?? "#",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  title: isMine ? `${agent} (My Agent)` : agent,
+                  onClick: (e: React.MouseEvent<HTMLElement>) => {
+                    if (!hrefValue) e.preventDefault();
+                  },
+                  style: {
+                    ...buttonBaseStyle,
+                    backgroundColor: isMine
+                      ? "rgba(255, 255, 255, 0.08)"
+                      : "transparent",
+                    borderColor: isMine
+                      ? "rgba(255, 255, 255, 0.14)"
+                      : "transparent",
+                    borderWidth: "0.5px",
+                    opacity: isReady ? 1 : 0.22,
+                    pointerEvents: isReady ? "auto" : "none",
+                  },
+                  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.transform =
+                      "scale(1.1) translateY(-1px)";
+                    e.currentTarget.style.backgroundColor =
+                      "rgba(255, 255, 255, 0.14)";
+                  },
+                  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                    e.currentTarget.style.backgroundColor = isMine
+                      ? "rgba(255, 255, 255, 0.08)"
+                      : "transparent";
+                  },
+                  // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
+                  dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
+                });
+              }),
         ),
 
         // Close System Utility

@@ -10,7 +10,10 @@ import { addHtmlOnlineElements } from "./lib/html/addHtmlOnlineElements";
 import { addQcElement } from "./lib/html/addQcElement";
 import { getImageAgent } from "./lib/html/getImageAgent";
 import { getPlatformImage } from "./lib/html/getPlatformImage";
-import { replaceTextContent } from "./lib/html/replaceTextContent";
+import {
+  replaceTextContent,
+  shouldReplaceLinkText,
+} from "./lib/html/replaceTextContent";
 import { initializeExtension } from "./lib/initializeExtension";
 import { isBrokenRedditImageLink } from "./lib/isBrokenRedditImageLink";
 import { loadSettings } from "./lib/loadSettings";
@@ -149,8 +152,7 @@ async function main(settings: Settings) {
           );
         }
       } else if (
-        elem.textContent?.startsWith("https://") ||
-        isBrokenRedditImageLink(elem.textContent ?? "", link.marketplace)
+        shouldReplaceLinkText(elem.textContent ?? "", link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;
       }

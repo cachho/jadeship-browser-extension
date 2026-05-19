@@ -11,9 +11,7 @@ import { getQc } from "./getQc";
  */
 export function getOnlineFeatures(settings: Settings, cnLink: CnLink) {
   const promiseDetails: Promise<ApiResponse<Details> | null> =
-    settings.onlineFeatures && settings.onlineFeaturesQcPhotos
-      ? getDetails(cnLink)
-      : Promise.resolve(null);
+    settings.onlineFeatures ? getDetails(cnLink) : Promise.resolve(null);
 
   const promiseQcAvailable: Promise<QcResponse | null> =
     settings.onlineFeatures && settings.onlineFeaturesQcPhotos

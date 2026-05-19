@@ -67,7 +67,7 @@ export async function initializeExtension(
     return;
   }
   const defaultAgentResponse = await fetchData<ApiResponse<string[]>>(
-    Config.endpoint.defaultAgents,
+    Config.endpoint.defaults.agent,
   );
   const effectiveDefaults: Settings = {
     ...defaultSettings,

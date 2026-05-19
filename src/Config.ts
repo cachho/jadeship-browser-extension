@@ -1,4 +1,5 @@
 export const Config = {
+  defaultToolbarAgentsCount: 5,
   name: "JadeShip.com",
   endpoint: {
     affiliateLinks: "https://www.jadeship.com/api/agents/affiliate-links",
@@ -6,6 +7,10 @@ export const Config = {
       "https://www.jadeship.com/api/quota-limited/extension/v2/convert-decrypt/multi",
     qc: "https://www.jadeship.com/api/quota-limited/extension/v2/qc",
     details: "https://www.jadeship.com/api/quota-limited/extension/v2/details",
+    defaults: {
+      agent:
+        "https://www.jadeship.com/api/quota-limited/extension/v2/default/agents",
+    },
   },
   social: {
     homepage: "https://www.jadeship.com/?r=extension",

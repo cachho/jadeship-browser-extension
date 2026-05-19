@@ -1,8 +1,9 @@
 import { Config } from "../Config";
-import type { AffiliateLinks, ApiResponse } from "../models";
+import type { AffiliateLinks, Agent, ApiResponse } from "../models";
 import type { Settings } from "../models/Settings";
-import { defaultSettings } from "../models/Settings";
+import { defaultAgentSettings, defaultSettings } from "../models/Settings";
 import { fetchData } from "./api/fetchData";
+import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
 
 export function isStoredValueEqual(
@@ -19,6 +20,41 @@ export function isStoredValueEqual(
   return value === defaultValue;
 }
 
+export function getDefaultAgentSettings(
+  defaultAgents?: string[],
+  onError: (...args: unknown[]) => void = console.error,
+): Pick<Settings, "myAgent" | "agentsInToolbar"> {
+  const knownAgents = new Set<string>(agents);
+  const validDefaultAgents = Array.from(
+    new Set(
+      (defaultAgents ?? []).filter((agent): agent is Agent =>
+        knownAgents.has(agent),
+      ),
+    ),
+  );
+
+  if (validDefaultAgents.length === 0) {
+    onError(
+      "Error retrieving default agents:",
+      Array.isArray(defaultAgents) && defaultAgents.length > 0
+        ? "No valid default agents found in API response."
+        : "No default agents response received.",
+    );
+    return {
+      myAgent: defaultAgentSettings.myAgent,
+      agentsInToolbar: defaultAgentSettings.agentsInToolbar,
+    };
+  }
+
+  return {
+    myAgent: validDefaultAgents[0],
+    agentsInToolbar: validDefaultAgents.slice(
+      1,
+      1 + Config.defaultToolbarAgentsCount,
+    ),
+  };
+}
+
 /**
  * This script initializes local storage with default values and from the api.
  * @returns void
@@ -30,10 +66,18 @@ export async function initializeExtension(
     console.error("Storage is not available.");
     return;
   }
+  const defaultAgentResponse = await fetchData<ApiResponse<string[]>>(
+    Config.endpoint.defaults.agent,
+  );
+  const effectiveDefaults: Settings = {
+    ...defaultSettings,
+    ...getDefaultAgentSettings(defaultAgentResponse?.data),
+  };
+
   // Check if we're running in Chrome
   if (isChromeStorage(storage)) {
-    Object.keys(defaultSettings).forEach((key) => {
-      if (Object.hasOwn(defaultSettings, key)) {
+    Object.keys(effectiveDefaults).forEach((key) => {
+      if (Object.hasOwn(effectiveDefaults, key)) {
         const param: { [key: string]: Settings[keyof Settings] } = {
           [key]: null,
         };
@@ -44,7 +88,7 @@ export async function initializeExtension(
             result[key] === undefined ||
             result[key] === null
           ) {
-            const defaultVal = defaultSettings[key as keyof Settings];
+            const defaultVal = effectiveDefaults[key as keyof Settings];
             console.debug(
               `Key does not exist. Creating key '${key}' with value: ${defaultVal}`,
             );
@@ -66,12 +110,12 @@ export async function initializeExtension(
 
   // Check if we're running in Firefox
   if (!isChromeStorage(storage)) {
-    Object.keys(defaultSettings).forEach((key) => {
+    Object.keys(effectiveDefaults).forEach((key) => {
       const params: { [key: string]: Settings[keyof Settings] } = {};
       params[key] = null;
       storage.local.get(params).then((result) => {
         if (!Object.hasOwn(result, key) || !result[key]) {
-          const defaultVal = defaultSettings[key as keyof Settings];
+          const defaultVal = effectiveDefaults[key as keyof Settings];
           storage.local.set({ [key]: defaultVal });
         }
       });

@@ -1,9 +1,8 @@
+import { getAnchorElements } from "./getAnchorElements";
 import { isInsideContentEditable } from "./isInsideContentEditable";
 
 export function findLinksOnPage(targetedHrefs: string[]) {
-  const links = Array.from(
-    document.querySelectorAll("a"),
-  ) as HTMLAnchorElement[];
+  const links = getAnchorElements();
 
   return links
     .filter((a) => !isInsideContentEditable(a))

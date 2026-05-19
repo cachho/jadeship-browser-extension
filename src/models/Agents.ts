@@ -1,4 +1,4 @@
-import type { agents, agentsWithRaw } from '../lib/cn-links/agents';
+import type { agents, agentsWithRaw } from "../lib/cn-links/agents";
 
 export type Agent = (typeof agents)[number];
 

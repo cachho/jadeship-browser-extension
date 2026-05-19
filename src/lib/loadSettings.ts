@@ -1,6 +1,6 @@
-import type { Settings } from '../models/Settings';
-import { settingNames } from '../models/Settings';
-import { getStorage, isChromeStorage } from './storage';
+import type { Settings } from "../models/Settings";
+import { settingNames } from "../models/Settings";
+import { getStorage, isChromeStorage } from "./storage";
 
 export function loadSettings(settings?: string[]): Promise<Settings | null> {
   const storage = getStorage();

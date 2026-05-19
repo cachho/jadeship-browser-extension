@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { agents, agentsWithRaw } from "../lib/cn-links/agents";
 
 describe("agents data integrity", () => {
@@ -9,13 +9,40 @@ describe("agents data integrity", () => {
 
   it("should match the expected static order", () => {
     const expected = [
-      "superbuy", "wegobuy", "pandabuy", "sugargoo", "cssbuy",
-      "hagobuy", "basetao", "kameymall", "cnfans", "ezbuycn",
-      "hoobuy", "allchinabuy", "mulebuy", "eastmallbuy", "hubbuycn",
-      "joyabuy", "orientdig", "oopbuy", "lovegobuy", "blikbuy",
-      "hegobuy", "ponybuy", "panglobalbuy", "sifubuy", "loongbuy",
-      "kakobuy", "acbuy", "joyagoo", "itaobuy", "usfans",
-      "cnshopper", "hipobuy", "gtbuy", "fishgoo",
+      "superbuy",
+      "wegobuy",
+      "pandabuy",
+      "sugargoo",
+      "cssbuy",
+      "hagobuy",
+      "basetao",
+      "kameymall",
+      "cnfans",
+      "ezbuycn",
+      "hoobuy",
+      "allchinabuy",
+      "mulebuy",
+      "eastmallbuy",
+      "hubbuycn",
+      "joyabuy",
+      "orientdig",
+      "oopbuy",
+      "lovegobuy",
+      "blikbuy",
+      "hegobuy",
+      "ponybuy",
+      "panglobalbuy",
+      "sifubuy",
+      "loongbuy",
+      "kakobuy",
+      "acbuy",
+      "joyagoo",
+      "itaobuy",
+      "usfans",
+      "cnshopper",
+      "hipobuy",
+      "gtbuy",
+      "fishgoo",
     ];
     expect(agents).toEqual(expected);
   });
@@ -41,9 +68,7 @@ describe("agents data integrity", () => {
     for (let i = 0; i < agents.length; i++) {
       for (let j = 0; j < agents.length; j++) {
         if (i !== j && agents[i].includes(agents[j])) {
-          throw new Error(
-            `"${agents[j]}" is a substring of "${agents[i]}"`
-          );
+          throw new Error(`"${agents[j]}" is a substring of "${agents[i]}"`);
         }
       }
     }

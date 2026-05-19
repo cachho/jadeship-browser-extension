@@ -1,4 +1,4 @@
-import type { Agent } from './Agents';
+import type { Agent } from "./Agents";
 
 export type AffiliateLink = {
   signupRef: string;

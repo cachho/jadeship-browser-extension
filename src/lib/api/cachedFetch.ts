@@ -1,9 +1,9 @@
-import { getStorage } from '../storage';
+import { getStorage } from "../storage";
 
 const ONE_DAY_MS = 86_400_000;
 
 async function cacheGet(
-  key: string
+  key: string,
 ): Promise<{ data: unknown; expires: number } | null> {
   const storage = getStorage();
   if (!storage) return null;
@@ -15,7 +15,7 @@ async function cacheGet(
 
 async function cacheSet(
   key: string,
-  value: { data: unknown; expires: number }
+  value: { data: unknown; expires: number },
 ): Promise<void> {
   const storage = getStorage();
   if (!storage) return;
@@ -30,9 +30,9 @@ async function cacheRemove(key: string): Promise<void> {
 
 export async function cachedFetch(
   url: string,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<Response> {
-  const key = `cf:${init?.method ?? 'GET'}:${url}:${init?.body ?? ''}`;
+  const key = `cf:${init?.method ?? "GET"}:${url}:${init?.body ?? ""}`;
   const now = Date.now();
 
   const hit = await cacheGet(key);
@@ -40,7 +40,7 @@ export async function cachedFetch(
     if (hit.expires > now) {
       return new Response(JSON.stringify(hit.data), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
     await cacheRemove(key);
@@ -53,7 +53,7 @@ export async function cachedFetch(
     await cacheSet(key, { data, expires: now + ONE_DAY_MS });
     return new Response(JSON.stringify(data), {
       status: response.status,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
   }
 

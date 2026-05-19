@@ -4,7 +4,7 @@ export function addImageElement(
   // link: HTMLAnchorElement,
   _: HTMLAnchorElement,
   src: string,
-  platform?: Platform
+  platform?: Platform,
 ) {
   const imageContainer = document.createElement("a");
   imageContainer.href = src;

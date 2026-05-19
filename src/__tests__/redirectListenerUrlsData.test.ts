@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, expect, it } from "bun:test";
 import { redirectListenerUrls } from "../data/redirectListenerUrls";
 import { agents } from "../lib/cn-links";
 
@@ -19,7 +19,9 @@ describe("redirectListenerUrls data integrity", () => {
     hosts.forEach((host) => {
       const matched = agents.some((agent) => host.includes(agent));
       if (!matched) {
-        throw new Error(`Extra redirectListenerUrl with no matching agent: ${host}`);
+        throw new Error(
+          `Extra redirectListenerUrl with no matching agent: ${host}`,
+        );
       }
       expect(matched).toBe(true);
     });
@@ -34,15 +36,40 @@ describe("redirectListenerUrls data integrity", () => {
   it("should match the expected static order", () => {
     const hosts = redirectListenerUrls.map((u) => u.hostSuffix);
     const expected = [
-      "wegobuy.com", "superbuy.com", "sugargoo.com", "cssbuy.com",
-      "pandabuy.com", "hagobuy.com", "hegobuy.com", "kameymall.com",
-      "ezbuycn.com", "cnfans.com", "hoobuy.com", "allchinabuy.com",
-      "acbuy.com", "basetao.com", "mulebuy.com", "eastmallbuy.com",
-      "hubbuycn.com", "joyabuy.com", "joyagoo.com", "orientdig.com",
-      "oopbuy.com", "lovegobuy.com", "blikbuy.com", "panglobalbuy.com",
-      "ponybuy.com", "sifubuy.com", "loongbuy.com", "kakobuy.com",
-      "itaobuy.com", "usfans.com", "cnshopper.com", "hipobuy.com",
-      "gtbuy.com", "fishgoo.com",
+      "wegobuy.com",
+      "superbuy.com",
+      "sugargoo.com",
+      "cssbuy.com",
+      "pandabuy.com",
+      "hagobuy.com",
+      "hegobuy.com",
+      "kameymall.com",
+      "ezbuycn.com",
+      "cnfans.com",
+      "hoobuy.com",
+      "allchinabuy.com",
+      "acbuy.com",
+      "basetao.com",
+      "mulebuy.com",
+      "eastmallbuy.com",
+      "hubbuycn.com",
+      "joyabuy.com",
+      "joyagoo.com",
+      "orientdig.com",
+      "oopbuy.com",
+      "lovegobuy.com",
+      "blikbuy.com",
+      "panglobalbuy.com",
+      "ponybuy.com",
+      "sifubuy.com",
+      "loongbuy.com",
+      "kakobuy.com",
+      "itaobuy.com",
+      "usfans.com",
+      "cnshopper.com",
+      "hipobuy.com",
+      "gtbuy.com",
+      "fishgoo.com",
     ];
     expect(hosts).toEqual(expected);
   });

@@ -1,6 +1,6 @@
-import { describe, it, expect } from "bun:test";
-import { isConvertableLink } from "../lib/isConvertableLink";
+import { describe, expect, it } from "bun:test";
 import { convertableLinks } from "../data/convertableLinks";
+import { isConvertableLink } from "../lib/isConvertableLink";
 
 describe("isConvertableLink", () => {
   it("should return true for all convertable link hostnames", () => {
@@ -11,20 +11,22 @@ describe("isConvertableLink", () => {
 
   it("should return true for pandabuy redirect URLs", () => {
     expect(
-      isConvertableLink(new URL("https://www.pandabuy.com/product?url=PI12345"))
+      isConvertableLink(
+        new URL("https://www.pandabuy.com/product?url=PI12345"),
+      ),
     ).toBe(true);
     expect(
-      isConvertableLink(new URL("https://pandabuy.com/product?url=PI99999"))
+      isConvertableLink(new URL("https://pandabuy.com/product?url=PI99999")),
     ).toBe(true);
   });
 
   it("should return false for pandabuy URLs without PI pattern", () => {
     expect(
-      isConvertableLink(new URL("https://www.pandabuy.com/product?url=ABC123"))
+      isConvertableLink(new URL("https://www.pandabuy.com/product?url=ABC123")),
     ).toBe(false);
-    expect(
-      isConvertableLink(new URL("https://www.pandabuy.com/product"))
-    ).toBe(false);
+    expect(isConvertableLink(new URL("https://www.pandabuy.com/product"))).toBe(
+      false,
+    );
   });
 
   it("should return false for non-convertable URLs", () => {

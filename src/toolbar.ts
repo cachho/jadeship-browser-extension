@@ -15,6 +15,7 @@ import {
   undoExceptionElements,
 } from "./lib/handleExceptionElements";
 import { getImageAgent } from "./lib/html/getImageAgent";
+import { isValidCnLink } from "./lib/isValidCnLink";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
 import type { Agent, CnLink, Settings } from "./models";
@@ -241,7 +242,8 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
   useEffect(() => {
     let alive = true;
-    if (!settings.onlineFeaturesQcPhotos || !cnLink) return;
+    setQcUrl(null);
+    if (!settings.onlineFeaturesQcPhotos || !isValidCnLink(cnLink)) return;
     getQc(cnLink.id, cnLink.marketplace)
       .then((response) => {
         if (!alive || !response || response.count <= 0) return;

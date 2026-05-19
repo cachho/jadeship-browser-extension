@@ -1,7 +1,18 @@
 import { Config } from "../Config";
-import { regularAgents } from "../lib/cn-links/agents";
+import { agents as libAgents } from "../lib/cn-links/agents";
 import type { AffiliateLinks } from ".";
 import type { Agent, AgentWithRaw } from "./Agents";
+
+const fallbackAgentIds = new Set<Agent>([
+  "cnfans",
+  "mulebuy",
+  "allchinabuy",
+  "hoobuy",
+  "sugargoo",
+  "acbuy",
+]);
+
+const agents = libAgents.filter((agent) => fallbackAgentIds.has(agent));
 
 export const settingNames: (keyof Settings)[] = [
   "taobaoLink",
@@ -63,9 +74,9 @@ export const defaultAgentSettings: Pick<
   Settings,
   "myAgent" | "agentsInToolbar"
 > = {
-  myAgent: regularAgents[0],
+  myAgent: agents[0],
   agentsInToolbar: [
-    ...regularAgents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+    ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
   ] as Agent[],
 };
 

@@ -7,12 +7,31 @@ import type {
 } from "../../models";
 import { isBrokenRedditImageLink } from "../isBrokenRedditImageLink";
 
+const URL_LIKE_TEXT_PATTERN =
+  /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(?=[:/?#]|$)/i;
+
+export function shouldReplaceLinkText(
+  current: string,
+  platform: Platform,
+): boolean {
+  const trimmed = current.trim();
+  if (!trimmed || /\s/.test(trimmed)) {
+    return isBrokenRedditImageLink(trimmed, platform);
+  }
+
+  return (
+    URL_LIKE_TEXT_PATTERN.test(trimmed) ||
+    isBrokenRedditImageLink(trimmed, platform)
+  );
+}
+
 export function replaceTextContent(
   settings: Settings,
   link: HTMLAnchorElement,
   details: ApiResponse<Details> | null,
   selectedAgent: AgentWithRaw,
   platform: Platform,
+  forceReplace = false,
 ): string {
   // If the overwrite title extra option is enabled, replace with the title from details
   if (settings.displayOverwriteTitle && details?.data) {
@@ -25,10 +44,7 @@ export function replaceTextContent(
       : details.data.item.goodsTitle;
   }
   // Regular handling: replace with agent link
-  if (
-    link.textContent?.startsWith("https://") ||
-    isBrokenRedditImageLink(link.textContent ?? "", platform)
-  ) {
+  if (forceReplace || shouldReplaceLinkText(link.textContent ?? "", platform)) {
     // For regular agents, use the agent name + link, if raw is selected use the target platform instead.
     return `${selectedAgent !== "raw" ? selectedAgent : platform} link`;
   }

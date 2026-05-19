@@ -88,7 +88,7 @@ export async function getConvertDecrypt(
   }
   const json = (await response.json()) as {
     data: Array<{ target: Agent; url: string }>;
-    meta: CnLink;
+    serial: CnLink;
   };
-  return { data: json.data, cnLink: json.meta };
+  return { data: json.data, cnLink: json.serial };
 }

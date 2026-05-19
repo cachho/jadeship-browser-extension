@@ -4,13 +4,17 @@ import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
 import { getOnlineFeatures } from "./lib/api/getOnlineFeatures";
 import { findLinksOnPage } from "./lib/findLinksOnPage";
 import { findNestedLinksOnPage } from "./lib/findNestedLinksOnPage";
+import { getConvertTargets } from "./lib/getConvertTargets";
 import { getTargetHrefs } from "./lib/getTargetHrefs";
 import { getThirdPartyPage } from "./lib/getThirdPartyPage";
 import { addHtmlOnlineElements } from "./lib/html/addHtmlOnlineElements";
 import { addQcElement } from "./lib/html/addQcElement";
 import { getImageAgent } from "./lib/html/getImageAgent";
 import { getPlatformImage } from "./lib/html/getPlatformImage";
-import { replaceTextContent } from "./lib/html/replaceTextContent";
+import {
+  replaceTextContent,
+  shouldReplaceLinkText,
+} from "./lib/html/replaceTextContent";
 import { initializeExtension } from "./lib/initializeExtension";
 import { isBrokenRedditImageLink } from "./lib/isBrokenRedditImageLink";
 import { loadSettings } from "./lib/loadSettings";
@@ -25,6 +29,11 @@ async function main(settings: Settings) {
   const selectedAgent: AgentWithRaw = settings.myAgent;
 
   const currentUrl = new URL(window.location.href);
+  const shouldForceReplaceLinkText = currentUrl.hostname === "www.reddit.com";
+  const convertTargets = getConvertTargets(
+    selectedAgent,
+    settings.agentsInToolbar,
+  );
 
   // Excluded pages
   if (
@@ -71,7 +80,7 @@ async function main(settings: Settings) {
 
     const converted = await getConvertDecrypt(
       originalLink.href,
-      settings.agentsInToolbar,
+      convertTargets,
     );
 
     if (!converted) {
@@ -137,6 +146,7 @@ async function main(settings: Settings) {
             details,
             selectedAgent,
             link.marketplace,
+            shouldForceReplaceLinkText,
           );
         } catch (detailsError) {
           console.error(detailsError);
@@ -146,11 +156,12 @@ async function main(settings: Settings) {
             null,
             selectedAgent,
             link.marketplace,
+            shouldForceReplaceLinkText,
           );
         }
       } else if (
-        elem.textContent?.startsWith("https://") ||
-        isBrokenRedditImageLink(elem.textContent ?? "", link.marketplace)
+        shouldForceReplaceLinkText ||
+        shouldReplaceLinkText(elem.textContent ?? "", link.marketplace)
       ) {
         elem.textContent = `${selectedAgent} link`;
       }

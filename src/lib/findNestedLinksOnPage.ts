@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { thirdParties } from "../models/3rdParty";
+import { getAnchorElements } from "./getAnchorElements";
 import { getDomain } from "./getDomain";
 import { isInsideContentEditable } from "./isInsideContentEditable";
 
 export function findNestedLinksOnPage() {
-  const links = Array.from(
-    document.querySelectorAll("a"),
-  ) as HTMLAnchorElement[];
+  const links = getAnchorElements();
 
   const filteredLinks = links.filter((a) => !isInsideContentEditable(a));
 

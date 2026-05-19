@@ -290,7 +290,7 @@ const Popup = () => {
       </header>
 
       <div className="content" style={{ padding: "0 20px 20px 20px" }}>
-        <GlassCard title="API Rate Limit" delay="25ms" badge="Daily">
+        <GlassCard title="Daily Limit" delay="25ms" badge="Daily">
           {rateLimit !== null ? (
             <div
               style={{ display: "flex", flexDirection: "column", gap: "8px" }}
@@ -331,7 +331,7 @@ const Popup = () => {
             <div
               style={{ fontSize: "12px", color: "rgba(255, 255, 255, 0.5)" }}
             >
-              Rate limit data will appear after the next API request.
+              Daily limit data will appear after the next API request.
             </div>
           )}
         </GlassCard>

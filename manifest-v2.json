@@ -109,7 +109,8 @@
   ],
   "web_accessible_resources": [
     "public/agent_logos/*",
-    "public/platform_logos/*"
+    "public/platform_logos/*",
+    "public/icon.png"
   ],
   "applications": {
     "gecko": {

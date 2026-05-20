@@ -14,7 +14,7 @@ function addRedirectListener(isChrome: boolean) {
       if (redirectListenerUrls.some((x) => url.host.endsWith(x.hostSuffix))) {
         chrome.scripting.executeScript({
           target: { tabId, allFrames: true },
-          files: ["build/js/redirect.js"],
+          files: ["js/redirect.js"],
         });
       }
     });

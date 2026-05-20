@@ -1,6 +1,4 @@
 import { describe, expect, test } from "bun:test";
-
-import { Config } from "../Config";
 import {
   getDefaultAgentSettings,
   isStoredValueEqual,
@@ -47,13 +45,7 @@ describe("getDefaultAgentSettings", () => {
       ]),
     ).toEqual({
       myAgent: "lovegobuy",
-      agentsInToolbar: [
-        "joyagoo",
-        "kakobuy",
-        "hipobuy",
-        "acbuy",
-        "mulebuy",
-      ].slice(0, Config.defaultToolbarAgentsCount),
+      agentsInToolbar: ["joyagoo", "kakobuy", "hipobuy", "acbuy", "mulebuy"],
     });
   });
 

@@ -50,47 +50,8 @@ function RedirectPrompt({
           boxShadow:
             "0 0 0 1px rgba(0,0,0,0.5), 0 24px 48px -12px rgba(0,0,0,0.7)",
           color: "#fff",
-          position: "relative",
         },
       },
-      // Close button
-      React.createElement(
-        "button",
-        {
-          type: "button",
-          onClick: onClose,
-          style: {
-            position: "absolute",
-            top: "16px",
-            right: "16px",
-            background: "rgba(255, 255, 255, 0.06)",
-            border: "0.5px solid rgba(255, 255, 255, 0.1)",
-            borderRadius: "50%",
-            width: "28px",
-            height: "28px",
-            color: "rgba(255, 255, 255, 0.5)",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "12px",
-            transition: `all 0.3s ${FLUID_SPRING}`,
-            outline: "none",
-            padding: 0,
-          },
-          onMouseEnter: (e: React.MouseEvent<HTMLButtonElement>) => {
-            e.currentTarget.style.color = "#fff";
-            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.12)";
-            e.currentTarget.style.transform = "rotate(90deg)";
-          },
-          onMouseLeave: (e: React.MouseEvent<HTMLButtonElement>) => {
-            e.currentTarget.style.color = "rgba(255, 255, 255, 0.5)";
-            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.06)";
-            e.currentTarget.style.transform = "rotate(0deg)";
-          },
-        },
-        "✕",
-      ),
       // Branding header
       React.createElement(
         "div",

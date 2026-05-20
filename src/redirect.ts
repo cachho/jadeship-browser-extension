@@ -25,6 +25,7 @@ function RedirectPrompt({
   return React.createElement(
     "div",
     {
+      onClick: onClose,
       style: {
         position: "fixed",
         inset: 0,
@@ -41,6 +42,7 @@ function RedirectPrompt({
     React.createElement(
       "div",
       {
+        onClick: (e: React.MouseEvent) => e.stopPropagation(),
         style: {
           background: "rgba(10, 10, 14, 0.96)",
           border: "1px solid rgba(255, 255, 255, 0.08)",

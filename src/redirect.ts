@@ -52,39 +52,6 @@ function RedirectPrompt({
           color: "#fff",
         },
       },
-      // Branding header
-      React.createElement(
-        "div",
-        {
-          style: {
-            marginBottom: "20px",
-          },
-        },
-        React.createElement(
-          "div",
-          {
-            style: {
-              fontSize: "17px",
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              color: "#fff",
-            },
-          },
-          "JadeShip",
-        ),
-        React.createElement(
-          "div",
-          {
-            style: {
-              fontSize: "11px",
-              color: "rgba(255,255,255,0.4)",
-              textTransform: "uppercase" as const,
-              letterSpacing: "0.05em",
-            },
-          },
-          "Shopping Agent Extension",
-        ),
-      ),
       // Message
       React.createElement(
         "p",

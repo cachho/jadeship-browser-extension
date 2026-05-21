@@ -12,7 +12,11 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["public/agent_logos/*", "public/platform_logos/*"],
+      "resources": [
+        "public/agent_logos/*",
+        "public/platform_logos/*",
+        "public/icon.png"
+      ],
       "matches": [
         "*://*.reddit.com/*",
         "*://*.x.yupoo.com/*",

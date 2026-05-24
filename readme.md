@@ -1,8 +1,8 @@
 # JadeShip.com Extension
 
-Short summary: **Automatically convert all links on reddit and yupoo to your favorite shopping agent; enrich the page with online information and QC pics.**
+Short summary: **Automatically convert links on reddit, yupoo and supported agent pages to your favorite shopping agent; enrich the page with cloud updates, link converting, titles and QC pics.**
 
-Summary: **My Agent Extension - automatically convert all links on reddit and yupoo to your favorite agent; enrich the page with online information, sales statistics and QC pictures. Works with all shopping agents and the Weidian, Taobao and 1688 marketplaces.**
+Summary: **JadeShip.com Extension automatically converts links on reddit, yupoo and supported shopping-agent pages to your favorite agent; enriches pages with cloud updates, link converting, sales statistics and QC pictures. Works with all shopping agents and Weidian, Taobao, Tmall and 1688 links.**
 
 > Formerly known as "My Agent Extension by RepArchive" 
 
@@ -17,11 +17,12 @@ Pages become enriched with extra information about the products you're seeing, y
 This leaves you with a seamless shopping experience, where you don't have to worry about the agents that others use. This extension turns the experience into a "click and buy" experience - like it should be.
 
 Some other features:
-- convert links on reddit.com and yupoo.com
+- link converting for supported links on reddit.com, yupoo.com and shopping-agent pages
+- online integration with jadeship.com - instant access to the latest converter patch without waiting for Chrome Web Store/Mozilla Addons approval
 - shows you if quality control (QC) pics are available on findqc.com
 - convert from any agent or marketplace to any agent or no agent (if you prefer)
-- handles shortened links (pandabuy.page.link, pandabuy.app.link, weidian.info, l.acbuy.com, etc.)
-- countless display options
+- decrypts shortened links (link.acbuy.com, sl.kakobuy.com, m.tb.cn, etc.)
+- customize to your liking with display options
 - freedom to opt out of all online features and the affiliates program.
 
 Supported pages:

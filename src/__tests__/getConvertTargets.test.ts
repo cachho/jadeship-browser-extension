@@ -22,4 +22,10 @@ describe("getConvertTargets", () => {
       "allchinabuy",
     ]);
   });
+
+  test("omits raw from convert targets even when it appears in toolbar defaults", () => {
+    expect(
+      getConvertTargets("raw", ["superbuy", "raw", "allchinabuy"]),
+    ).toEqual(["superbuy", "allchinabuy"]);
+  });
 });

@@ -137,6 +137,7 @@ const Popup = () => {
   } | null>(null);
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
+  const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -537,7 +538,7 @@ const Popup = () => {
                     gap: "6px",
                   }}
                 >
-                  {sortedAgents.map((agent) => {
+                  {toolbarAgentOptions.map((agent) => {
                     const checked = settings.agentsInToolbar.includes(agent);
                     const disabled = settings.myAgent === agent;
                     function swap() {

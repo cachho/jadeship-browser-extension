@@ -18,4 +18,9 @@ describe("toolbar behavior source checks", () => {
     );
     expect(toolbarSource).toMatch(/convertErrorMessage \? 900 : 1500/);
   });
+
+  test("raw toolbar entry renders marketplace icon", () => {
+    expect(toolbarSource).toContain('agent === "raw" && cnLink?.marketplace');
+    expect(toolbarSource).toContain("getPlatformImage(cnLink.marketplace)");
+  });
 });

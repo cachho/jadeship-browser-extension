@@ -15,10 +15,11 @@ import {
   undoExceptionElements,
 } from "./lib/handleExceptionElements";
 import { getImageAgent } from "./lib/html/getImageAgent";
+import { getPlatformImage } from "./lib/html/getPlatformImage";
 import { isValidCnLink } from "./lib/isValidCnLink";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
-import type { Agent, CnLink, Settings } from "./models";
+import type { Agent, AgentWithRaw, CnLink, Settings } from "./models";
 
 const FLUID_SPRING = "cubic-bezier(0.25, 1, 0.3, 1)";
 
@@ -148,7 +149,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
     null,
   );
   const [convertedLinks, setConvertedLinks] = useState<
-    Partial<Record<Agent, string>>
+    Partial<Record<AgentWithRaw, string>>
   >({});
 
   const lastScrollY = useRef(window.scrollY);
@@ -219,7 +220,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         if (!alive || !response) return;
         setConvertErrorMessage(null);
         setCnLink(response.cnLink);
-        const next: Partial<Record<Agent, string>> = {};
+        const next: Partial<Record<AgentWithRaw, string>> = {};
         response.data.forEach(({ target, url }) => {
           next[target] = url;
         });
@@ -380,6 +381,12 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
                 const hrefValue = convertedLinks[agent];
                 const isMine = agent === settings.myAgent;
                 const isReady = Boolean(true);
+                const image =
+                  agent === "raw" && cnLink?.marketplace
+                    ? getPlatformImage(cnLink.marketplace)
+                    : agent === "raw"
+                      ? ""
+                      : getImageAgent(agent);
 
                 return React.createElement("a", {
                   key: agent,
@@ -415,7 +422,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
                       : "transparent";
                   },
                   // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
-                  dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
+                  dangerouslySetInnerHTML: { __html: image },
                 });
               }),
         ),

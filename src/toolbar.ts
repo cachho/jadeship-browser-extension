@@ -18,7 +18,7 @@ import { getImageAgent } from "./lib/html/getImageAgent";
 import { isValidCnLink } from "./lib/isValidCnLink";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
-import type { Agent, CnLink, Settings } from "./models";
+import type { AgentWithRaw, CnLink, Settings } from "./models";
 
 const FLUID_SPRING = "cubic-bezier(0.25, 1, 0.3, 1)";
 
@@ -148,7 +148,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
     null,
   );
   const [convertedLinks, setConvertedLinks] = useState<
-    Partial<Record<Agent, string>>
+    Partial<Record<AgentWithRaw, string>>
   >({});
 
   const lastScrollY = useRef(window.scrollY);
@@ -219,7 +219,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         if (!alive || !response) return;
         setConvertErrorMessage(null);
         setCnLink(response.cnLink);
-        const next: Partial<Record<Agent, string>> = {};
+        const next: Partial<Record<AgentWithRaw, string>> = {};
         response.data.forEach(({ target, url }) => {
           next[target] = url;
         });

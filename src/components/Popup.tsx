@@ -537,7 +537,7 @@ const Popup = () => {
                     gap: "6px",
                   }}
                 >
-                  {sortedAgents.map((agent) => {
+                  {[...sortedAgents, "raw" as const].map((agent) => {
                     const checked = settings.agentsInToolbar.includes(agent);
                     const disabled = settings.myAgent === agent;
                     function swap() {

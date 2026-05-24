@@ -1,5 +1,5 @@
 import { Config } from "../../Config";
-import type { Agent, CnLink, Settings } from "../../models";
+import type { AgentWithRaw, CnLink, Settings } from "../../models";
 import { cachedFetch } from "./cachedFetch";
 
 export type ConvertDecryptFetchError = {
@@ -67,12 +67,15 @@ export async function getConvertDecrypt(
   targets: Settings["agentsInToolbar"],
   onFetchError?: (error: ConvertDecryptFetchError) => void,
 ): Promise<{
-  data: Array<{ target: Agent; url: string }>;
+  data: Array<{ target: AgentWithRaw; url: string }>;
   cnLink: CnLink;
 } | null> {
   const url = new URL(Config.endpoint.convertDecrypt);
   url.searchParams.set("url", itemHref);
-  url.searchParams.set("targets", ["raw", ...targets].join(","));
+  url.searchParams.set(
+    "targets",
+    ["raw", ...targets.filter((t) => t !== "raw")].join(","),
+  );
   const response = await cachedFetch(url.href);
   if (!response.ok) {
     const error = {
@@ -87,7 +90,7 @@ export async function getConvertDecrypt(
     return null;
   }
   const json = (await response.json()) as {
-    data: Array<{ target: Agent; url: string }>;
+    data: Array<{ target: AgentWithRaw; url: string }>;
     serial: CnLink;
   };
   return { data: json.data, cnLink: json.serial };

@@ -28,6 +28,7 @@ describe("default agent settings", () => {
     expect(defaultAgentSettings).toEqual({
       myAgent: agents[0],
       agentsInToolbar: [
+        "raw",
         ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
       ],
     });

@@ -1,7 +1,7 @@
 import { Config } from "../Config";
 import { agents } from "../lib/cn-links/agents";
 import type { AffiliateLinks } from ".";
-import type { Agent, AgentWithRaw } from "./Agents";
+import type { AgentWithRaw } from "./Agents";
 
 export const settingNames: (keyof Settings)[] = [
   "taobaoLink",
@@ -56,7 +56,7 @@ export type Settings = {
   showToolbar: boolean;
   stickyToolbar: boolean;
   isDefault: boolean;
-  agentsInToolbar: Agent[];
+  agentsInToolbar: AgentWithRaw[];
 };
 
 export const defaultAgentSettings: Pick<
@@ -65,8 +65,9 @@ export const defaultAgentSettings: Pick<
 > = {
   myAgent: agents[0],
   agentsInToolbar: [
+    "raw",
     ...agents.slice(1, 1 + Config.defaultToolbarAgentsCount),
-  ] as Agent[],
+  ] as AgentWithRaw[],
 };
 
 export const defaultSettings: Settings = {

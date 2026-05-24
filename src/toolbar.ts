@@ -15,6 +15,7 @@ import {
   undoExceptionElements,
 } from "./lib/handleExceptionElements";
 import { getImageAgent } from "./lib/html/getImageAgent";
+import { getPlatformImage } from "./lib/html/getPlatformImage";
 import { isValidCnLink } from "./lib/isValidCnLink";
 import { loadSettings } from "./lib/loadSettings";
 import { placeToolbar } from "./lib/placeToolbar";
@@ -380,6 +381,12 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
                 const hrefValue = convertedLinks[agent];
                 const isMine = agent === settings.myAgent;
                 const isReady = Boolean(true);
+                const image =
+                  agent === "raw" && cnLink?.marketplace
+                    ? getPlatformImage(cnLink.marketplace)
+                    : agent === "raw"
+                      ? ""
+                      : getImageAgent(agent);
 
                 return React.createElement("a", {
                   key: agent,
@@ -415,7 +422,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
                       : "transparent";
                   },
                   // biome-ignore lint/security/noDangerouslySetInnerHtml: Necessary for rendering agent images
-                  dangerouslySetInnerHTML: { __html: getImageAgent(agent) },
+                  dangerouslySetInnerHTML: { __html: image },
                 });
               }),
         ),

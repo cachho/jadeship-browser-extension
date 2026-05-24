@@ -1,22 +1,27 @@
 #!/bin/bash
 
-# File path to the manifest.json file
-MANIFEST_FILE="manifest.json"
+# Maximum Chrome extension description length
+MAX_DESCRIPTION_LENGTH=132
+
+# Manifest files to validate
+MANIFEST_FILES="manifest.json manifest-v2.json"
 
 # Function to check the description length
 check_description_length() {
-    # Extracting the description field from the manifest.json file using npx
-    description=$(npx json description < "$MANIFEST_FILE")
-    
-    # Calculate the length of the description
-    len=${#description}
+    for manifest_file in $MANIFEST_FILES; do
+        # Extracting the description field from the manifest file using npx
+        description=$(npx json description < "$manifest_file")
 
-    # Check if the description length is greater than 132 characters
-    if [ "$len" -gt 132 ]; then
-        echo $len characters
-        echo -e "\e[31mError: The description field exceeds 132 characters.\e[0m"
-        exit 1
-    fi
+        # Calculate the length of the description
+        len=${#description}
+
+        # Check if the description length is greater than the Chrome limit
+        if [ "$len" -gt "$MAX_DESCRIPTION_LENGTH" ]; then
+            echo "$manifest_file: $len characters"
+            echo -e "\e[31mError: The description field exceeds $MAX_DESCRIPTION_LENGTH characters.\e[0m"
+            exit 1
+        fi
+    done
 }
 
 # Run the check

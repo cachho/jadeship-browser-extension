@@ -2,13 +2,15 @@ import type { Agent, AgentWithRaw } from "../models";
 
 export function getConvertTargets(
   selectedAgent: AgentWithRaw,
-  toolbarAgents: Agent[],
+  toolbarAgents: AgentWithRaw[],
 ): Agent[] {
   return Array.from(
     new Set(
       selectedAgent === "raw"
-        ? toolbarAgents
-        : [...toolbarAgents, selectedAgent],
+        ? toolbarAgents.filter((agent): agent is Agent => agent !== "raw")
+        : [...toolbarAgents, selectedAgent].filter(
+            (agent): agent is Agent => agent !== "raw",
+          ),
     ),
   ) as Agent[];
 }

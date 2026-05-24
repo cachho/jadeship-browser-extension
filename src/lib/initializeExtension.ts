@@ -48,10 +48,10 @@ export function getDefaultAgentSettings(
 
   return {
     myAgent: validDefaultAgents[0],
-    agentsInToolbar: validDefaultAgents.slice(
-      1,
-      1 + Config.defaultToolbarAgentsCount,
-    ),
+    agentsInToolbar: [
+      ...validDefaultAgents.slice(1, 1 + Config.defaultToolbarAgentsCount),
+      "raw",
+    ],
   };
 }
 

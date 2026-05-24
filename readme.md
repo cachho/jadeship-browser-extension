@@ -33,7 +33,7 @@ Supported pages:
 
 Safety & Privacy:
 - the source code is open source, so anyone can review it and contribute
-- minimalist approach, only ~0.2mb in size.
+- minimalist approach, only ~0.4mb in size.
 - the extension is only active on required sites, the URLs are matched very carefully.
 - you can opt out of all online interactions and run the extension offline
 - no user data is collected (with each request you do technically expose your IP, among other information).

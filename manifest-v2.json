@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "JadeShip.com Extension",
   "version": "0.0.0",
-  "description": "Convert Reddit, Yupoo, and supported agent links to your favorite shopping agent with cloud updates, titles, and QC pics.",
+  "description": "Convert links on reddit, yupoo and supported agent pages to your favorite shopping agent; titles, QC pics and a handy toolbar.",
   "icons": {
     "48": "public/icon.png"
   },

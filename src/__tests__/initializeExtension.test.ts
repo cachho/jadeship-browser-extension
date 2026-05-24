@@ -45,7 +45,14 @@ describe("getDefaultAgentSettings", () => {
       ]),
     ).toEqual({
       myAgent: "lovegobuy",
-      agentsInToolbar: ["joyagoo", "kakobuy", "hipobuy", "acbuy", "mulebuy"],
+      agentsInToolbar: [
+        "joyagoo",
+        "kakobuy",
+        "hipobuy",
+        "acbuy",
+        "mulebuy",
+        "raw",
+      ],
     });
   });
 
@@ -61,7 +68,7 @@ describe("getDefaultAgentSettings", () => {
       ]),
     ).toEqual({
       myAgent: "joyagoo",
-      agentsInToolbar: ["kakobuy", "hipobuy"],
+      agentsInToolbar: ["kakobuy", "hipobuy", "raw"],
     });
   });
 

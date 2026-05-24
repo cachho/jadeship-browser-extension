@@ -72,7 +72,10 @@ export async function getConvertDecrypt(
 } | null> {
   const url = new URL(Config.endpoint.convertDecrypt);
   url.searchParams.set("url", itemHref);
-  url.searchParams.set("targets", ["raw", ...targets].join(","));
+  url.searchParams.set(
+    "targets",
+    Array.from(new Set(["raw", ...targets])).join(","),
+  );
   const response = await cachedFetch(url.href);
   if (!response.ok) {
     const error = {

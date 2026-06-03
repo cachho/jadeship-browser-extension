@@ -929,17 +929,6 @@ const Popup = () => {
           <div
             style={{ display: "flex", flexDirection: "column", gap: "12px" }}
           >
-            <HiddenToggle
-              label="Enable affiliate program"
-              checked={settings.affiliateProgram}
-              onChange={() =>
-                setSettings({
-                  ...settings,
-                  affiliateProgram: !settings.affiliateProgram,
-                })
-              }
-            />
-
             {settings.rateReminder && (
               <div
                 style={{
@@ -1007,6 +996,17 @@ const Popup = () => {
                 </div>
               </div>
             )}
+
+            <HiddenToggle
+              label="Enable affiliate program"
+              checked={settings.affiliateProgram}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  affiliateProgram: !settings.affiliateProgram,
+                })
+              }
+            />
 
             <div
               style={{

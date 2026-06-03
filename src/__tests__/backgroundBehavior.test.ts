@@ -13,4 +13,10 @@ describe("background behavior source checks", () => {
     expect(backgroundSource).toContain('details.reason !== "install"');
     expect(backgroundSource).toContain("Config.social.newInstallation");
   });
+
+  test("stores the delayed rate reminder state on extension install", () => {
+    expect(backgroundSource).toContain("RATE_REMINDER_STORAGE_KEY");
+    expect(backgroundSource).toContain("createRateReminderState()");
+    expect(backgroundSource).toContain("storage.local.set");
+  });
 });

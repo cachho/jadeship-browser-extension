@@ -24,4 +24,18 @@ describe("popup behavior source checks", () => {
     expect(popupSource).toContain("optionLogoSrc && (");
     expect(popupSource).toContain('agent !== "raw" && (');
   });
+
+  test("shows a delayed rate reminder with defer and disable actions", () => {
+    expect(popupSource).toContain("shouldShowRateReminder(rateReminder)");
+    expect(popupSource).toContain("Enjoying JadeShip?");
+    expect(popupSource).toContain("Rate now");
+    expect(popupSource).toContain("Maybe later");
+    expect(popupSource).toContain("Not interested");
+    expect(popupSource).toContain("Config.social.rateExtensionFirefox");
+    expect(popupSource).toContain("Config.social.rateExtensionChrome");
+    expect(popupSource).toContain("saveRateReminder(deferRateReminder())");
+    expect(popupSource).toContain(
+      "saveRateReminder(disableRateReminder(rateReminder))",
+    );
+  });
 });

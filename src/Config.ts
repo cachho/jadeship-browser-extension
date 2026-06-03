@@ -17,6 +17,10 @@ export const Config = {
     bestAgent: "https://www.jadeship.com/shipping-calculator?r=extension",
     newInstallation:
       "https://www.jadeship.com/tools/extension/new-installation",
+    rateExtensionChrome:
+      "https://chrome.google.com/webstore/detail/my-agent-extension-by-rep/gnpcmjhhhobmpeeekcfmficdfgnmncim?hl=en&authuser=0",
+    rateExtensionFirefox:
+      "https://addons.mozilla.org/en-US/firefox/addon/jadeship-extension/",
   },
   legal: {
     main: {

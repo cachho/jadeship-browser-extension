@@ -1,6 +1,10 @@
 import { Config } from "./Config";
 import { redirectListenerUrls } from "./data/redirectListenerUrls";
 import { initializeExtension } from "./lib/initializeExtension";
+import {
+  createRateReminderState,
+  RATE_REMINDER_STORAGE_KEY,
+} from "./lib/rateReminder";
 import { getStorage, isChromeStorage } from "./lib/storage";
 
 /**
@@ -41,11 +45,17 @@ function addInstallListener(isChrome: boolean) {
   if (isChrome) {
     chrome.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install") return;
+      chrome.storage.local.set({
+        [RATE_REMINDER_STORAGE_KEY]: createRateReminderState(),
+      });
       chrome.tabs.create({ url: Config.social.newInstallation });
     });
   } else {
     browser.runtime.onInstalled.addListener((details) => {
       if (details.reason !== "install") return;
+      browser.storage.local.set({
+        [RATE_REMINDER_STORAGE_KEY]: createRateReminderState(),
+      });
       browser.tabs.create({ url: Config.social.newInstallation });
     });
   }

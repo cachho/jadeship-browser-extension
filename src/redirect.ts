@@ -70,7 +70,7 @@ function RedirectPrompt({
               color: "#fff",
             },
           },
-          "JadeShip",
+          "Jadeship",
         ),
         React.createElement(
           "div",

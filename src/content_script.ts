@@ -85,7 +85,7 @@ async function main(settings: Settings) {
 
     if (!converted) {
       console.error(
-        "JadeShip Browser Extension:",
+        "Jadeship Browser Extension:",
         "Could not process link:",
         originalLink.href,
       );

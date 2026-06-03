@@ -212,7 +212,7 @@ const Popup = () => {
             letterSpacing: "-0.03em",
           }}
         >
-          JadeShip
+          Jadeship
         </h1>
         <p
           className="subtitle"

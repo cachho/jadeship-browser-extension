@@ -1,8 +1,8 @@
-# JadeShip.com Extension
+# Jadeship.com Extension
 
 Short summary: "Convert links on reddit, yupoo and supported agent pages to your favorite shopping agent; titles, QC pics and a handy toolbar."
 
-Summary: **JadeShip.com Extension automatically converts links on reddit, yupoo and supported shopping-agent pages to your favorite agent; enriches pages with cloud updates, link converting, sales statistics and QC pictures. Works with all shopping agents and Weidian, Taobao, Tmall and 1688 links.**
+Summary: **Jadeship.com Extension automatically converts links on reddit, yupoo and supported shopping-agent pages to your favorite agent; enriches pages with cloud updates, link converting, sales statistics and QC pictures. Works with all shopping agents and Weidian, Taobao, Tmall and 1688 links.**
 
 > Formerly known as "My Agent Extension by RepArchive" 
 

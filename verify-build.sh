@@ -148,6 +148,11 @@ if [ "${#MISMATCHED_KEYS[@]}" -gt 0 ]; then
   if [[ "$review" =~ ^[Yy] ]]; then
     echo ""
     printf "\033[33mNOTE: Each diff will open in your pager. Press 'q' to close it and move to the next.\033[0m\n"
+    printf "\033[33mExpected differences in JS files:\033[0m\n"
+    printf "\033[33m  - Shortened strings: the Chrome Web Store truncates long string literals\033[0m\n"
+    printf "\033[33m    (e.g. React error messages). This is done by Google and is not suspicious.\033[0m\n"
+    printf "\033[33m  - Renamed variables: Bun's minifier uses non-deterministic short names\033[0m\n"
+    printf "\033[33m    (a, b, t...) which may differ between builds even from the same source.\033[0m\n"
     printf "Press Enter to start..."
     read -r _
     for key in "${MISMATCHED_KEYS[@]}"; do

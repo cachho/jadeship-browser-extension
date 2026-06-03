@@ -78,9 +78,11 @@ If you want to confirm that the extension published on the Chrome Web Store matc
 
 Requirements: `curl`, `unzip`, `sha256sum`, `git` (all standard on Linux/macOS).
 
-Two files are intentionally excluded from the comparison:
-- `manifest.json` — the Chrome Web Store rewrites this file to inject a `key` field
-- `_metadata/` — a directory Chrome adds internally after installation
+`_metadata/` is intentionally excluded, it's a directory Chrome adds internally after installation
+
+JS files will show some expected differences:
+- **Shortened strings** — the Chrome Web Store truncates long string literals (e.g. React internal error messages). This is done server-side by Google.
+- **Renamed variables** — Bun's minifier uses non-deterministic short names (`a`, `b`, `t`…) which may differ between builds even from the same source and commit.
 
 ## Development
 

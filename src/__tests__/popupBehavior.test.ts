@@ -24,4 +24,18 @@ describe("popup behavior source checks", () => {
     expect(popupSource).toContain("optionLogoSrc && (");
     expect(popupSource).toContain('agent !== "raw" && (');
   });
+
+  test("shows a dismissible rate reminder above affiliate support text", () => {
+    expect(popupSource).toContain("settings.rateReminder && (");
+    expect(popupSource).toContain(
+      "https://www.jadeship.com/tools/extension/rate",
+    );
+    expect(popupSource).toContain("Not interested");
+    expect(popupSource).toContain(
+      "setSettings({ ...settings, rateReminder: false })",
+    );
+    expect(popupSource).toContain(
+      "💚 <strong>Support free software:</strong> When you register a new",
+    );
+  });
 });

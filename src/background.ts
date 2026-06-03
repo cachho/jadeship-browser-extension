@@ -1,3 +1,4 @@
+import { Config } from "./Config";
 import { redirectListenerUrls } from "./data/redirectListenerUrls";
 import { initializeExtension } from "./lib/initializeExtension";
 import { getStorage, isChromeStorage } from "./lib/storage";
@@ -36,8 +37,23 @@ function addRedirectListener(isChrome: boolean) {
   }
 }
 
+function addInstallListener(isChrome: boolean) {
+  if (isChrome) {
+    chrome.runtime.onInstalled.addListener((details) => {
+      if (details.reason !== "install") return;
+      chrome.tabs.create({ url: Config.social.newInstallation });
+    });
+  } else {
+    browser.runtime.onInstalled.addListener((details) => {
+      if (details.reason !== "install") return;
+      browser.tabs.create({ url: Config.social.newInstallation });
+    });
+  }
+}
+
 function main() {
   const storage = getStorage();
+  addInstallListener(isChromeStorage(storage));
   initializeExtension(storage).finally(() => {
     addRedirectListener(isChromeStorage(storage));
   });

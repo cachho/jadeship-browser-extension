@@ -51,9 +51,18 @@ function addInstallListener(isChrome: boolean) {
   }
 }
 
+function addUninstallListener(isChrome: boolean) {
+  if (isChrome) {
+    chrome.runtime.setUninstallURL(Config.social.uninstall);
+  } else {
+    browser.runtime.setUninstallURL(Config.social.uninstall);
+  }
+}
+
 function main() {
   const storage = getStorage();
   addInstallListener(isChromeStorage(storage));
+  addUninstallListener(isChromeStorage(storage));
   initializeExtension(storage).finally(() => {
     addRedirectListener(isChromeStorage(storage));
   });

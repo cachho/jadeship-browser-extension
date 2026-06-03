@@ -142,6 +142,7 @@ const Popup = () => {
     agent === "raw"
       ? undefined
       : chrome.runtime.getURL(`public/agent_logos/${agent}_logo.png`);
+  const myAgentLogoSrc = getAgentLogoSrc(settings.myAgent);
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -350,16 +351,42 @@ const Popup = () => {
                 onChange={handleChangeMyAgent}
                 value={settings.myAgent}
                 className="custom-select"
+                style={
+                  myAgentLogoSrc
+                    ? {
+                        backgroundImage: `url("${myAgentLogoSrc}")`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "12px center",
+                        backgroundSize: "16px 16px",
+                        paddingLeft: "36px",
+                      }
+                    : undefined
+                }
               >
-                {[...sortedAgents, "raw"].map((agent) => (
-                  <option
-                    value={agent}
-                    key={`agent-${agent}`}
-                    style={{ backgroundColor: "#0a0a0c", color: "#fff" }}
-                  >
-                    {agent[0].toUpperCase() + agent.substring(1)}
-                  </option>
-                ))}
+                {toolbarAgentOptions.map((agent) => {
+                  const optionLogoSrc = getAgentLogoSrc(agent);
+                  return (
+                    <option
+                      value={agent}
+                      key={`agent-${agent}`}
+                      style={
+                        optionLogoSrc
+                          ? {
+                              backgroundColor: "#0a0a0c",
+                              color: "#fff",
+                              backgroundImage: `url("${optionLogoSrc}")`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundPosition: "8px center",
+                              backgroundSize: "14px 14px",
+                              paddingLeft: "30px",
+                            }
+                          : { backgroundColor: "#0a0a0c", color: "#fff" }
+                      }
+                    >
+                      {agent[0].toUpperCase() + agent.substring(1)}
+                    </option>
+                  );
+                })}
               </select>
               <div className="custom-select-icon">
                 <svg
@@ -375,34 +402,6 @@ const Popup = () => {
                 </svg>
               </div>
             </div>
-            {settings.myAgent !== "raw" && (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  fontSize: "12px",
-                  color: "rgba(255,255,255,0.8)",
-                }}
-              >
-                <img
-                  src={getAgentLogoSrc(settings.myAgent)}
-                  alt={`${settings.myAgent} logo`}
-                  style={{
-                    width: "14px",
-                    height: "14px",
-                    objectFit: "contain",
-                    borderRadius: "3px",
-                    backgroundColor: "rgba(255,255,255,0.08)",
-                    padding: "1px",
-                  }}
-                />
-                <span>
-                  {settings.myAgent[0].toUpperCase() +
-                    settings.myAgent.substring(1)}
-                </span>
-              </div>
-            )}
 
             <div style={{ paddingLeft: "2px" }}>
               <a

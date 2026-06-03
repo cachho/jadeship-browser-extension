@@ -7,6 +7,7 @@ import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
 
 export const LEGACY_AGENTS_STORAGE_KEY = "legacyAgents";
+export const INSTALL_TIME_STORAGE_KEY = "installTime";
 
 export function getValidAgents(agentList?: string[]): Agent[] {
   const knownAgents = new Set<string>(agents);
@@ -86,6 +87,27 @@ export async function initializeExtension(
     storage.local.set({
       [LEGACY_AGENTS_STORAGE_KEY]: getValidAgents(legacyAgentResponse.data),
     });
+  }
+
+  // Persist install time the first time the extension initialises
+  if (isChromeStorage(storage)) {
+    const itParam = { [INSTALL_TIME_STORAGE_KEY]: null };
+    storage.local.get(itParam, (result) => {
+      if (!result[INSTALL_TIME_STORAGE_KEY]) {
+        storage.local.set({ [INSTALL_TIME_STORAGE_KEY]: Date.now() });
+      }
+    });
+  } else {
+    storage.local
+      .get({ [INSTALL_TIME_STORAGE_KEY]: null })
+      .then((result) => {
+        if (!result[INSTALL_TIME_STORAGE_KEY]) {
+          storage.local.set({ [INSTALL_TIME_STORAGE_KEY]: Date.now() });
+        }
+      })
+      .catch((error: unknown) =>
+        console.error("Error storing install time:", error),
+      );
   }
 
   // Check if we're running in Chrome

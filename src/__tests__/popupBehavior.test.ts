@@ -7,6 +7,18 @@ describe("popup behavior source checks", () => {
       encoding: "utf-8",
     },
   );
+  const rateReminderCardSource = readFileSync(
+    new URL("../components/RateReminderCard.tsx", import.meta.url),
+    {
+      encoding: "utf-8",
+    },
+  );
+  const storedRateReminderSource = readFileSync(
+    new URL("../lib/useStoredRateReminder.ts", import.meta.url),
+    {
+      encoding: "utf-8",
+    },
+  );
 
   test("toolbar agent options include raw for toggling", () => {
     expect(popupSource).toContain(
@@ -26,13 +38,21 @@ describe("popup behavior source checks", () => {
   });
 
   test("shows a delayed rate reminder with defer and disable actions", () => {
-    expect(popupSource).toContain("shouldShowRateReminder(rateReminder)");
-    expect(popupSource).toContain("Enjoying JadeShip?");
-    expect(popupSource).toContain("Rate now");
-    expect(popupSource).toContain("Maybe later");
-    expect(popupSource).toContain("Not interested");
-    expect(popupSource).toContain("Config.social.rateExtensionFirefox");
-    expect(popupSource).toContain("Config.social.rateExtensionChrome");
+    expect(popupSource).toContain("useStoredRateReminder(storage)");
+    expect(popupSource).toContain("<RateReminderCard");
+    expect(storedRateReminderSource).toContain(
+      "showRateReminder: shouldShowRateReminder(rateReminder)",
+    );
+    expect(rateReminderCardSource).toContain("Enjoying JadeShip?");
+    expect(rateReminderCardSource).toContain("Rate now");
+    expect(rateReminderCardSource).toContain("Maybe later");
+    expect(rateReminderCardSource).toContain("Not interested");
+    expect(rateReminderCardSource).toContain(
+      "Config.social.rateExtensionFirefox",
+    );
+    expect(rateReminderCardSource).toContain(
+      "Config.social.rateExtensionChrome",
+    );
     expect(popupSource).toContain("saveRateReminder(deferRateReminder())");
     expect(popupSource).toContain(
       "saveRateReminder(disableRateReminder(rateReminder))",

@@ -1,75 +1,20 @@
 /* eslint-disable no-return-assign */
-import type React from "react";
 import { useCallback, useEffect, useState } from "react";
 
 import { Config } from "../Config";
 import { agents, agentsWithRaw } from "../lib/cn-links";
 import { RATE_LIMIT_STORAGE_KEY } from "../lib/rateLimit";
-import type { RateReminderState } from "../lib/rateReminder";
 import {
   deferRateReminder,
   disableRateReminder,
-  getRateReminderState,
   RATE_REMINDER_STORAGE_KEY,
-  shouldShowRateReminder,
 } from "../lib/rateReminder";
 import { getStorage, isChromeStorage } from "../lib/storage";
+import { useStoredRateReminder } from "../lib/useStoredRateReminder";
 import type { AgentWithRaw, Settings } from "../models";
 import { defaultSettings, settingNames } from "../models/Settings";
-
-const GlassCard = ({
-  title,
-  children,
-  delay = "0ms",
-  badge,
-}: {
-  title?: string;
-  children: React.ReactNode;
-  delay?: string;
-  badge?: string;
-}) => (
-  <div
-    className="glass-card-outer animate-enter"
-    style={{ animationDelay: delay, marginBottom: "16px" }}
-  >
-    <div className="glass-card-inner">
-      {title && (
-        <div
-          className="glass-card-eyebrow"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "14px",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <div className="glass-card-eyebrow-dot" />
-            <h3 className="glass-card-title" style={{ margin: 0 }}>
-              {title}
-            </h3>
-          </div>
-          {badge && (
-            <span
-              style={{
-                fontSize: "10px",
-                color: "rgba(255, 255, 255, 0.4)",
-                backgroundColor: "rgba(255, 255, 255, 0.05)",
-                padding: "2px 6px",
-                borderRadius: "4px",
-                textTransform: "uppercase",
-                letterSpacing: "0.05em",
-              }}
-            >
-              {badge}
-            </span>
-          )}
-        </div>
-      )}
-      {children}
-    </div>
-  </div>
-);
+import { GlassCard } from "./GlassCard";
+import { RateReminderCard } from "./RateReminderCard";
 
 const HiddenToggle = ({
   checked,
@@ -143,10 +88,13 @@ const Popup = () => {
     remaining: number;
     limit: number;
   } | null>(null);
-  const [rateReminder, setRateReminder] = useState<RateReminderState | null>(
-    null,
-  );
   const storage = getStorage();
+  const {
+    rateReminder,
+    saveRateReminder,
+    setRateReminderFromStorageValue,
+    showRateReminder,
+  } = useStoredRateReminder(storage);
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
   const getAgentLogoSrc = (agent: AgentWithRaw) =>
@@ -154,22 +102,6 @@ const Popup = () => {
       ? undefined
       : chrome.runtime.getURL(`public/agent_logos/${agent}_logo.png`);
   const myAgentLogoSrc = getAgentLogoSrc(settings.myAgent);
-  const rateExtensionUrl =
-    typeof browser !== "undefined"
-      ? Config.social.rateExtensionFirefox
-      : Config.social.rateExtensionChrome;
-
-  const saveRateReminder = useCallback(
-    (nextRateReminder: RateReminderState) => {
-      setRateReminder(nextRateReminder);
-      if (isChromeStorage(storage)) {
-        storage.local.set({ [RATE_REMINDER_STORAGE_KEY]: nextRateReminder });
-      } else {
-        storage?.local.set({ [RATE_REMINDER_STORAGE_KEY]: nextRateReminder });
-      }
-    },
-    [storage],
-  );
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -195,21 +127,6 @@ const Popup = () => {
       setRateLimit(null);
     }
   }, []);
-
-  const setRateReminderFromStorageValue = useCallback(
-    (rateReminderData: unknown) => {
-      const storedRateReminder = getRateReminderState(rateReminderData);
-      if (storedRateReminder) {
-        setRateReminder(storedRateReminder);
-        return;
-      }
-
-      const initialRateReminder = deferRateReminder();
-      setRateReminder(initialRateReminder);
-      saveRateReminder(initialRateReminder);
-    },
-    [saveRateReminder],
-  );
 
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
@@ -297,7 +214,6 @@ const Popup = () => {
   const rateLimitPercent = rateLimit
     ? Math.max(0, Math.min(100, (rateLimit.remaining / rateLimit.limit) * 100))
     : 0;
-  const showRateReminder = shouldShowRateReminder(rateReminder);
 
   const handleChangeMyAgent = (newMyAgent: AgentWithRaw) => {
     if (!agentsWithRaw.includes(newMyAgent)) {
@@ -357,85 +273,15 @@ const Popup = () => {
 
       <div className="content" style={{ padding: "0 20px 20px 20px" }}>
         {showRateReminder && (
-          <GlassCard title="Enjoying JadeShip?" delay="10ms" badge="Feedback">
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "12px" }}
-            >
-              <div
-                style={{
-                  fontSize: "12px",
-                  lineHeight: "1.5",
-                  color: "rgba(255,255,255,0.82)",
-                }}
-              >
-                If the extension has been helpful, please consider leaving a
-                quick rating in your browser’s extension store.
-              </div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: "8px",
-                }}
-              >
-                <a
-                  href={rateExtensionUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    saveRateReminder(disableRateReminder(rateReminder))
-                  }
-                  style={{
-                    background:
-                      "linear-gradient(135deg, #34d399 0%, #10b981 100%)",
-                    color: "#052e16",
-                    borderRadius: "8px",
-                    padding: "10px 8px",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    textAlign: "center",
-                    textDecoration: "none",
-                  }}
-                >
-                  Rate now
-                </a>
-                <button
-                  type="button"
-                  onClick={() => saveRateReminder(deferRateReminder())}
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.05)",
-                    color: "rgba(255,255,255,0.85)",
-                    border: "0.5px solid rgba(255,255,255,0.12)",
-                    borderRadius: "8px",
-                    padding: "10px 8px",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
-                >
-                  Maybe later
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    saveRateReminder(disableRateReminder(rateReminder))
-                  }
-                  style={{
-                    backgroundColor: "rgba(239,68,68,0.08)",
-                    color: "#fca5a5",
-                    border: "0.5px solid rgba(239,68,68,0.2)",
-                    borderRadius: "8px",
-                    padding: "10px 8px",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    cursor: "pointer",
-                  }}
-                >
-                  Not interested
-                </button>
-              </div>
-            </div>
-          </GlassCard>
+          <RateReminderCard
+            onMaybeLater={() => saveRateReminder(deferRateReminder())}
+            onNotInterested={() =>
+              saveRateReminder(disableRateReminder(rateReminder))
+            }
+            onRateNow={() =>
+              saveRateReminder(disableRateReminder(rateReminder))
+            }
+          />
         )}
 
         <GlassCard title="Daily Limit" delay="25ms" badge="Daily">

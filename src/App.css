@@ -263,6 +263,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: inherit;
 }
 
 .custom-select-summary::-webkit-details-marker {

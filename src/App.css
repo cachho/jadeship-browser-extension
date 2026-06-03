@@ -312,11 +312,12 @@ body {
   z-index: 20;
   display: flex;
   flex-direction: column;
-  gap: 2px;
   padding: 6px;
+  max-height: 220px;
+  overflow-y: auto;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background-color: rgba(10, 10, 12, 0.98);
+  background-color: #0a0a0c;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
 }
 
@@ -324,7 +325,7 @@ body {
   width: 100%;
   border: 0;
   border-radius: 8px;
-  background: transparent;
+  background: #0a0a0c;
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -332,6 +333,10 @@ body {
   padding: 8px 10px;
   text-align: left;
   cursor: pointer;
+}
+
+.custom-select-option + .custom-select-option {
+  margin-top: 2px;
 }
 
 .custom-select-option:hover,

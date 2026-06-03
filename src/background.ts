@@ -59,8 +59,10 @@ function addUninstallListener(isChrome: boolean) {
   const version = isChrome
     ? chrome.runtime.getManifest().version
     : browser.runtime.getManifest().version;
+  baseUrl.searchParams.set("browser", isChrome ? "chrome" : "firefox");
   baseUrl.searchParams.set("v", version);
   baseUrl.searchParams.set("ua", navigator.userAgent);
+  baseUrl.searchParams.set("uninstalled_at", String(Date.now()));
 
   if (isChrome) {
     chrome.storage.local.get(
@@ -68,7 +70,7 @@ function addUninstallListener(isChrome: boolean) {
       (result: Record<string, unknown>) => {
         if (result[INSTALL_TIME_STORAGE_KEY]) {
           baseUrl.searchParams.set(
-            "installTime",
+            "installed_at",
             String(result[INSTALL_TIME_STORAGE_KEY]),
           );
         }
@@ -81,7 +83,7 @@ function addUninstallListener(isChrome: boolean) {
       .then((result: Record<string, unknown>) => {
         if (result[INSTALL_TIME_STORAGE_KEY]) {
           baseUrl.searchParams.set(
-            "installTime",
+            "installed_at",
             String(result[INSTALL_TIME_STORAGE_KEY]),
           );
         }

@@ -7,7 +7,7 @@ import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
 
 export const LEGACY_AGENTS_STORAGE_KEY = "legacyAgents";
-export const INSTALL_TIME_STORAGE_KEY = "installTime";
+export const INSTALL_TIME_STORAGE_KEY = "installed_at";
 
 export function getValidAgents(agentList?: string[]): Agent[] {
   const knownAgents = new Set<string>(agents);

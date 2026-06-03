@@ -19,8 +19,9 @@ describe("popup behavior source checks", () => {
     expect(popupSource).toContain("public/agent_logos/");
     expect(popupSource).toContain("_logo.png`");
     expect(popupSource).toContain("const myAgentLogoSrc =");
-    expect(popupSource).toContain('backgroundImage: `url("');
-    expect(popupSource).toContain("myAgentLogoSrc");
+    expect(popupSource).toContain("custom-select-options");
+    expect(popupSource).toContain("custom-select-option-logo");
+    expect(popupSource).toContain("optionLogoSrc && (");
     expect(popupSource).toContain('agent !== "raw" && (');
   });
 });

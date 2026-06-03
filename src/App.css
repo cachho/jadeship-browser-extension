@@ -235,9 +235,12 @@ body {
   width: 100%;
 }
 
+.custom-select-dropdown {
+  position: relative;
+}
+
 .custom-select {
   width: 100%;
-  appearance: none;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #ffffff;
@@ -248,6 +251,31 @@ body {
   transition: all 0.4s var(--fluid-spring);
   font-family: inherit;
   cursor: pointer;
+}
+
+.custom-select-summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.custom-select-summary::-webkit-details-marker {
+  display: none;
+}
+
+.custom-select-selected {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-select-option-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
 
 .custom-select:hover {
@@ -261,17 +289,54 @@ body {
 }
 
 .custom-select-icon {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
+  display: inline-flex;
   color: rgba(255, 255, 255, 0.4);
-  transition: color 0.4s var(--fluid-spring);
+  transition:
+    transform 0.2s ease,
+    color 0.4s var(--fluid-spring);
 }
 
 .custom-select-wrapper:hover .custom-select-icon {
   color: rgba(255, 255, 255, 0.8);
+}
+
+.custom-select-dropdown[open] .custom-select-icon {
+  transform: rotate(180deg);
+}
+
+.custom-select-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(10, 10, 12, 0.98);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+}
+
+.custom-select-option {
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.custom-select-option:hover,
+.custom-select-option[aria-selected="true"] {
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .island-wrapper {

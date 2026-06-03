@@ -15,6 +15,8 @@ export const Config = {
   social: {
     homepage: "https://www.jadeship.com/?r=extension",
     bestAgent: "https://www.jadeship.com/shipping-calculator?r=extension",
+    newInstallation:
+      "https://www.jadeship.com/tools/extension/new-installation",
   },
   legal: {
     main: {

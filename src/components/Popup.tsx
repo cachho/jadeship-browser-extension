@@ -4,9 +4,13 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Config } from "../Config";
 import { agents, agentsWithRaw } from "../lib/cn-links";
+import {
+  getValidAgents,
+  LEGACY_AGENTS_STORAGE_KEY,
+} from "../lib/initializeExtension";
 import { RATE_LIMIT_STORAGE_KEY } from "../lib/rateLimit";
 import { getStorage, isChromeStorage } from "../lib/storage";
-import type { AgentWithRaw, Settings } from "../models";
+import type { Agent, AgentWithRaw, Settings } from "../models";
 import { defaultSettings, settingNames } from "../models/Settings";
 
 const GlassCard = ({
@@ -135,9 +139,15 @@ const Popup = () => {
     remaining: number;
     limit: number;
   } | null>(null);
+  const [legacyAgents, setLegacyAgents] = useState<Agent[]>([]);
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
+  const visibleToolbarAgentOptions = settings.hideLegacyAgents
+    ? toolbarAgentOptions.filter(
+        (agent) => agent === "raw" || !legacyAgents.includes(agent),
+      )
+    : toolbarAgentOptions;
   const getAgentLogoSrc = (agent: AgentWithRaw) =>
     agent === "raw"
       ? undefined
@@ -169,21 +179,47 @@ const Popup = () => {
     }
   }, []);
 
+  const setLegacyAgentsFromStorageValue = useCallback(
+    (legacyAgentsData: unknown) => {
+      setLegacyAgents(
+        Array.isArray(legacyAgentsData)
+          ? getValidAgents(legacyAgentsData as string[])
+          : [],
+      );
+    },
+    [],
+  );
+
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
-      storage.local.get([...settingNames, RATE_LIMIT_STORAGE_KEY], (data) => {
-        const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
-          data;
-        setRateLimitFromStorageValue(rateLimitData);
-        setValues(storedSettings as Partial<Settings>);
-      });
+      storage.local.get(
+        [...settingNames, RATE_LIMIT_STORAGE_KEY, LEGACY_AGENTS_STORAGE_KEY],
+        (data) => {
+          const {
+            [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
+            [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            ...storedSettings
+          } = data;
+          setRateLimitFromStorageValue(rateLimitData);
+          setLegacyAgentsFromStorageValue(legacyAgentsData);
+          setValues(storedSettings as Partial<Settings>);
+        },
+      );
     } else if (storage && !isChromeStorage(storage)) {
       storage.local
-        .get([...settingNames, RATE_LIMIT_STORAGE_KEY])
+        .get([
+          ...settingNames,
+          RATE_LIMIT_STORAGE_KEY,
+          LEGACY_AGENTS_STORAGE_KEY,
+        ])
         .then((data) => {
-          const { [RATE_LIMIT_STORAGE_KEY]: rateLimitData, ...storedSettings } =
-            data;
+          const {
+            [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
+            [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            ...storedSettings
+          } = data;
           setRateLimitFromStorageValue(rateLimitData);
+          setLegacyAgentsFromStorageValue(legacyAgentsData);
           setValues(storedSettings as Partial<Settings>);
         });
     }
@@ -218,14 +254,17 @@ const Popup = () => {
         return;
       }
       const rateLimitChange = changes[RATE_LIMIT_STORAGE_KEY];
-      if (!rateLimitChange) {
-        return;
+      if (rateLimitChange) {
+        setRateLimitFromStorageValue(rateLimitChange.newValue);
       }
-      setRateLimitFromStorageValue(rateLimitChange.newValue);
+      const legacyAgentsChange = changes[LEGACY_AGENTS_STORAGE_KEY];
+      if (legacyAgentsChange) {
+        setLegacyAgentsFromStorageValue(legacyAgentsChange.newValue);
+      }
     };
     storage.onChanged.addListener(listener as never);
     return () => storage.onChanged.removeListener(listener as never);
-  }, [storage, setRateLimitFromStorageValue]);
+  }, [storage, setRateLimitFromStorageValue, setLegacyAgentsFromStorageValue]);
 
   const toggleAllAction =
     !settings.taobaoLink ||
@@ -375,7 +414,7 @@ const Popup = () => {
                     </span>
                   </summary>
                   <div className="custom-select-options" role="listbox">
-                    {toolbarAgentOptions.map((agent) => {
+                    {visibleToolbarAgentOptions.map((agent) => {
                       const optionLogoSrc = getAgentLogoSrc(agent);
                       return (
                         <button
@@ -549,6 +588,17 @@ const Popup = () => {
                 })
               }
             />
+            <HiddenToggle
+              label="Hide agents that are no longer operational"
+              description="Legacy agents remain fully supported and can still process links; this only hides them from the interface."
+              checked={settings.hideLegacyAgents}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  hideLegacyAgents: !settings.hideLegacyAgents,
+                })
+              }
+            />
 
             {settings.showToolbar && (
               <>
@@ -578,7 +628,7 @@ const Popup = () => {
                     gap: "6px",
                   }}
                 >
-                  {toolbarAgentOptions.map((agent) => {
+                  {visibleToolbarAgentOptions.map((agent) => {
                     const checked = settings.agentsInToolbar.includes(agent);
                     const disabled = settings.myAgent === agent;
                     function swap() {

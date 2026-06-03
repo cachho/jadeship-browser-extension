@@ -235,6 +235,11 @@ body {
   width: 100%;
 }
 
+.my-agent-card-layer {
+  position: relative;
+  z-index: 30;
+}
+
 .custom-select-dropdown {
   position: relative;
 }

@@ -138,6 +138,10 @@ const Popup = () => {
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
+  const getAgentLogoSrc = (agent: AgentWithRaw) =>
+    agent === "raw"
+      ? undefined
+      : chrome.runtime.getURL(`public/agent_logos/${agent}_logo.png`);
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -371,6 +375,34 @@ const Popup = () => {
                 </svg>
               </div>
             </div>
+            {settings.myAgent !== "raw" && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.8)",
+                }}
+              >
+                <img
+                  src={getAgentLogoSrc(settings.myAgent)}
+                  alt={`${settings.myAgent} logo`}
+                  style={{
+                    width: "14px",
+                    height: "14px",
+                    objectFit: "contain",
+                    borderRadius: "3px",
+                    backgroundColor: "rgba(255,255,255,0.08)",
+                    padding: "1px",
+                  }}
+                />
+                <span>
+                  {settings.myAgent[0].toUpperCase() +
+                    settings.myAgent.substring(1)}
+                </span>
+              </div>
+            )}
 
             <div style={{ paddingLeft: "2px" }}>
               <a
@@ -588,6 +620,20 @@ const Popup = () => {
                             pointerEvents: "none",
                           }}
                         />
+                        {agent !== "raw" && (
+                          <img
+                            src={getAgentLogoSrc(agent)}
+                            alt={`${agent} logo`}
+                            style={{
+                              width: "12px",
+                              height: "12px",
+                              objectFit: "contain",
+                              borderRadius: "3px",
+                              backgroundColor: "rgba(255,255,255,0.08)",
+                              padding: "1px",
+                            }}
+                          />
+                        )}
                         <span
                           style={{
                             fontSize: "12px",

@@ -14,4 +14,11 @@ describe("popup behavior source checks", () => {
     );
     expect(popupSource).toContain("toolbarAgentOptions.map((agent) =>");
   });
+
+  test("uses static agent logos in my agent and toolbar sections", () => {
+    expect(popupSource).toContain("public/agent_logos/");
+    expect(popupSource).toContain("_logo.png`");
+    expect(popupSource).toContain('settings.myAgent !== "raw"');
+    expect(popupSource).toContain('agent !== "raw" && (');
+  });
 });

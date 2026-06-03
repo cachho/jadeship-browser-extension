@@ -13,4 +13,9 @@ describe("background behavior source checks", () => {
     expect(backgroundSource).toContain('details.reason !== "install"');
     expect(backgroundSource).toContain("Config.social.newInstallation");
   });
+
+  test("sets uninstall page url from config", () => {
+    expect(backgroundSource).toContain("runtime.setUninstallURL");
+    expect(backgroundSource).toContain("Config.social.uninstall");
+  });
 });

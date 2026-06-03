@@ -17,6 +17,7 @@ export const Config = {
     bestAgent: "https://www.jadeship.com/shipping-calculator?r=extension",
     newInstallation:
       "https://www.jadeship.com/tools/extension/new-installation",
+    uninstall: "https://www.jadeship.com/tools/extension/uninstall",
   },
   legal: {
     main: {

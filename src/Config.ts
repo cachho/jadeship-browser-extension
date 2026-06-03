@@ -20,6 +20,7 @@ export const Config = {
     newInstallation:
       "https://www.jadeship.com/tools/extension/new-installation",
     uninstall: "https://www.jadeship.com/tools/extension/uninstall",
+    rate: "https://www.jadeship.com/tools/extension/rate",
   },
   legal: {
     main: {

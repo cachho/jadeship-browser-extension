@@ -118,7 +118,12 @@ const HiddenToggle = ({
     </div>
     <div
       className="toggle-switch"
-      style={{ position: "relative", width: "44px", height: "24px" }}
+      style={{
+        position: "relative",
+        width: "44px",
+        height: "24px",
+        flexShrink: 0,
+      }}
     >
       <input
         type="checkbox"
@@ -148,7 +153,6 @@ const Popup = () => {
         (agent) => agent === "raw" || !legacyAgents.includes(agent),
       )
     : toolbarAgentOptions;
-  const rateExtensionUrl = "https://www.jadeship.com/tools/extension/rate";
   const getAgentLogoSrc = (agent: AgentWithRaw) =>
     agent === "raw"
       ? undefined
@@ -328,6 +332,7 @@ const Popup = () => {
             color: "rgba(255, 255, 255, 0.4)",
             textTransform: "uppercase",
             letterSpacing: "0.05em",
+            width: "fit-content",
           }}
         >
           Shopping Agent Extension
@@ -475,6 +480,24 @@ const Popup = () => {
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
             <HiddenToggle
+              label="Hide agents that are no longer operational"
+              description="Legacy agents remain fully supported and can still process links; this only hides them from the interface."
+              checked={settings.hideLegacyAgents}
+              onChange={() =>
+                setSettings({
+                  ...settings,
+                  hideLegacyAgents: !settings.hideLegacyAgents,
+                })
+              }
+            />
+            <div
+              style={{
+                height: "1px",
+                backgroundColor: "rgba(255, 255, 255, 0.06)",
+                margin: "4px 0",
+              }}
+            />
+            <HiddenToggle
               label="Toggle all links conversion"
               checked={!toggleAllAction}
               onChange={() =>
@@ -589,18 +612,6 @@ const Popup = () => {
                 })
               }
             />
-            <HiddenToggle
-              label="Hide agents that are no longer operational"
-              description="Legacy agents remain fully supported and can still process links; this only hides them from the interface."
-              checked={settings.hideLegacyAgents}
-              onChange={() =>
-                setSettings({
-                  ...settings,
-                  hideLegacyAgents: !settings.hideLegacyAgents,
-                })
-              }
-            />
-
             {settings.showToolbar && (
               <>
                 <div
@@ -1028,7 +1039,7 @@ const Popup = () => {
                     Not interested
                   </button>
                   <a
-                    href={rateExtensionUrl}
+                    href={Config.social.rate}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{

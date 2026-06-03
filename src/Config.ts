@@ -21,9 +21,5 @@ export const Config = {
       tos: "https://www.jadeship.com/tos",
       privacy: "https://www.jadeship.com/privacy-policy",
     },
-    qc: {
-      tos: "https://qc.photos/tos",
-      privacy: "https://qc.photos/privacy",
-    },
   },
 };

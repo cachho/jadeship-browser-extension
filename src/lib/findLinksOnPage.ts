@@ -11,6 +11,5 @@ export function findLinksOnPage(targetedHrefs: string[]) {
       (a) =>
         a.dataset.CnLinkExtension !== "true" &&
         a.dataset.CnLinkExtensionNested !== "true",
-    )
-    .filter((a) => !a.href.startsWith("https://qc.photos"));
+    );
 }

@@ -19,4 +19,9 @@ describe("background behavior source checks", () => {
     expect(backgroundSource).toContain("createRateReminderState()");
     expect(backgroundSource).toContain("storage.local.set");
   });
+
+  test("sets uninstall page url from config", () => {
+    expect(backgroundSource).toContain("runtime.setUninstallURL");
+    expect(backgroundSource).toContain("Config.social.uninstall");
+  });
 });

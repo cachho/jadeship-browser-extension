@@ -21,6 +21,7 @@ export const Config = {
       "https://chromewebstore.google.com/detail/jadeshipcom-extension/gnpcmjhhhobmpeeekcfmficdfgnmncim/reviews",
     rateExtensionFirefox:
       "https://addons.mozilla.org/en-US/firefox/addon/jadeship-extension/reviews/",
+    uninstall: "https://www.jadeship.com/tools/extension/uninstall",
   },
   legal: {
     main: {

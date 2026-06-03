@@ -138,6 +138,11 @@ const Popup = () => {
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
+  const getAgentLogoSrc = (agent: AgentWithRaw) =>
+    agent === "raw"
+      ? undefined
+      : chrome.runtime.getURL(`public/agent_logos/${agent}_logo.png`);
+  const myAgentLogoSrc = getAgentLogoSrc(settings.myAgent);
 
   function setValues(updatedSettings: Partial<Settings>) {
     setSettings((prevSettings) => ({
@@ -233,8 +238,7 @@ const Popup = () => {
     ? Math.max(0, Math.min(100, (rateLimit.remaining / rateLimit.limit) * 100))
     : 0;
 
-  const handleChangeMyAgent = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newMyAgent = e.target.value as AgentWithRaw;
+  const handleChangeMyAgent = (newMyAgent: AgentWithRaw) => {
     if (!agentsWithRaw.includes(newMyAgent)) {
       console.error("Invalid agent");
       return;
@@ -337,61 +341,94 @@ const Popup = () => {
           )}
         </GlassCard>
 
-        <GlassCard title="My Shopping Agent" delay="50ms">
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            <div className="custom-select-wrapper">
-              <select
-                onChange={handleChangeMyAgent}
-                value={settings.myAgent}
-                className="custom-select"
-              >
-                {[...sortedAgents, "raw"].map((agent) => (
-                  <option
-                    value={agent}
-                    key={`agent-${agent}`}
-                    style={{ backgroundColor: "#0a0a0c", color: "#fff" }}
-                  >
-                    {agent[0].toUpperCase() + agent.substring(1)}
-                  </option>
-                ))}
-              </select>
-              <div className="custom-select-icon">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
+        <div className="my-agent-card-layer">
+          <GlassCard title="My Shopping Agent" delay="50ms">
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              <div className="custom-select-wrapper">
+                <details className="custom-select-dropdown">
+                  <summary className="custom-select custom-select-summary">
+                    <span className="custom-select-selected">
+                      {myAgentLogoSrc && (
+                        <img
+                          src={myAgentLogoSrc}
+                          alt={`${settings.myAgent} logo`}
+                          className="custom-select-option-logo"
+                        />
+                      )}
+                      {settings.myAgent[0].toUpperCase() +
+                        settings.myAgent.substring(1)}
+                    </span>
+                    <span className="custom-select-icon">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <title>Arrow Down</title>
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div className="custom-select-options" role="listbox">
+                    {toolbarAgentOptions.map((agent) => {
+                      const optionLogoSrc = getAgentLogoSrc(agent);
+                      return (
+                        <button
+                          key={`agent-${agent}`}
+                          type="button"
+                          className="custom-select-option"
+                          role="option"
+                          aria-selected={settings.myAgent === agent}
+                          onClick={(event) => {
+                            handleChangeMyAgent(agent);
+                            const detailsElement =
+                              event.currentTarget.closest("details");
+                            if (detailsElement instanceof HTMLDetailsElement) {
+                              detailsElement.open = false;
+                            }
+                          }}
+                        >
+                          {optionLogoSrc && (
+                            <img
+                              src={optionLogoSrc}
+                              alt={`${agent} logo`}
+                              className="custom-select-option-logo"
+                            />
+                          )}
+                          {agent[0].toUpperCase() + agent.substring(1)}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </details>
+              </div>
+
+              <div style={{ paddingLeft: "2px" }}>
+                <a
+                  href={Config.social.bestAgent}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#34d399",
+                    textDecoration: "none",
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "4px",
+                  }}
                 >
-                  <title>Arrow Down</title>
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
+                  Find the best agent for you →
+                </a>
               </div>
             </div>
-
-            <div style={{ paddingLeft: "2px" }}>
-              <a
-                href={Config.social.bestAgent}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  color: "#34d399",
-                  textDecoration: "none",
-                  fontSize: "12px",
-                  fontWeight: 500,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "4px",
-                }}
-              >
-                Find the best agent for you →
-              </a>
-            </div>
-          </div>
-        </GlassCard>
+          </GlassCard>
+        </div>
 
         <GlassCard title="Settings" delay="100ms" badge="Scope">
           <div
@@ -588,6 +625,20 @@ const Popup = () => {
                             pointerEvents: "none",
                           }}
                         />
+                        {agent !== "raw" && (
+                          <img
+                            src={getAgentLogoSrc(agent)}
+                            alt={`${agent} logo`}
+                            style={{
+                              width: "12px",
+                              height: "12px",
+                              objectFit: "contain",
+                              borderRadius: "3px",
+                              backgroundColor: "rgba(255,255,255,0.08)",
+                              padding: "1px",
+                            }}
+                          />
+                        )}
                         <span
                           style={{
                             fontSize: "12px",

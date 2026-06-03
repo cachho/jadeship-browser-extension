@@ -7,7 +7,7 @@ AGENT_FILE="src/lib/cn-links/agents.ts"
 echo "Checking for missing logos..."
 
 # Extract the list of agents from the agents array only (exclude agentsWithRaw)
-agents=$(sed -n '/export const agents = \[/,/\] as const;/p' "$AGENT_FILE" | grep -oP "'[^']+'" | tr -d "'" | tr '\n' ' ')
+agents=$(sed -n '/export const agents = \[/,/\] as const;/p' "$AGENT_FILE" | grep -oP '"[^"]+"' | tr -d '"' | tr '\n' ' ')
 echo "Agents found in $AGENT_FILE: $agents"
 
 # Get the list of logo files in the public/agent_logos directory

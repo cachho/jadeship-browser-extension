@@ -6,6 +6,19 @@ import { fetchData } from "./api/fetchData";
 import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
 
+export const LEGACY_AGENTS_STORAGE_KEY = "legacyAgents";
+
+export function getValidAgents(agentList?: string[]): Agent[] {
+  const knownAgents = new Set<string>(agents);
+  return Array.from(
+    new Set(
+      (agentList ?? []).filter((agent): agent is Agent =>
+        knownAgents.has(agent),
+      ),
+    ),
+  );
+}
+
 export function isStoredValueEqual(
   value: Settings[keyof Settings] | undefined,
   defaultValue: Settings[keyof Settings],
@@ -24,14 +37,7 @@ export function getDefaultAgentSettings(
   defaultAgents?: string[],
   onError: (...args: unknown[]) => void = console.error,
 ): Pick<Settings, "myAgent" | "agentsInToolbar"> {
-  const knownAgents = new Set<string>(agents);
-  const validDefaultAgents = Array.from(
-    new Set(
-      (defaultAgents ?? []).filter((agent): agent is Agent =>
-        knownAgents.has(agent),
-      ),
-    ),
-  );
+  const validDefaultAgents = getValidAgents(defaultAgents);
 
   if (validDefaultAgents.length === 0) {
     onError(
@@ -69,10 +75,18 @@ export async function initializeExtension(
   const defaultAgentResponse = await fetchData<ApiResponse<string[]>>(
     Config.endpoint.defaults.agent,
   );
+  const legacyAgentResponse = await fetchData<ApiResponse<string[]>>(
+    Config.endpoint.legacyAgents,
+  );
   const effectiveDefaults: Settings = {
     ...defaultSettings,
     ...getDefaultAgentSettings(defaultAgentResponse?.data),
   };
+  if (legacyAgentResponse) {
+    storage.local.set({
+      [LEGACY_AGENTS_STORAGE_KEY]: getValidAgents(legacyAgentResponse.data),
+    });
+  }
 
   // Check if we're running in Chrome
   if (isChromeStorage(storage)) {

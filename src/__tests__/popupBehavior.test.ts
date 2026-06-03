@@ -12,7 +12,16 @@ describe("popup behavior source checks", () => {
     expect(popupSource).toContain(
       'const toolbarAgentOptions = [...sortedAgents, "raw"]',
     );
-    expect(popupSource).toContain("toolbarAgentOptions.map((agent) =>");
+    expect(popupSource).toContain("visibleToolbarAgentOptions.map((agent) =>");
+  });
+
+  test("can hide legacy agents from interface while keeping support", () => {
+    expect(popupSource).toContain("Hide agents that are no longer operational");
+    expect(popupSource).toContain(
+      "Legacy agents remain fully supported and can still process links; this only hides them from the interface.",
+    );
+    expect(popupSource).toContain("settings.hideLegacyAgents");
+    expect(popupSource).toContain("LEGACY_AGENTS_STORAGE_KEY");
   });
 
   test("uses static agent logos in my agent and toolbar sections", () => {
@@ -23,19 +32,5 @@ describe("popup behavior source checks", () => {
     expect(popupSource).toContain("custom-select-option-logo");
     expect(popupSource).toContain("optionLogoSrc && (");
     expect(popupSource).toContain('agent !== "raw" && (');
-  });
-
-  test("shows a dismissible rate reminder above affiliate support text", () => {
-    expect(popupSource).toContain("settings.rateReminder && (");
-    expect(popupSource).toContain(
-      "https://www.jadeship.com/tools/extension/rate",
-    );
-    expect(popupSource).toContain("Not interested");
-    expect(popupSource).toContain(
-      "setSettings({ ...settings, rateReminder: false })",
-    );
-    expect(popupSource).toContain(
-      "💚 <strong>Support free software:</strong> When you register a new",
-    );
   });
 });

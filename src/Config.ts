@@ -2,6 +2,8 @@ export const Config = {
   defaultToolbarAgentsCount: 5,
   name: "JadeShip.com",
   endpoint: {
+    agents: "https://www.jadeship.com/api/agents",
+    legacyAgents: "https://www.jadeship.com/api/agents/legacy",
     affiliateLinks: "https://www.jadeship.com/api/agents/affiliate-links",
     convertDecrypt:
       "https://www.jadeship.com/api/quota-limited/extension/v2/convert-decrypt/multi",
@@ -18,6 +20,7 @@ export const Config = {
     newInstallation:
       "https://www.jadeship.com/tools/extension/new-installation",
     uninstall: "https://www.jadeship.com/tools/extension/uninstall",
+    rate: "https://www.jadeship.com/tools/extension/rate",
   },
   legal: {
     main: {

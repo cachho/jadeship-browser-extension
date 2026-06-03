@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   getDefaultAgentSettings,
+  getValidAgents,
   isStoredValueEqual,
 } from "../lib/initializeExtension";
 import { defaultAgentSettings, defaultSettings } from "../models/Settings";
@@ -69,6 +70,24 @@ describe("getDefaultAgentSettings", () => {
     ).toEqual({
       myAgent: "joyagoo",
       agentsInToolbar: ["kakobuy", "hipobuy", "raw"],
+    });
+  });
+
+  describe("getValidAgents", () => {
+    test("keeps only known agents and removes duplicates", () => {
+      expect(
+        getValidAgents([
+          "joyagoo",
+          "not-an-agent",
+          "joyagoo",
+          "kakobuy",
+          "unknown",
+        ]),
+      ).toEqual(["joyagoo", "kakobuy"]);
+    });
+
+    test("returns an empty list when api data is missing", () => {
+      expect(getValidAgents(undefined)).toEqual([]);
     });
   });
 

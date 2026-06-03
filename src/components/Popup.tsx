@@ -150,7 +150,11 @@ const Popup = () => {
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
   const visibleToolbarAgentOptions = settings.hideLegacyAgents
     ? toolbarAgentOptions.filter(
-        (agent) => agent === "raw" || !legacyAgents.includes(agent),
+        (agent) =>
+          agent === "raw" ||
+          !legacyAgents.includes(agent) ||
+          agent === settings.myAgent ||
+          settings.agentsInToolbar.includes(agent),
       )
     : toolbarAgentOptions;
   const getAgentLogoSrc = (agent: AgentWithRaw) =>

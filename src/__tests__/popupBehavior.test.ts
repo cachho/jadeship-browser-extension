@@ -1,4 +1,5 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 describe("popup behavior source checks", () => {
   const popupSource = readFileSync(
@@ -7,12 +8,18 @@ describe("popup behavior source checks", () => {
       encoding: "utf-8",
     },
   );
-  const popupSectionsSource = readFileSync(
-    new URL("../components/popup/PopupSections.tsx", import.meta.url),
-    {
-      encoding: "utf-8",
-    },
+  const popupSectionsDirectory = new URL(
+    "../components/popup",
+    import.meta.url,
   );
+  const popupSectionsSource = readdirSync(popupSectionsDirectory)
+    .filter((fileName) => fileName.endsWith(".tsx"))
+    .map((fileName) =>
+      readFileSync(join(popupSectionsDirectory.pathname, fileName), {
+        encoding: "utf-8",
+      }),
+    )
+    .join("\n");
 
   test("toolbar agent options include raw for toggling", () => {
     expect(popupSource).toContain(

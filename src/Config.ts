@@ -18,9 +18,9 @@ export const Config = {
     newInstallation:
       "https://www.jadeship.com/tools/extension/new-installation",
     rateExtensionChrome:
-      "https://chrome.google.com/webstore/detail/my-agent-extension-by-rep/gnpcmjhhhobmpeeekcfmficdfgnmncim?hl=en&authuser=0",
+      "https://chromewebstore.google.com/detail/jadeshipcom-extension/gnpcmjhhhobmpeeekcfmficdfgnmncim/reviews",
     rateExtensionFirefox:
-      "https://addons.mozilla.org/en-US/firefox/addon/jadeship-extension/",
+      "https://addons.mozilla.org/en-US/firefox/addon/jadeship-extension/reviews/",
   },
   legal: {
     main: {

@@ -97,7 +97,7 @@ export const defaultSettings: Settings = {
   displayOverwriteTitle: false,
   showToolbar: true,
   stickyToolbar: true,
-  hideLegacyAgents: false,
+  hideLegacyAgents: true,
   isDefault: true,
   ...defaultAgentSettings,
 };

@@ -68,6 +68,22 @@ Alternatively, to use pre-release versions you can clone the repository and buil
 
 If you don't want to build from source, you can check this repo's releases page to directly download the zip files, ready for installation.
 
+### Verifying the build
+
+If you want to confirm that the extension published on the Chrome Web Store matches the source code in this repository, you can use the included verification script. It downloads the published CRX directly from Google, strips the CRX header, and compares the SHA-256 hash of every file against a local ZIP — either one you built yourself or a ZIP downloaded from the GitHub Releases page.
+
+```bash
+./verify-build.sh
+```
+
+Requirements: `curl`, `unzip`, `sha256sum`, `git` (all standard on Linux/macOS).
+
+`_metadata/` is intentionally excluded, it's a directory Chrome adds internally after installation
+
+JS files will show some expected differences:
+- **Shortened strings** — the Chrome Web Store truncates long string literals (e.g. React internal error messages). This is done server-side by Google.
+- **Renamed variables** — Bun's minifier uses non-deterministic short names (`a`, `b`, `t`…) which may differ between builds even from the same source and commit.
+
 ## Development
 
 This extension uses one codebase for firefox and chromium browsers.

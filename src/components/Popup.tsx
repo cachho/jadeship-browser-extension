@@ -896,10 +896,10 @@ const Popup = () => {
                 color: "rgba(52, 211, 153, 0.9)",
               }}
             >
-              💚 <strong>Support free software:</strong> Affiliate links are
-              automatically added to agent URLs at no cost to you. This supports
-              transparency, freedom of choice, and competition between agents.
-              You can opt out anytime.
+              💚 <strong>Support free software:</strong> When you register a new
+              account with an agent, the extension may ask you if you want to do
+              so with our referral code. This does not cost you, but it helps us
+              out a lot. Thank you for considering it!
             </div>
           </div>
         </GlassCard>

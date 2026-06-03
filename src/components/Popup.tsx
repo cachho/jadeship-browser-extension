@@ -459,7 +459,10 @@ const Popup = () => {
                     })
               }
             />
-
+            <p>
+              This only disables the on-page conversion on reddit and yupoo. The
+              toolbar is not affected.
+            </p>
             <div
               style={{
                 height: "1px",

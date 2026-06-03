@@ -1,6 +1,6 @@
 export const Config = {
   defaultToolbarAgentsCount: 5,
-  name: "JadeShip.com",
+  name: "Jadeship.com",
   endpoint: {
     agents: "https://www.jadeship.com/api/agents",
     legacyAgents: "https://www.jadeship.com/api/agents/legacy",

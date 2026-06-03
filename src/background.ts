@@ -1,6 +1,9 @@
 import { Config } from "./Config";
 import { redirectListenerUrls } from "./data/redirectListenerUrls";
-import { initializeExtension } from "./lib/initializeExtension";
+import {
+  INSTALL_TIME_STORAGE_KEY,
+  initializeExtension,
+} from "./lib/initializeExtension";
 import { getStorage, isChromeStorage } from "./lib/storage";
 
 /**
@@ -52,18 +55,51 @@ function addInstallListener(isChrome: boolean) {
 }
 
 function addUninstallListener(isChrome: boolean) {
+  const baseUrl = new URL(Config.social.uninstall);
+  const version = isChrome
+    ? chrome.runtime.getManifest().version
+    : browser.runtime.getManifest().version;
+  baseUrl.searchParams.set("browser", isChrome ? "chrome" : "firefox");
+  baseUrl.searchParams.set("v", version);
+  baseUrl.searchParams.set("ua", navigator.userAgent);
+  baseUrl.searchParams.set("uninstalled_at", String(Date.now()));
+
   if (isChrome) {
-    chrome.runtime.setUninstallURL(Config.social.uninstall);
+    chrome.storage.local.get(
+      { [INSTALL_TIME_STORAGE_KEY]: null },
+      (result: Record<string, unknown>) => {
+        if (result[INSTALL_TIME_STORAGE_KEY]) {
+          baseUrl.searchParams.set(
+            "installed_at",
+            String(result[INSTALL_TIME_STORAGE_KEY]),
+          );
+        }
+        chrome.runtime.setUninstallURL(baseUrl.toString());
+      },
+    );
   } else {
-    browser.runtime.setUninstallURL(Config.social.uninstall);
+    browser.storage.local
+      .get({ [INSTALL_TIME_STORAGE_KEY]: null })
+      .then((result: Record<string, unknown>) => {
+        if (result[INSTALL_TIME_STORAGE_KEY]) {
+          baseUrl.searchParams.set(
+            "installed_at",
+            String(result[INSTALL_TIME_STORAGE_KEY]),
+          );
+        }
+        browser.runtime.setUninstallURL(baseUrl.toString());
+      })
+      .catch((error: unknown) =>
+        console.error("Error setting uninstall URL:", error),
+      );
   }
 }
 
 function main() {
   const storage = getStorage();
   addInstallListener(isChromeStorage(storage));
-  addUninstallListener(isChromeStorage(storage));
   initializeExtension(storage).finally(() => {
+    addUninstallListener(isChromeStorage(storage));
     addRedirectListener(isChromeStorage(storage));
   });
 }

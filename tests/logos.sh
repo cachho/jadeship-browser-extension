@@ -8,6 +8,11 @@ echo "Checking for missing logos..."
 
 # Extract the list of agents from the agents array only (exclude agentsWithRaw)
 agents=$(sed -n '/export const agents = \[/,/\] as const;/p' "$AGENT_FILE" | grep -oP '"[^"]+"' | tr -d '"' | tr '\n' ' ')
+# Fail if no agents found
+if [ -z "$agents" ]; then
+    echo -e "\e[31mError: No agents found in $AGENT_FILE\e[0m"
+    exit 1
+fi
 echo "Agents found in $AGENT_FILE: $agents"
 
 # Get the list of logo files in the public/agent_logos directory

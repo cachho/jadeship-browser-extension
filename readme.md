@@ -68,6 +68,20 @@ Alternatively, to use pre-release versions you can clone the repository and buil
 
 If you don't want to build from source, you can check this repo's releases page to directly download the zip files, ready for installation.
 
+### Verifying the build
+
+If you want to confirm that the extension published on the Chrome Web Store matches the source code in this repository, you can use the included verification script. It downloads the published CRX directly from Google, strips the CRX header, and compares the SHA-256 hash of every file against a local ZIP — either one you built yourself or a ZIP downloaded from the GitHub Releases page.
+
+```bash
+./verify-build.sh
+```
+
+Requirements: `curl`, `unzip`, `sha256sum`, `git` (all standard on Linux/macOS).
+
+Two files are intentionally excluded from the comparison:
+- `manifest.json` — the Chrome Web Store rewrites this file to inject a `key` field
+- `_metadata/` — a directory Chrome adds internally after installation
+
 ## Development
 
 This extension uses one codebase for firefox and chromium browsers.

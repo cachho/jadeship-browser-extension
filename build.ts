@@ -38,6 +38,8 @@ const command = [
   "iife",
 ];
 
+command.push("--legal-comments=none");
+
 if (isProduction) {
   command.push("--minify");
 } else {
@@ -57,3 +59,5 @@ const exitCode = await processResult.exited;
 if (exitCode !== 0) {
   process.exit(exitCode);
 }
+
+export {};

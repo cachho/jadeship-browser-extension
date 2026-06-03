@@ -14,6 +14,7 @@ export const settingNames: (keyof Settings)[] = [
   "logoPlatform",
   "myAgent",
   "affiliateProgram",
+  "rateReminder",
   "affiliateAppend",
   "onlineFeatures",
   "onlineFeaturesQcPhotos",
@@ -36,6 +37,7 @@ export type Settings = {
   agentLink: boolean;
   thirdPartyLink: boolean;
   affiliateProgram: boolean;
+  rateReminder: boolean;
   affiliateAppend: boolean;
   logoAgent: boolean;
   logoPlatform: boolean;
@@ -76,6 +78,7 @@ export const defaultSettings: Settings = {
   agentLink: true,
   thirdPartyLink: true,
   affiliateProgram: true,
+  rateReminder: true,
   affiliateAppend: false,
   logoAgent: false,
   logoPlatform: true,

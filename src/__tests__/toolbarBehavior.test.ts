@@ -23,4 +23,8 @@ describe("toolbar behavior source checks", () => {
     expect(toolbarSource).toContain('agent === "raw" && cnLink?.marketplace');
     expect(toolbarSource).toContain("getPlatformImage(cnLink.marketplace)");
   });
+
+  test("successful toolbar conversions are counted", () => {
+    expect(toolbarSource).toContain('incrementConversionStat("toolbar")');
+  });
 });

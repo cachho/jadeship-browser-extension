@@ -2,6 +2,7 @@
 
 import { getConvertDecrypt } from "./lib/api/getConvertDecrypt";
 import { getOnlineFeatures } from "./lib/api/getOnlineFeatures";
+import { incrementConversionStat } from "./lib/conversionStats";
 import { findLinksOnPage } from "./lib/findLinksOnPage";
 import { findNestedLinksOnPage } from "./lib/findNestedLinksOnPage";
 import { getConvertTargets } from "./lib/getConvertTargets";
@@ -30,6 +31,10 @@ async function main(settings: Settings) {
 
   const currentUrl = new URL(window.location.href);
   const shouldForceReplaceLinkText = currentUrl.hostname === "www.reddit.com";
+  const shouldTrackOnPageConversion =
+    currentUrl.hostname === "www.reddit.com" ||
+    currentUrl.hostname === "yupoo.com" ||
+    currentUrl.hostname.endsWith(".yupoo.com");
   const convertTargets = getConvertTargets(
     selectedAgent,
     settings.agentsInToolbar,
@@ -118,6 +123,9 @@ async function main(settings: Settings) {
 
     if (newHref) {
       elem.href = newHref;
+      if (shouldTrackOnPageConversion && selectedAgent !== "raw") {
+        void incrementConversionStat("onPage");
+      }
       // Test: if the complete mark can be added here
 
       // Add details

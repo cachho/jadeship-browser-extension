@@ -2,6 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 import { agents, agentsWithRaw } from "../lib/cn-links";
 import {
+  CONVERSION_STATS_STORAGE_KEY,
+  getConversionStatsFromStorageValue,
+} from "../lib/conversionStats";
+import {
   getValidAgents,
   LEGACY_AGENTS_STORAGE_KEY,
 } from "../lib/initializeExtension";
@@ -25,6 +29,10 @@ const Popup = () => {
     remaining: number;
     limit: number;
   } | null>(null);
+  const [conversionStats, setConversionStats] = useState({
+    onPage: 0,
+    toolbar: 0,
+  });
   const [legacyAgents, setLegacyAgents] = useState<Agent[]>([]);
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
@@ -83,18 +91,33 @@ const Popup = () => {
     [],
   );
 
+  const setConversionStatsFromStorageValue = useCallback((data: unknown) => {
+    const parsed = getConversionStatsFromStorageValue(data);
+    setConversionStats({
+      onPage: parsed.onPage,
+      toolbar: parsed.toolbar,
+    });
+  }, []);
+
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
       storage.local.get(
-        [...settingNames, RATE_LIMIT_STORAGE_KEY, LEGACY_AGENTS_STORAGE_KEY],
+        [
+          ...settingNames,
+          RATE_LIMIT_STORAGE_KEY,
+          LEGACY_AGENTS_STORAGE_KEY,
+          CONVERSION_STATS_STORAGE_KEY,
+        ],
         (data) => {
           const {
             [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
             [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            [CONVERSION_STATS_STORAGE_KEY]: conversionStatsData,
             ...storedSettings
           } = data;
           setRateLimitFromStorageValue(rateLimitData);
           setLegacyAgentsFromStorageValue(legacyAgentsData);
+          setConversionStatsFromStorageValue(conversionStatsData);
           updateSettings(storedSettings as Partial<Settings>);
         },
       );
@@ -104,15 +127,18 @@ const Popup = () => {
           ...settingNames,
           RATE_LIMIT_STORAGE_KEY,
           LEGACY_AGENTS_STORAGE_KEY,
+          CONVERSION_STATS_STORAGE_KEY,
         ])
         .then((data) => {
           const {
             [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
             [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            [CONVERSION_STATS_STORAGE_KEY]: conversionStatsData,
             ...storedSettings
           } = data;
           setRateLimitFromStorageValue(rateLimitData);
           setLegacyAgentsFromStorageValue(legacyAgentsData);
+          setConversionStatsFromStorageValue(conversionStatsData);
           updateSettings(storedSettings as Partial<Settings>);
         });
     }
@@ -154,10 +180,19 @@ const Popup = () => {
       if (legacyAgentsChange) {
         setLegacyAgentsFromStorageValue(legacyAgentsChange.newValue);
       }
+      const conversionStatsChange = changes[CONVERSION_STATS_STORAGE_KEY];
+      if (conversionStatsChange) {
+        setConversionStatsFromStorageValue(conversionStatsChange.newValue);
+      }
     };
     storage.onChanged.addListener(listener as never);
     return () => storage.onChanged.removeListener(listener as never);
-  }, [storage, setRateLimitFromStorageValue, setLegacyAgentsFromStorageValue]);
+  }, [
+    storage,
+    setRateLimitFromStorageValue,
+    setLegacyAgentsFromStorageValue,
+    setConversionStatsFromStorageValue,
+  ]);
 
   const toggleAllAction =
     !settings.taobaoLink ||
@@ -233,6 +268,7 @@ const Popup = () => {
         <WeeklyLimitCard
           rateLimit={rateLimit}
           rateLimitPercent={rateLimitPercent}
+          conversionStats={conversionStats}
         />
 
         <MyAgentCard

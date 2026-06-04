@@ -8,6 +8,7 @@ import {
 import { getQc } from "./lib/api/getQc";
 import { detectMarketplace } from "./lib/cn-links";
 import { detectAgent } from "./lib/cn-links/detectAgent";
+import { incrementConversionStat } from "./lib/conversionStats";
 import { getStatsUrl } from "./lib/getStatsUrl";
 import {
   addObserver,
@@ -220,6 +221,9 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
         if (!alive || !response) return;
         setConvertErrorMessage(null);
         setCnLink(response.cnLink);
+        if (response.data.some(({ url }) => Boolean(url))) {
+          void incrementConversionStat("toolbar");
+        }
         const next: Partial<Record<AgentWithRaw, string>> = {};
         response.data.forEach(({ target, url }) => {
           next[target] = url;

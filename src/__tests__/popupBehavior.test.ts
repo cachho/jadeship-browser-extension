@@ -50,4 +50,12 @@ describe("popup behavior source checks", () => {
     expect(popupSectionsSource).toContain("optionLogoSrc && (");
     expect(popupSectionsSource).toContain('agent !== "raw" && (');
   });
+
+  test("shows conversion counters under weekly limit", () => {
+    expect(popupSource).toContain("CONVERSION_STATS_STORAGE_KEY");
+    expect(popupSource).toContain("setConversionStatsFromStorageValue");
+    expect(popupSectionsSource).toContain("Reddit/Yupoo");
+    expect(popupSectionsSource).toContain("Toolbar");
+    expect(popupSectionsSource).toContain('gridTemplateColumns: "1fr 1fr"');
+  });
 });

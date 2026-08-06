@@ -116,6 +116,12 @@ export function validateRegisterPage(
       newLocation.pathname.startsWith("/login/login")
     );
   }
+  if (agent === "lolobuy") {
+    return location.pathname.startsWith("/index");
+  }
+  if (agent === "litbuy") {
+    return location.pathname.startsWith("/register");
+  }
 
   return false;
 }

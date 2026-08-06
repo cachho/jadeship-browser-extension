@@ -43,6 +43,8 @@ describe("agents data integrity", () => {
       "hipobuy",
       "gtbuy",
       "fishgoo",
+      "lolobuy",
+      "litbuy",
     ];
     expect(agents).toEqual(expected);
   });

@@ -86,6 +86,8 @@ export function getTargetHrefs(settings: Settings) {
       "hipobuy.com/product",
       "gtbuy.com/product",
       "fishgoo.com/#/product",
+      "lolobuy.com/productDetail",
+      "litbuy.com/product",
     ]);
   }
 

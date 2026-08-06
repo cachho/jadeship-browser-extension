@@ -57,6 +57,7 @@ export function getTargetHrefs(settings: Settings) {
       "sugargoo.com/#/home/productDetail",
       "sugargoo.com/index/item",
       "cssbuy.com/item",
+      "cssbuy.com/shop/goodsDetail",
       "hagobuy.com/item",
       "hegobuy.com/item",
       "weidian.info",

@@ -9,7 +9,7 @@ describe("validateRegisterPage", () => {
       pandabuy: "https://www.pandabuy.com/login?id=1",
       superbuy: "https://www.superbuy.com/en/page/login/?type=register",
       wegobuy: "https://login.wegobuy.com/en/page/login/?&type=register",
-      cssbuy: "https://m.cssbuy.com/?go=user&action=register",
+      cssbuy: "https://www.cssbuy.com/index",
       sugargoo: "https://www.sugargoo.com/#/login/login?redirect=/home/home",
       hagobuy: "https://www.hagobuy.com/register",
       hegobuy: "https://www.hegobuy.com/register",

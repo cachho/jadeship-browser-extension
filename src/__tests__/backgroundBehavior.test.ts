@@ -41,6 +41,11 @@ describe("background behavior source checks", () => {
     expect(backgroundSource).toContain('"uninstalled_at"');
   });
 
+  test("truncates user-agent so uninstall URL stays within 255 characters", () => {
+    expect(backgroundSource).toContain("MAX_URL_LENGTH = 255");
+    expect(backgroundSource).toContain("navigator.userAgent.slice(0,");
+  });
+
   test("sets uninstall URL after initializeExtension to ensure installTime is persisted", () => {
     // addUninstallListener must be called inside the .finally() block
     const finallyBlock = backgroundSource.slice(

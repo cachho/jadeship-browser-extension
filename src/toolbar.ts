@@ -470,7 +470,7 @@ async function toolbar() {
   handleExceptionElements(currentAgent);
 
   const rootElem = document.createElement("div");
-  placeToolbar(settings, body, rootElem, currentAgent);
+  placeToolbar(body, rootElem);
 
   const root = ReactDOM.createRoot(rootElem);
   root.render(

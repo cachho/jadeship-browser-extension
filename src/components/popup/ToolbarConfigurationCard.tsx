@@ -30,13 +30,6 @@ export const ToolbarConfigurationCard = ({
         onChange={() => updateSettings({ showToolbar: !settings.showToolbar })}
       />
 
-      <HiddenToggle
-        label="Sticky toolbar position"
-        checked={settings.stickyToolbar}
-        onChange={() =>
-          updateSettings({ stickyToolbar: !settings.stickyToolbar })
-        }
-      />
       {settings.showToolbar && (
         <>
           <div style={{ ...sectionDividerStyle, margin: "4px 0" }} />

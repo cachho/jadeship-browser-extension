@@ -27,7 +27,6 @@ export const settingNames: (keyof Settings)[] = [
   "displayOverwriteTitle",
   "affiliate",
   "showToolbar",
-  "stickyToolbar",
   "hideLegacyAgents",
   "agentsInToolbar",
   "isDefault",
@@ -57,7 +56,6 @@ export type Settings = {
   displayOverwriteTitle: boolean;
   affiliate?: AffiliateLinks | null;
   showToolbar: boolean;
-  stickyToolbar: boolean;
   hideLegacyAgents: boolean;
   isDefault: boolean;
   agentsInToolbar: AgentWithRaw[];
@@ -96,7 +94,6 @@ export const defaultSettings: Settings = {
   displayTitleLength: "64",
   displayOverwriteTitle: false,
   showToolbar: true,
-  stickyToolbar: true,
   hideLegacyAgents: true,
   isDefault: true,
   ...defaultAgentSettings,

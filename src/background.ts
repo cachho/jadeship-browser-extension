@@ -61,8 +61,19 @@ function addUninstallListener(isChrome: boolean) {
     : browser.runtime.getManifest().version;
   baseUrl.searchParams.set("browser", isChrome ? "chrome" : "firefox");
   baseUrl.searchParams.set("v", version);
-  baseUrl.searchParams.set("ua", navigator.userAgent);
   baseUrl.searchParams.set("uninstalled_at", String(Date.now()));
+
+  // Add user-agent last, truncated so the total URL length stays within the
+  // 255-character limit imposed by chrome.runtime.setUninstallURL.
+  const MAX_URL_LENGTH = 255;
+  const urlWithoutUa = baseUrl.toString();
+  const uaKey = "&ua=";
+  const availableUaChars = Math.max(
+    0,
+    MAX_URL_LENGTH - urlWithoutUa.length - uaKey.length,
+  );
+  const truncatedUa = navigator.userAgent.slice(0, availableUaChars);
+  baseUrl.searchParams.set("ua", truncatedUa);
 
   if (isChrome) {
     chrome.storage.local.get(

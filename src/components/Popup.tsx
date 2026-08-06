@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { agents, agentsWithRaw } from "../lib/cn-links";
 import {
   getValidAgents,
+  BLIND_EXCLUDED_AGENTS_STORAGE_KEY,
   LEGACY_AGENTS_STORAGE_KEY,
 } from "../lib/initializeExtension";
 import { RATE_LIMIT_STORAGE_KEY } from "../lib/rateLimit";
@@ -26,18 +27,23 @@ const Popup = () => {
     limit: number;
   } | null>(null);
   const [legacyAgents, setLegacyAgents] = useState<Agent[]>([]);
+  const [blindExcludedAgents, setBlindExcludedAgents] = useState<Agent[]>([]);
   const storage = getStorage();
   const sortedAgents = agents.slice().sort((a, b) => a.localeCompare(b));
   const toolbarAgentOptions = [...sortedAgents, "raw"] as AgentWithRaw[];
-  const visibleToolbarAgentOptions = settings.hideLegacyAgents
-    ? toolbarAgentOptions.filter(
+  const visibleToolbarAgentOptions = toolbarAgentOptions.filter(
+    (agent) =>
+      agent === "raw" || !blindExcludedAgents.includes(agent),
+  );
+  const visibleToolbarAgentOptionsWithLegacy = settings.hideLegacyAgents
+    ? visibleToolbarAgentOptions.filter(
         (agent) =>
           agent === "raw" ||
           !legacyAgents.includes(agent) ||
           agent === settings.myAgent ||
           settings.agentsInToolbar.includes(agent),
       )
-    : toolbarAgentOptions;
+    : visibleToolbarAgentOptions;
   const getAgentLogoSrc = useCallback(
     (agent: AgentWithRaw) =>
       agent === "raw"
@@ -83,18 +89,36 @@ const Popup = () => {
     [],
   );
 
+  const setBlindExcludedAgentsFromStorageValue = useCallback(
+    (blindExcludedData: unknown) => {
+      setBlindExcludedAgents(
+        Array.isArray(blindExcludedData)
+          ? getValidAgents(blindExcludedData as string[])
+          : [],
+      );
+    },
+    [],
+  );
+
   function loadFromLocalStorage() {
     if (isChromeStorage(storage)) {
       storage.local.get(
-        [...settingNames, RATE_LIMIT_STORAGE_KEY, LEGACY_AGENTS_STORAGE_KEY],
+        [
+          ...settingNames,
+          RATE_LIMIT_STORAGE_KEY,
+          LEGACY_AGENTS_STORAGE_KEY,
+          BLIND_EXCLUDED_AGENTS_STORAGE_KEY,
+        ],
         (data) => {
           const {
             [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
             [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            [BLIND_EXCLUDED_AGENTS_STORAGE_KEY]: blindExcludedData,
             ...storedSettings
           } = data;
           setRateLimitFromStorageValue(rateLimitData);
           setLegacyAgentsFromStorageValue(legacyAgentsData);
+          setBlindExcludedAgentsFromStorageValue(blindExcludedData);
           updateSettings(storedSettings as Partial<Settings>);
         },
       );
@@ -104,15 +128,18 @@ const Popup = () => {
           ...settingNames,
           RATE_LIMIT_STORAGE_KEY,
           LEGACY_AGENTS_STORAGE_KEY,
+          BLIND_EXCLUDED_AGENTS_STORAGE_KEY,
         ])
         .then((data) => {
           const {
             [RATE_LIMIT_STORAGE_KEY]: rateLimitData,
             [LEGACY_AGENTS_STORAGE_KEY]: legacyAgentsData,
+            [BLIND_EXCLUDED_AGENTS_STORAGE_KEY]: blindExcludedData,
             ...storedSettings
           } = data;
           setRateLimitFromStorageValue(rateLimitData);
           setLegacyAgentsFromStorageValue(legacyAgentsData);
+          setBlindExcludedAgentsFromStorageValue(blindExcludedData);
           updateSettings(storedSettings as Partial<Settings>);
         });
     }
@@ -154,10 +181,19 @@ const Popup = () => {
       if (legacyAgentsChange) {
         setLegacyAgentsFromStorageValue(legacyAgentsChange.newValue);
       }
+      const blindExcludedChange = changes[BLIND_EXCLUDED_AGENTS_STORAGE_KEY];
+      if (blindExcludedChange) {
+        setBlindExcludedAgentsFromStorageValue(blindExcludedChange.newValue);
+      }
     };
     storage.onChanged.addListener(listener as never);
     return () => storage.onChanged.removeListener(listener as never);
-  }, [storage, setRateLimitFromStorageValue, setLegacyAgentsFromStorageValue]);
+  }, [
+    storage,
+    setRateLimitFromStorageValue,
+    setLegacyAgentsFromStorageValue,
+    setBlindExcludedAgentsFromStorageValue,
+  ]);
 
   const toggleAllAction =
     !settings.taobaoLink ||
@@ -237,7 +273,7 @@ const Popup = () => {
 
         <MyAgentCard
           settings={settings}
-          visibleToolbarAgentOptions={visibleToolbarAgentOptions}
+          visibleToolbarAgentOptions={visibleToolbarAgentOptionsWithLegacy}
           myAgentLogoSrc={myAgentLogoSrc}
           getAgentLogoSrc={getAgentLogoSrc}
           onChangeMyAgent={handleChangeMyAgent}
@@ -252,7 +288,7 @@ const Popup = () => {
         <ToolbarConfigurationCard
           settings={settings}
           updateSettings={updateSettings}
-          visibleToolbarAgentOptions={visibleToolbarAgentOptions}
+          visibleToolbarAgentOptions={visibleToolbarAgentOptionsWithLegacy}
           getAgentLogoSrc={getAgentLogoSrc}
         />
 

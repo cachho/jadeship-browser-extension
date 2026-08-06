@@ -199,8 +199,10 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
       if (b === settings.myAgent || a === "raw") return -1;
       return 0;
     };
-    return [...settings.agentsInToolbar].sort(sortKeys);
-  }, [settings]);
+    return [...settings.agentsInToolbar]
+      .filter((agent) => agent !== initialAgent)
+      .sort(sortKeys);
+  }, [settings, initialAgent]);
 
   useEffect(() => {
     let alive = true;

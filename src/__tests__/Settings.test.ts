@@ -37,4 +37,8 @@ describe("default agent settings", () => {
       defaultAgentSettings.agentsInToolbar,
     );
   });
+
+  it("enables toolbar auto-hide by default", () => {
+    expect(defaultSettings.autoHideToolbar).toBe(true);
+  });
 });

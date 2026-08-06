@@ -154,6 +154,8 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
   const lastScrollY = useRef(window.scrollY);
   const collapseTimeout = useRef<NodeJS.Timeout | null>(null);
+  const shouldAutoHide =
+    settings.autoHideToolbar || Boolean(convertErrorMessage);
 
   useEffect(() => {
     let ticking = false;
@@ -164,7 +166,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
           const currentScrollY = window.scrollY;
           const delta = Math.abs(currentScrollY - lastScrollY.current);
 
-          if (delta > 24 && currentScrollY > 50) {
+          if (shouldAutoHide && delta > 24 && currentScrollY > 50) {
             setIsCollapsed(true);
           }
 
@@ -177,7 +179,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [shouldAutoHide]);
 
   const handleMouseEnter = () => {
     if (collapseTimeout.current) clearTimeout(collapseTimeout.current);
@@ -185,6 +187,7 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
   };
 
   const handleMouseLeave = () => {
+    if (!shouldAutoHide) return;
     collapseTimeout.current = setTimeout(
       () => {
         setIsCollapsed(true);
@@ -193,16 +196,20 @@ function ToolbarRoot({ settings, href, initialAgent }: ToolbarRootProps) {
     );
   };
 
+  useEffect(() => {
+    if (!shouldAutoHide) {
+      setIsCollapsed(false);
+    }
+  }, [shouldAutoHide]);
+
   const sortedAgents = useMemo(() => {
     const sortKeys = (a: string, b: string) => {
       if (a === settings.myAgent) return 1;
       if (b === settings.myAgent || a === "raw") return -1;
       return 0;
     };
-    return [...settings.agentsInToolbar]
-      .filter((agent) => agent !== initialAgent)
-      .sort(sortKeys);
-  }, [settings, initialAgent]);
+    return [...settings.agentsInToolbar].sort(sortKeys);
+  }, [settings]);
 
   useEffect(() => {
     let alive = true;

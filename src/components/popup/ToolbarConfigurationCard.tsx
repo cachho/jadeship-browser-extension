@@ -30,6 +30,16 @@ export const ToolbarConfigurationCard = ({
         onChange={() => updateSettings({ showToolbar: !settings.showToolbar })}
       />
 
+      <HiddenToggle
+        label="Auto-Hide Toolbar"
+        description="Automatically collapses the toolbar while browsing"
+        checked={settings.autoHideToolbar}
+        onChange={() =>
+          updateSettings({ autoHideToolbar: !settings.autoHideToolbar })
+        }
+        disabled={!settings.showToolbar}
+      />
+
       {settings.showToolbar && (
         <>
           <div style={{ ...sectionDividerStyle, margin: "4px 0" }} />

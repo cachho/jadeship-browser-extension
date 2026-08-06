@@ -16,6 +16,9 @@ export function validateRegisterPage(
     );
   }
   if (agent === "cssbuy") {
+    if (location.pathname.startsWith("/index")) {
+      return true;
+    }
     const params = new URLSearchParams(location.search);
     return location.pathname === "/" && params.get("action") === "register";
   }

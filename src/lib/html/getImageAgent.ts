@@ -4,5 +4,5 @@ export function getImageAgent(agent: Agent) {
   const src = `../public/agent_logos/${agent}_logo.png`;
   return `<img src="${chrome.runtime.getURL(
     src,
-  )}" style="vertical-align:middle; padding-left: 4px; padding-right: 4px">`;
+  )}" style="display:block; width:16px; height:16px; object-fit:contain; vertical-align:middle;">`;
 }

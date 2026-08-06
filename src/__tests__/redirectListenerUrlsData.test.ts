@@ -70,6 +70,8 @@ describe("redirectListenerUrls data integrity", () => {
       "hipobuy.com",
       "gtbuy.com",
       "fishgoo.com",
+      "lolobuy.com",
+      "litbuy.com",
     ];
     expect(hosts).toEqual(expected);
   });

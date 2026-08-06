@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Jadeship.com Extension",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Convert links on reddit, yupoo and supported agent pages to your favorite shopping agent; titles, QC pics and a handy toolbar.",
   "icons": {
     "48": "public/icon.png"
@@ -54,6 +54,8 @@
         "*://*.hipobuy.com/*",
         "*://*.gtbuy.com/*",
         "*://*.fishgoo.com/*",
+        "*://*.lolobuy.com/*",
+        "*://*.litbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -103,6 +105,8 @@
         "*://*.hipobuy.com/*",
         "*://*.gtbuy.com/*",
         "*://*.fishgoo.com/*",
+        "*://*.lolobuy.com/*",
+        "*://*.litbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -149,7 +153,9 @@
     "*://*.cnshopper.com/*",
     "*://*.hipobuy.com/*",
     "*://*.gtbuy.com/*",
-    "*://*.fishgoo.com/*"
+    "*://*.fishgoo.com/*",
+    "*://*.lolobuy.com/*",
+    "*://*.litbuy.com/*"
   ],
   "permissions": ["storage", "webNavigation", "scripting"]
 }

@@ -41,6 +41,8 @@ describe("validateRegisterPage", () => {
       hipobuy: "https://hipobuy.com/register",
       gtbuy: "https://www.gtbuy.com/register",
       fishgoo: "https://www.fishgoo.com/#/login/login?redirect=/homePage",
+      lolobuy: "https://www.lolobuy.com/index",
+      litbuy: "https://www.litbuy.com/register",
     };
 
     agents.forEach((agent) => {

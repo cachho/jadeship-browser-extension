@@ -56,6 +56,8 @@
         "*://*.hipobuy.com/*",
         "*://*.gtbuy.com/*",
         "*://*.fishgoo.com/*",
+        "*://*.lolobuy.com/*",
+        "*://*.litbuy.com/*",
         "*://*.taobao.com/*",
         "*://*.weidian.com/*",
         "*://*.1688.com/*",
@@ -104,6 +106,8 @@
     "*://*.hipobuy.com/*",
     "*://*.gtbuy.com/*",
     "*://*.fishgoo.com/*",
+    "*://*.lolobuy.com/*",
+    "*://*.litbuy.com/*",
     "https://*.reparchive.com/*",
     "https://*.jadeship.com/*"
   ],

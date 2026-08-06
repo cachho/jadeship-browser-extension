@@ -33,6 +33,8 @@ export const agents = [
   "hipobuy",
   "gtbuy",
   "fishgoo",
+  "lolobuy",
+  "litbuy",
 ] as const;
 
 export const agentsWithRaw = [...agents, "raw"] as const;

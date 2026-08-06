@@ -19,8 +19,8 @@ export const SettingsCard = ({
   <GlassCard title="Settings" delay="100ms" badge="Scope">
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
       <HiddenToggle
-        label="Hide agents that are no longer operational"
-        description="Legacy agents remain fully supported and can still process links; this only hides them from the interface."
+        label="Hide agents that are no longer operational2"
+        description="Legacy 222agents remain fully supported and can still process links; this only hides them from the interface."
         checked={settings.hideLegacyAgents}
         onChange={() =>
           updateSettings({ hideLegacyAgents: !settings.hideLegacyAgents })

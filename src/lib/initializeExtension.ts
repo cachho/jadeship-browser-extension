@@ -7,6 +7,7 @@ import { agents } from "./cn-links/agents";
 import { isChromeStorage } from "./storage";
 
 export const LEGACY_AGENTS_STORAGE_KEY = "legacyAgents";
+export const BLIND_EXCLUDED_AGENTS_STORAGE_KEY = "blindExcludedAgents";
 export const INSTALL_TIME_STORAGE_KEY = "installed_at";
 
 export function getValidAgents(agentList?: string[]): Agent[] {
@@ -79,6 +80,9 @@ export async function initializeExtension(
   const legacyAgentResponse = await fetchData<ApiResponse<string[]>>(
     Config.endpoint.legacyAgents,
   );
+  const blindExcludedResponse = await fetchData<ApiResponse<string[]>>(
+    Config.endpoint.blindExcluded,
+  );
   const effectiveDefaults: Settings = {
     ...defaultSettings,
     ...getDefaultAgentSettings(defaultAgentResponse?.data),
@@ -86,6 +90,13 @@ export async function initializeExtension(
   if (legacyAgentResponse) {
     storage.local.set({
       [LEGACY_AGENTS_STORAGE_KEY]: getValidAgents(legacyAgentResponse.data),
+    });
+  }
+  if (blindExcludedResponse) {
+    storage.local.set({
+      [BLIND_EXCLUDED_AGENTS_STORAGE_KEY]: getValidAgents(
+        blindExcludedResponse.data,
+      ),
     });
   }
 

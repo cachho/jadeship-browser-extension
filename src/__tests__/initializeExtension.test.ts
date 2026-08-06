@@ -1,8 +1,10 @@
 import { describe, expect, test } from "bun:test";
 import {
+  BLIND_EXCLUDED_AGENTS_STORAGE_KEY,
   getDefaultAgentSettings,
   getValidAgents,
   isStoredValueEqual,
+  LEGACY_AGENTS_STORAGE_KEY,
 } from "../lib/initializeExtension";
 import { defaultAgentSettings, defaultSettings } from "../models/Settings";
 
@@ -121,5 +123,15 @@ describe("getDefaultAgentSettings", () => {
         "No valid default agents found in API response.",
       ],
     ]);
+  });
+});
+
+describe("storage key constants", () => {
+  test("LEGACY_AGENTS_STORAGE_KEY has the expected value", () => {
+    expect(LEGACY_AGENTS_STORAGE_KEY).toBe("legacyAgents");
+  });
+
+  test("BLIND_EXCLUDED_AGENTS_STORAGE_KEY has the expected value", () => {
+    expect(BLIND_EXCLUDED_AGENTS_STORAGE_KEY).toBe("blindExcludedAgents");
   });
 });

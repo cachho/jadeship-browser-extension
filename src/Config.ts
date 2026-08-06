@@ -4,6 +4,7 @@ export const Config = {
   endpoint: {
     agents: "https://www.jadeship.com/api/agents",
     legacyAgents: "https://www.jadeship.com/api/agents/legacy",
+    blindExcluded: "https://www.jadeship.com/api/agents/blind-excluded",
     affiliateLinks: "https://www.jadeship.com/api/agents/affiliate-links",
     convertDecrypt:
       "https://www.jadeship.com/api/quota-limited/extension/v2/convert-decrypt/multi",
